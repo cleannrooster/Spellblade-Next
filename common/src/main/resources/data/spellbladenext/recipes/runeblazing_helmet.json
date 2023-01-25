@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "spellbladenext:runeblazing_ingot"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "R R",
+    "   "
+  ],
+  "result": {
+    "item": "spellbladenext:runeblazinghelmet"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.spellbladenext.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "SpellMixin",
+    "EchoMixin",
+    "BouncingMixin",
+    "BarrierMixin",
+    "FlameWindsMixin",
+    "EyeMixin",
+    "cleansingfiremixin",
+    "ThornMixin",
+    "VerticalMixin",
+    "TNTmixin",
+    "AirMixin"
+
+
+
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

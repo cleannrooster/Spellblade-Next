@@ -1,0 +1,7 @@
+{
+  "school": "ARCANE",
+  "max_spell_count": 2,
+  "spell_ids": [
+    "spellbladenext:transmute_fire"
+  ]
+}

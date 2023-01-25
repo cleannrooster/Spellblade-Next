@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "P": {
+      "item": "minecraft:blaze_rod"
+    },
+    "S": {
+      "item": "minecraft:glowstone"
+    },
+    "N": {
+      "item": "minecraft:nether_brick"
+    },
+    "G": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "pattern": [
+    "  P",
+    "NS ",
+    "GN "
+  ],
+  "result": {
+    "item": "spellbladenext:blade_fire"
+  }
+}

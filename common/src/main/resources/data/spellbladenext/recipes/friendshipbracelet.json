@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "ax ",
+    "x x",
+    " x "
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    "a":
+    {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "result":
+  {
+    "item": "spellbladenext:bandofpacifism"
+  }
+}
