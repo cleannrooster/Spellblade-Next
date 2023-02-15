@@ -1,4 +1,4 @@
-package net.spellbladenext.fabric.items;
+package net.spellbladenext.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -30,6 +30,8 @@ public class RunicArmor extends ArmorItem {
     protected final float knockbackResistance;
     protected final ArmorMaterial material;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final Multimap<Attribute, AttributeModifier> attributeModifiers;
+
     private final MagicSchool magicschool;
     private final EquipmentSlot equipmentslot;
 
@@ -53,6 +55,8 @@ public class RunicArmor extends ArmorItem {
         }
         builder.put(SpellAttributes.POWER.get(magicSchool).attribute, new AttributeModifier(uUID, "Armor Fire Power", 2, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
+        this.attributeModifiers = builder.build();
+
     }
 
     public MagicSchool getMagicschool() {
@@ -98,16 +102,6 @@ public class RunicArmor extends ArmorItem {
             }
         }
         super.inventoryTick(itemStack, level, entity, i, bl);
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        if(this.slot == slot) {
-            return this.defaultModifiers;
-        }
-        else{
-            return ImmutableMultimap.of();
-        }
     }
 
 }
