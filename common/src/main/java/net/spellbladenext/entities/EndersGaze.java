@@ -48,8 +48,9 @@ public class EndersGaze extends SpellProjectile implements ItemSupplier {
     public int number;
     public Entity target;
     public SpellPower.Result power;
-    SpellHelper.ImpactContext context;
-    Spell spell;
+    public SpellHelper.ImpactContext context;
+    public Spell spell;
+    public int life = 80;
 
     public EndersGaze(EntityType<? extends EndersGaze> entityType, Level level) {
         super(entityType, level);
@@ -129,13 +130,13 @@ public class EndersGaze extends SpellProjectile implements ItemSupplier {
                 }
             }
         }
-            if(this.tickCount > 80 && !this.getLevel().isClientSide()){
+            if(this.tickCount > life && !this.getLevel().isClientSide()){
             this.discard();
         }
             if(this.getOwner() instanceof Player living && !this.getLevel().isClientSide()) {
                 if (this.target == null || !this.target.isAlive() || (this.target instanceof LivingEntity living2 && living2.isDeadOrDying())) {
                     Predicate<Entity> selectionPredicate = (target) -> {
-                        return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, living, target)
+                        return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, living, target)
                                 && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
                     };
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();

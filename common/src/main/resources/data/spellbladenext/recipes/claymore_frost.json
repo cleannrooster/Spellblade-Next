@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "spellbladenext:runefrosted_ingot"
+    },
+    "G": {
+      "item": "minecraft:iron_ingot"
+    },
+    "D": {
+      "item": "spellbladenext:blade_frost"
+    },
+    "S": {
+      "item": "minecraft:prismarine_crystals"
+    }
+  },
+  "pattern": [
+    " SS",
+    "ADS",
+    "GA "
+  ],
+  "result": {
+    "item": "spellbladenext:claymore_frost"
+  }
+}

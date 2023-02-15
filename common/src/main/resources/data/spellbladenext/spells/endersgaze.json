@@ -1,8 +1,8 @@
 {
   "school": "ARCANE",
-  "range": 16,
+  "range": 10,
   "learn": {
-    "tier": 2
+    "tier": 3
   },
   "cast": {
     "duration": 0.75,

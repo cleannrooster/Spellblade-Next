@@ -41,7 +41,7 @@ public class EchoMixin {
                 Position pos1 = (player.getEyePosition().add(player.getViewVector(1).x * 40, player.getViewVector(1).y * 40, player.getViewVector(1).z * 40));
 
                 Predicate<Entity> selectionPredicate = (target) -> {
-                    return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, player, target)
+                    return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, player, target)
                             && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
                 };
                 Spell.Release.Target.Area area = new Spell.Release.Target.Area();

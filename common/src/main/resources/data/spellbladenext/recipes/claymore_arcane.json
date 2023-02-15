@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "spellbladenext:runegleaming_ingot"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "spellbladenext:blade_arcane"
+    },
+    "S": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    " SS",
+    "ADS",
+    "GA "
+  ],
+  "result": {
+    "item": "spellbladenext:claymore_arcane"
+  }
+}

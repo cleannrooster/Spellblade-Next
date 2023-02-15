@@ -27,15 +27,15 @@ dependencies {
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-    modImplementation "dev.kosmx.player-anim:player-animation-lib-fabric:0.3.5"
+    modImplementation "dev.kosmx.player-anim:player-animation-lib-fabric:0.4.2"
     modApi("me.shedaniel.cloth:cloth-config-fabric:8.2.88"){
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation  "maven.modrinth:better-combat:1.5.4+1.19-fabric"
     modImplementation(files("../fabric/run/mods/geckolib-fabric-1.19-3.1.38.jar"))
-    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.6+1.19.jar"))
-    modImplementation(files("../fabric/run/mods/spell_power-fabric-0.9.3+1.19.jar"))
-    modImplementation(files("../fabric/run/mods/runes-fabric-0.9.3+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.10+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/spell_power-fabric-0.9.5+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/runes-fabric-0.9.4+1.19.jar"))
     modImplementation(files("../fabric/run/mods/player-animation-lib-fabric-0.4.0.jar"));
     modImplementation(files("../fabric/run/mods/fabric-carpet-1.19.2-1.4.84+v221018.jar"));
 

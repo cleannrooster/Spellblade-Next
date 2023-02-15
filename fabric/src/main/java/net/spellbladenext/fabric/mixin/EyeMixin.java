@@ -26,7 +26,7 @@ public class EyeMixin {
             if(spellProjectile.getItem().getItem().equals(Items.ENDER_EYE) && spellProjectile.getOwner() instanceof Player player) {
                     EndersGazeEntity amethyst = new EndersGazeEntity(SpellbladeNext.GAZE, entity.getLevel(), player);
                     amethyst.setPos(player.getEyePosition().add(player.getViewVector(1).normalize()));
-                    amethyst.setDeltaMovement(player.getViewVector(1).multiply(0.5, 0.5, 0.5));
+                    amethyst.setDeltaMovement(player.getViewVector(1).multiply(1, 1, 1));
                     amethyst.setOwner(player);
                 amethyst.spell = spellProjectile.getSpell();
                 amethyst.context = spellProjectile.getImpactContext();

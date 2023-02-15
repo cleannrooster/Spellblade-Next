@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "G": {
+      "item": "spellbladenext:runegleaming_ingot"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "S": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "SDS",
+    "AGA"
+  ],
+  "result": {
+    "item": "spellbladenext:orb_arcane"
+  }
+}

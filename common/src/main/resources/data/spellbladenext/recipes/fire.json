@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "item": "runes:fire_stone"
+    },
+    {
+      "item": "runes:fire_stone"
+    },
+    {
+      "item": "runes:fire_stone"
+    },
+    {
+      "item": "runes:fire_stone"
+    }
+  ],
+  "result":
+  {
+    "item": "spellbladenext:runeblazing_ingot"
+  }
+}

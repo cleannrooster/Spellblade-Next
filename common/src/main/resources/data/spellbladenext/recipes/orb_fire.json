@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "G": {
+      "item": "spellbladenext:runeblazing_ingot"
+    },
+    "D": {
+      "item": "minecraft:glowstone"
+    },
+    "S": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "SDS",
+    "AGA"
+  ],
+  "result": {
+    "item": "spellbladenext:orb_fire"
+  }
+}

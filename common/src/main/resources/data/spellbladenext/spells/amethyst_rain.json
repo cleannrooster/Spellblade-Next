@@ -2,7 +2,7 @@
   "school": "ARCANE",
   "range": 24,
   "learn": {
-    "tier": 1
+    "tier": 2
   },
   "cast": {
     "duration": 0.75,
@@ -76,6 +76,7 @@
     }
   ],
   "cost": {
-    "item_id": "runes:arcane_stone"
+    "item_id": "runes:arcane_stone",
+    "cooldown_duration": 2
   }
 }

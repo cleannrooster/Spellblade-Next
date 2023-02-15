@@ -200,9 +200,10 @@ public class AmethystEntity extends AbstractArrow implements ItemSupplier {
             if (this.tickCount == 20) {
                 if(this.detected == null) {
                     Predicate<Entity> selectionPredicate = (target) -> {
-                        return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                                && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
+                        return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
+                                && FriendshipBracelet.PlayerFriendshipPredicate(player,target) && target instanceof LivingEntity);
                     };
+
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();
                     area.angle_degrees = 360;
                     this.detected = TargetHelper.targetsFromArea(this, this.position(),16F, area,  selectionPredicate);

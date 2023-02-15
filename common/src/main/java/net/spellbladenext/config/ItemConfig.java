@@ -2,8 +2,9 @@ package net.spellbladenext.config;
 
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.spell_power.api.MagicSchool;
-import net.spell_power.api.attributes.Attributes;
-import net.spell_power.internals.AttributeFamily;
+import net.spell_power.api.attributes.CustomEntityAttribute;
+import net.spell_power.api.attributes.SpellAttributeEntry;
+import net.spell_power.api.attributes.SpellAttributes;
 
 import java.util.*;
 
@@ -20,26 +21,25 @@ public class ItemConfig { public ItemConfig() { }
             this.value = value;
             this.operation = operation;
         }
-        public static SpellAttribute bonus(AttributeFamily attribute, float value) {
+        public static SpellAttribute bonus(SpellAttributeEntry attribute, float value) {
             return new SpellAttribute(
                     attribute.name,
                     value,
                     AttributeModifier.Operation.ADDITION
             );
         }
-
         public static ArrayList<SpellAttribute> bonuses(EnumSet<MagicSchool> attributes, float value) {
             var list = attributes.stream()
-                    .map(school -> Attributes.POWER.get(school))
+                    .map(school -> SpellAttributes.POWER.get(school).attribute)
                     .toList();
             return bonuses(list, value);
         }
 
-        public static ArrayList<SpellAttribute> bonuses(List<AttributeFamily> attributes, float value) {
+        public static ArrayList<SpellAttribute> bonuses(List<CustomEntityAttribute> attributes, float value) {
             ArrayList<SpellAttribute> spellAttributes = new ArrayList<>();
             for (var attribute: attributes) {
                 spellAttributes.add(new SpellAttribute(
-                                attribute.name,
+                                attribute.toString(),
                                 value,
                                 AttributeModifier.Operation.ADDITION
                         )

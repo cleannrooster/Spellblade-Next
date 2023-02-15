@@ -46,7 +46,7 @@ public class ExplosionDummy extends AbstractArrow implements ItemSupplier {
         }
         if(this.tickCount >= 40 && !this.getLevel().isClientSide() && this.context != null && this.getOwner() instanceof Player player){
             this.discard();
-            this.getLevel().explode(player,this.getX(),this.getY(),this.getZ(),(float)SpellPower.getSpellPower(MagicSchool.FIRE, player).nonCriticalValue()/3,false, Explosion.BlockInteraction.NONE);
+            this.getLevel().explode(player,this.getX(),this.getY(),this.getZ(),(float)SpellPower.getSpellPower(MagicSchool.FIRE, player).nonCriticalValue()/3.666666F,false, Explosion.BlockInteraction.NONE);
         }
         if(this.tickCount >= 60 && !this.getLevel().isClientSide()) {
             this.discard();

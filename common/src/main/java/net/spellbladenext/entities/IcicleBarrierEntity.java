@@ -64,7 +64,6 @@ public class IcicleBarrierEntity extends SpellProjectile implements ItemSupplier
     public Spell spell;
     public SpellHelper.ImpactContext context;
 
-
     public IcicleBarrierEntity(EntityType<? extends IcicleBarrierEntity> p_36721_, Level p_36722_, Player player) {
         super(p_36721_, p_36722_);
         this.setOwner(player);
@@ -158,7 +157,7 @@ public class IcicleBarrierEntity extends SpellProjectile implements ItemSupplier
 
         if (this.getOwner() instanceof Player player) {
             Predicate<Entity> selectionPredicate = (target) -> {
-                return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
+                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
                         && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
             };
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();

@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "runes:arcane_stone"
+    },
+    {
+      "item": "runes:arcane_stone"
+    },
+    {
+      "item": "runes:arcane_stone"
+    },
+    {
+      "item": "runes:arcane_stone"
+    }
+  ],
+  "result":
+  {
+    "item": "spellbladenext:runegleaming_ingot"
+  }
+}

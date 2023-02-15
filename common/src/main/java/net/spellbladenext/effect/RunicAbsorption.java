@@ -7,7 +7,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.items.RunicArmor;
 
 public class RunicAbsorption extends MobEffect {
     public RunicAbsorption(MobEffectCategory mobEffectCategory, int i) {

@@ -1,0 +1,5 @@
+{
+  "pool": "spellbladenext:claymore_arcane",
+  "max_spell_count": 3,
+  "spell_ids": [ "spellbladenext:maelstrom" ]
+}

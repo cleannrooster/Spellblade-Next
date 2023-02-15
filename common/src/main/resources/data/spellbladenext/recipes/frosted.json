@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "runes:frost_stone"
+    },
+    {
+      "item": "runes:frost_stone"
+    },
+    {
+      "item": "runes:frost_stone"
+    },
+    {
+      "item": "runes:frost_stone"
+    }
+  ],
+  "result":
+  {
+    "item": "spellbladenext:runefrosted_ingot"
+  }
+}

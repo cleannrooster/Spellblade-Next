@@ -14,7 +14,8 @@
     "ThornMixin",
     "VerticalMixin",
     "TNTmixin",
-    "AirMixin"
+    "AirMixin",
+    "EntityMixin"
 
 
 

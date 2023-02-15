@@ -143,7 +143,7 @@ public class IceThorn extends SpellProjectile implements ItemSupplier {
         }
         if(this.tickCount == 40 && this.getOwner() instanceof Player living) {
             Predicate<Entity> selectionPredicate = (target) -> {
-                return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, living, target)
+                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, living, target)
                         && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
             };
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();
@@ -179,7 +179,7 @@ public class IceThorn extends SpellProjectile implements ItemSupplier {
 
                     }
                     Predicate<Entity> selectionPredicate = (target) -> {
-                        return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
+                        return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
                                 && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
                     };
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();
@@ -234,7 +234,7 @@ public class IceThorn extends SpellProjectile implements ItemSupplier {
 
             }
             Predicate<Entity> selectionPredicate = (target) -> {
-                return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
+                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
                         && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
             };
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();
@@ -272,7 +272,7 @@ public class IceThorn extends SpellProjectile implements ItemSupplier {
 
             }
             Predicate<Entity> selectionPredicate = (target) -> {
-                return !SpellEngineClient.config.filterInvalidTargets || (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
+                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL, living, target)
                         && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
             };
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();

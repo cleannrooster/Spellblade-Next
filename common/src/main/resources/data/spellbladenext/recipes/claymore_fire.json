@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "spellbladenext:runeblazing_ingot"
+    },
+    "G": {
+      "item": "minecraft:nether_brick"
+    },
+    "D": {
+      "item": "spellbladenext:blade_fire"
+    },
+    "S": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "pattern": [
+    " SS",
+    "ADS",
+    "GA "
+  ],
+  "result": {
+    "item": "spellbladenext:claymore_fire"
+  }
+}

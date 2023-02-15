@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "G": {
+      "item": "spellbladenext:runefrosted_ingot"
+    },
+    "D": {
+      "item": "minecraft:quartz"
+    },
+    "S": {
+      "item": "minecraft:prismarine_crystals"
+    }
+  },
+  "pattern": [
+    "AGA",
+    "SDS",
+    "AGA"
+  ],
+  "result": {
+    "item": "spellbladenext:orb_frost"
+  }
+}

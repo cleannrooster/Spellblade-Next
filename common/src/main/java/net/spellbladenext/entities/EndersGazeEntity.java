@@ -48,7 +48,7 @@ public class EndersGazeEntity extends SpellProjectile implements ItemSupplier {
     @Override
     public void tick() {
         this.setNoGravity(true);
-        if(this.tickCount > 400 && !this.getLevel().isClientSide()){
+        if(this.tickCount > 10 && !this.getLevel().isClientSide()){
             this.discard();
         }
         if(this.firstTick){
