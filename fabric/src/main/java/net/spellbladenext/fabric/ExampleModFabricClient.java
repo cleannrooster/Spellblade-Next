@@ -18,12 +18,19 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.spellbladenext.ClientMod;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.entities.*;
+import net.spellbladenext.fabric.items.OrbRenderer;
+import net.spellbladenext.fabric.items.Orbs;
+import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
 public class ExampleModFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
         ClientMod.initialize();
+        GeoItemRenderer.registerItemRenderer(Orbs.fireOrb.item(), new OrbRenderer());
+        GeoItemRenderer.registerItemRenderer(Orbs.arcaneOrb.item(), new OrbRenderer());
+        GeoItemRenderer.registerItemRenderer(Orbs.frostOrb.item(), new OrbRenderer());
+
        /* FabricLoader.getInstance().getModContainer(SpellbladeNext.MOD_ID).ifPresent(modContainer -> {
             ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation(SpellbladeNext.MOD_ID, "alternateswords"), modContainer, ResourcePackActivationType.NORMAL);
             //System.out.println("Registering Classic style resourcepack for Simply Swords");

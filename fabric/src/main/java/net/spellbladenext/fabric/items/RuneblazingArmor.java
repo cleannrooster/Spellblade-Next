@@ -1,4 +1,4 @@
-package net.spellbladenext.items;
+package net.spellbladenext.fabric.items;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;

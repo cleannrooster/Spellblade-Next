@@ -48,13 +48,6 @@
         "max_speed": 0.9
       }
     ],
-    "action": {
-      "type": "DAMAGE",
-      "damage": {
-        "knockback": 0,
-        "spell_power_coefficient": 1.5
-      }
-    },
     "sound": {
       "id": "minecraft:entity.illusioner.cast_spell"
     },
@@ -65,7 +58,7 @@
       "action": {
         "type": "DAMAGE",
         "damage": {
-          "knockback": 1.5,
+          "knockback": 0.5,
           "spell_power_coefficient": 0.8
         }
       },
@@ -87,8 +80,8 @@
           "apply_to_caster": true,
           "apply_mode": "ADD",
           "duration": 2,
-          "amplifier": 5,
-          "effect_id": "minecraft:speed"
+          "amplifier": 4,
+          "effect_id": "spellbladenext:arcaneinfusion"
         }
       }
     }

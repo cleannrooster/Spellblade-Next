@@ -1,4 +1,4 @@
-package net.spellbladenext.items.spellblades;
+package net.spellbladenext.fabric.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import dev.architectury.platform.Platform;
@@ -6,28 +6,27 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.spell_engine.SpellEngineMod;
 import net.spell_engine.api.item.ConfigurableAttributes;
 import net.spell_engine.api.item.StaffItem;
-import net.spell_engine.api.spell.Spell;
-import net.spell_engine.tinyconfig.ConfigManager;
-import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.config.ItemConfig;
+import net.spellbladenext.items.spellblades.Claymores;
+import net.spellbladenext.items.spellblades.Spellblade;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-
-public class Spellblades {
+public class Orbs {
 
     public static final class Entry {
         private final String namespace;
@@ -89,23 +88,13 @@ public class Spellblades {
     }
 
     public static final ArrayList<Entry> entries = new ArrayList<>();
-    private static Entry entry(String requiredMod, String name, Material material, ItemConfig.Weapon defaults) {
-        var config = defaults;
 
-        Item spellblade = new Spellblade(material,attributesFrom(config),new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB).durability(650),
-                config.spell_attributes);
-        var entry = new Entry(SpellbladeNext.MOD_ID, name, material, spellblade, defaults, null);
-        if (entry.isRequiredModInstalled()) {
-            entries.add(entry);
-        }
-        return entry;
-    }
     public static final ArrayList<Entry> orbs = new ArrayList<>();
 
-    private static Entry orbs(String requiredMod, String name, Material material, ItemConfig.Weapon defaults) {
+    private static Entry orbs(String requiredMod, String name, Material material, ItemConfig.Weapon defaults,MagicSchool magicSchool) {
         var config = defaults;
 
-        Item orb = new StaffItem(material,new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB).durability(650));
+        Item orb = new Orb(material,new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB).durability(650),magicSchool);
         var entry = new Entry(SpellbladeNext.MOD_ID, name, material,orb, defaults, null);
         if (entry.isRequiredModInstalled()) {
             orbs.add(entry);
@@ -114,16 +103,6 @@ public class Spellblades {
     }
     public static final ArrayList<Entry> claymores = new ArrayList<>();
 
-    private static Entry claymores(String requiredMod, String name, Material material, ItemConfig.Weapon defaults) {
-        var config = defaults;
-        Item claymore = new Claymores(material,attributesFrom(config),new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB).durability(800),
-                config.spell_attributes);
-        var entry = new Entry(SpellbladeNext.MOD_ID, name, material, claymore, defaults, null);
-        if (entry.isRequiredModInstalled()) {
-            claymores.add(entry);
-        }
-        return entry;
-    }
 
     // MARK: Material
 
@@ -134,7 +113,7 @@ public class Spellblades {
             material.durability = vanillaMaterial.getUses();
             material.miningSpeed = vanillaMaterial.getSpeed();
             material.enchantability = vanillaMaterial.getEnchantmentValue();
-            material.ingredient = (Item) repairIngredient;
+            material.ingredient = repairIngredient;
             return material;
         }
 
@@ -198,88 +177,45 @@ public class Spellblades {
 
     private static final float staffAttackDamage = 2;
     private static final float staffAttackSpeed = -2.4F;
-    private static Entry entry(String name, Material material, ItemConfig.Weapon defaults) {
-        return entry(null, name, material, defaults);
+    private static Entry orb(String name, Material material, ItemConfig.Weapon defaults, MagicSchool magicSchool) {
+        return orbs(null, name, material, defaults, magicSchool);
     }
-    private static Entry orb(String name, Material material, ItemConfig.Weapon defaults) {
-        return orbs(null, name, material, defaults);
-    }
-    private static Entry claymore(String name, Material material, ItemConfig.Weapon defaults) {
-        return claymores(null, name, material, defaults);
-    }
-    private static Entry sword(String name, Material material) {
+    private static Entry orb(String name, Material material, MagicSchool magicSchool) {
         var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
         //var item = new StaffItem(material, settings);
-        return entry(name, material, new ItemConfig.Weapon(wandAttackDamage, wandAttackSpeed));
-    }
-    private static Entry orb(String name, Material material) {
-        var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
-        //var item = new StaffItem(material, settings);
-        return orb(name, material, new ItemConfig.Weapon(wandAttackDamage, wandAttackSpeed));
-    }
-    private static Entry claymore(String name, Material material) {
-        var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
-        //var item = new StaffItem(material, settings);
-        return claymore(name, material, new ItemConfig.Weapon(wandAttackDamage, wandAttackSpeed));
+        return orb(name, material, new ItemConfig.Weapon(wandAttackDamage, wandAttackSpeed),magicSchool);
     }
 
-    public static final Entry arcaneBlade = sword("blade_arcane",
-            Material.matching(Tiers.GOLD, Items.GOLD_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.ARCANE), 2));
-    public static final Entry fireBlade = sword("blade_fire",
-            Material.matching(Tiers.GOLD, Items.COPPER_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FIRE), 2));
-    public static final Entry frostBlade = sword("blade_frost",
-            Material.matching(Tiers.IRON, Items.IRON_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 2));
-    public static final Entry arcaneClaymore = claymore("claymore_arcane",
-            Material.matching(Tiers.GOLD, Items.GOLD_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.ARCANE), 3));
-    public static final Entry fireClaymore = claymore("claymore_fire",
-            Material.matching(Tiers.GOLD, Items.COPPER_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FIRE), 3));
-    public static final Entry frostClaymore = claymore("claymore_frost",
-            Material.matching(Tiers.IRON, Items.IRON_INGOT))
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 3));
-    public static final StaffItem spellblade = new StaffItem(Tiers.DIAMOND, new Item.Properties());
-    public static final StaffItem dummyfrost = new StaffItem(Tiers.DIAMOND, new Item.Properties());
-    public static final StaffItem dummyfrost2 = new StaffItem(Tiers.DIAMOND, new Item.Properties());
-    public static final StaffItem dummyfrost3 = new StaffItem(Tiers.DIAMOND, new Item.Properties());
+    public static final Entry arcaneOrb = orb("orb_arcane",
+            Material.matching(Tiers.GOLD, SpellbladeNext.RUNEGLINTPLATING.get()),MagicSchool.ARCANE)
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.ARCANE), 4));
+    public static final Entry fireOrb = orb("orb_fire",
+            Material.matching(Tiers.GOLD, SpellbladeNext.RUNEBLAZEPLATING.get()),MagicSchool.FIRE)
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FIRE), 4));
+    public static final Entry frostOrb = orb("orb_frost",
+            Material.matching(Tiers.IRON, SpellbladeNext.RUNEFROSTPLATING.get()),MagicSchool.FROST)
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 4));
 
     // MARK: Register
 
     public static void register(Map<String, ItemConfig.Weapon> configs) {
-        for(var entry: entries) {
+
+
+        for(var entry: orbs) {
             var config = configs.get(entry.name);
             if (config == null) {
                 config = entry.defaults;
                 configs.put(entry.name(), config);
-            };
-
-            //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
-            var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
-            var item = entry.item;
-
-            ((ConfigurableAttributes)item).setAttributes(attributesFrom(config));
-            Registry.register(Registry.ITEM, entry.id(), item);
-        }
-        for(var entry: claymores) {
-            var config = configs.get(entry.name);
-            if (config == null) {
-                config = entry.defaults;
-                configs.put(entry.name(), config);
-            };
+            }
+            ;
 
             //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
             var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
             var item = entry.item();
-            ((ConfigurableAttributes)item).setAttributes(claymoreAttributes(config));
+            ((ConfigurableAttributes) item).setAttributes(attributesFrom(config));
             Registry.register(Registry.ITEM, entry.id(), item);
+
         }
-        Registry.register(Registry.ITEM, new ResourceLocation(SpellbladeNext.MOD_ID, "spellblade"), spellblade);
-        Registry.register(Registry.ITEM, new ResourceLocation(SpellbladeNext.MOD_ID, "icicle"), dummyfrost);
-        Registry.register(Registry.ITEM, new ResourceLocation(SpellbladeNext.MOD_ID, "icicle2"), dummyfrost2);
-        Registry.register(Registry.ITEM, new ResourceLocation(SpellbladeNext.MOD_ID, "frostblade"), dummyfrost3);
     }
 
     private static ImmutableMultimap<Attribute, AttributeModifier> attributesFrom(ItemConfig.Weapon config) {
@@ -342,7 +278,7 @@ public class Spellblades {
     }
 
     static abstract class ItemAccessor extends Item {
-        public ItemAccessor(Item.Properties settings) { super(settings); }
+        public ItemAccessor(Properties settings) { super(settings); }
         public static UUID ATTACK_DAMAGE_MODIFIER_ID() { return BASE_ATTACK_DAMAGE_UUID; }
         public static UUID ATTACK_SPEED_MODIFIER_ID() { return BASE_ATTACK_SPEED_UUID; }
     }

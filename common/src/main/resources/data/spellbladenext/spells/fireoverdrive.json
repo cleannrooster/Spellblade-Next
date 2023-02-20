@@ -68,14 +68,6 @@
           "count": 30,
           "min_speed": 0.2,
           "max_speed": 0.7
-        },
-        {
-          "particle_id": "firework",
-          "shape": "SPHERE",
-          "origin": "CENTER",
-          "count": 20,
-          "min_speed": 0.05,
-          "max_speed": 0.2
         }
       ]
     },

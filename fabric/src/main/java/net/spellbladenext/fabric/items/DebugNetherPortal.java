@@ -5,6 +5,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +33,7 @@ public class DebugNetherPortal extends Item {
         }
         else {
             if(!p_41432_.isClientSide()) {
-                ExampleModFabric.attackeventArrayList.add(new attackevent(p_41432_, p_41433_));
+                p_41433_.addEffect(new MobEffectInstance(ExampleModFabric.HEX.get(),20*60*60,0));
             }
         }
 

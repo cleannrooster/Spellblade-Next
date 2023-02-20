@@ -137,6 +137,7 @@ public class Spellblade extends StaffItem {
         return true;
 
     }
+
 /*
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {

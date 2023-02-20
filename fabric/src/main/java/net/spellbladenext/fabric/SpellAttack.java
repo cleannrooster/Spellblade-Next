@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.CrossbowAttack;
@@ -68,7 +69,7 @@ public class SpellAttack<E extends Mob, T extends LivingEntity> extends Behavior
         if(attackDelay <= 0) {
             if(mob instanceof Reaver reaver && reaver.getMagicSchool() == MagicSchool.ARCANE) {
                 Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "arcane_missile"));
-                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.ARCANE, 6, 0, 1), impactTargetingMode(spell));
+                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.ARCANE, mob.getAttributeValue(Attributes.ATTACK_DAMAGE)*0.8, 0, 1), impactTargetingMode(spell));
                 Vec3 launchPoint = launchPoint(mob);
                 SpellProjectile projectile = new SpellProjectile(mob.level, mob, launchPoint.x(), launchPoint.y(), launchPoint.z(), SpellProjectile.Behaviour.FLY, spell, target, context);
                 Spell.ProjectileData projectileData = spell.release.target.projectile;
@@ -85,28 +86,9 @@ public class SpellAttack<E extends Mob, T extends LivingEntity> extends Behavior
                 mob.getLevel().addFreshEntity(projectile);
                 attackDelay = 20;
             }
-            if(mob instanceof Reaver reaver && reaver.getMagicSchool() == MagicSchool.ARCANE) {
-                Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "arcane_missile"));
-                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.ARCANE, 6, 0, 1), impactTargetingMode(spell));
-                Vec3 launchPoint = launchPoint(mob);
-                SpellProjectile projectile = new SpellProjectile(mob.level, mob, launchPoint.x(), launchPoint.y(), launchPoint.z(), SpellProjectile.Behaviour.FLY, spell, target, context);
-                Spell.ProjectileData projectileData = spell.release.target.projectile;
-                projectileData.homing_angle = 15;
-                float velocity = projectileData.velocity;
-                float divergence = projectileData.divergence;
-                SoundHelper.playSoundEvent(mob.getLevel(), mob, SoundEvents.ILLUSIONER_CAST_SPELL, 1, 0.8F);
-                Vec3 look = target.getBoundingBox().getCenter().subtract(launchPoint).normalize();
-                projectile.shoot(0, 1, 0, velocity, divergence);
-
-                projectile.range = spell.range;
-                projectile.getViewXRot(mob.getXRot());
-                projectile.setYRot(mob.getYRot());
-                mob.getLevel().addFreshEntity(projectile);
-                attackDelay = 20;
-            }
             if(mob instanceof Reaver reaver && reaver.getMagicSchool() == MagicSchool.FROST) {
                 Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "frostbolt"));
-                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.ARCANE, 6, 0, 1), impactTargetingMode(spell));
+                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.FROST, mob.getAttributeValue(Attributes.ATTACK_DAMAGE)*0.6, 0, 1), impactTargetingMode(spell));
                 Vec3 launchPoint = launchPoint(mob);
                 SpellProjectile projectile = new SpellProjectile(mob.level, mob, launchPoint.x(), launchPoint.y(), launchPoint.z(), SpellProjectile.Behaviour.FLY, spell, target, context);
                 Spell.ProjectileData projectileData = spell.release.target.projectile;
@@ -126,7 +108,7 @@ public class SpellAttack<E extends Mob, T extends LivingEntity> extends Behavior
             }
             if(mob instanceof Reaver reaver && reaver.getMagicSchool() == MagicSchool.FIRE) {
                 Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "fireball"));
-                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.ARCANE, 6, 0, 1), impactTargetingMode(spell));
+                SpellHelper.ImpactContext context = new SpellHelper.ImpactContext(1, 1.0F, (Vec3) null, new SpellPower.Result(MagicSchool.FIRE, mob.getAttributeValue(Attributes.ATTACK_DAMAGE)*1, 0, 1), impactTargetingMode(spell));
                 Vec3 launchPoint = launchPoint(mob);
                 SpellProjectile projectile = new SpellProjectile(mob.level, mob, launchPoint.x(), launchPoint.y(), launchPoint.z(), SpellProjectile.Behaviour.FLY, spell, target, context);
                 Spell.ProjectileData projectileData = spell.release.target.projectile;

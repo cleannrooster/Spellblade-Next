@@ -3,7 +3,7 @@
     "author": "",
     "description": "",
     "emote":{
-        "isLoop": "false",
+        "isLoop": "true",
         "returnTick": 0,
         "beginTick":0,
         "endTick":160,
@@ -220,7 +220,7 @@
                 }
             },
             {
-                "tick":14,
+                "tick":10,
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
                 "rightLeg":{
@@ -236,15 +236,7 @@
                 }
             },
             {
-                "tick":13,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "leftLeg":{
-                    "pitch":-0.17318201065063477
-                }
-            },
-            {
-                "tick":14,
+                "tick":10,
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
                 "leftLeg":{

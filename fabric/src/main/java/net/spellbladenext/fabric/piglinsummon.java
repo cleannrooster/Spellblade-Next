@@ -4,12 +4,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.spellbladenext.SpellbladeNext;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -60,5 +62,70 @@ public interface piglinsummon {
                }
           }
           return Optional.empty();
+     }
+
+     @Nullable
+     public static BlockPos getSafePositionAroundPlayer(Level level, BlockPos pos, int range)
+     {
+          if(range == 0)
+          {
+               return null;
+          }
+          BlockPos safestPos = null;
+          for(int attempts = 0; attempts < 1; attempts++)
+          {
+               int a = -1;
+               int b = -1;
+               int c = -1;
+               if(level.getRandom().nextBoolean()){
+                    a = 1;
+               }
+               if(level.getRandom().nextBoolean()){
+                    b = 1;
+               }
+               if(level.getRandom().nextBoolean()){
+                    c = 1;
+               }
+               int posX = pos.getX()  + a*level.getRandom().nextInt(10 );
+               int posY = pos.getY() + level.getRandom().nextInt(10) - 10 / 2;
+               int posZ = pos.getZ()  + c* level.getRandom().nextInt(10);
+               BlockPos testPos = findGround(level, new BlockPos(posX, posY, posZ));
+               if(testPos != null && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, testPos, ExampleModFabric.REAVER))
+               {
+                    safestPos = testPos;
+                    break;
+               }
+          }
+          return safestPos;
+     }
+
+     @Nullable
+     private static BlockPos findGround(Level level, BlockPos pos)
+     {
+          if(level.getBlockState(pos).isAir())
+          {
+               BlockPos downPos = pos;
+               while(Level.isInSpawnableBounds(downPos.below()) && level.getBlockState(downPos.below()).isAir() && downPos.below().closerThan(pos, 20))
+               {
+                    downPos = downPos.below();
+               }
+               if(!level.getBlockState(downPos.below()).isAir())
+               {
+                    return downPos;
+               }
+          }
+          else
+          {
+               BlockPos upPos = pos;
+               while(Level.isInSpawnableBounds(upPos.above()) && !level.getBlockState(upPos.above()).isAir() && upPos.above().closerThan(pos, 20))
+               {
+                    upPos = upPos.above();
+               }
+               if(!level.getBlockState(upPos.above()).isAir())
+               {
+                    return upPos;
+               }
+          }
+          return null;
      }
 }

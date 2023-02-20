@@ -1,4 +1,4 @@
-package net.spellbladenext.items;
+package net.spellbladenext.fabric.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -53,7 +53,7 @@ public class RunicArmor extends ArmorItem {
         if (armorMaterial == ArmorMaterials.NETHERITE) {
             builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uUID, "Armor knockback resistance", (double)this.knockbackResistance, AttributeModifier.Operation.ADDITION));
         }
-        builder.put(SpellAttributes.POWER.get(magicSchool).attribute, new AttributeModifier(uUID, "Armor Fire Power", 2, AttributeModifier.Operation.ADDITION));
+        builder.put(SpellAttributes.POWER.get(magicSchool).attribute, new AttributeModifier(uUID, "Armor Fire Power", 0.25, AttributeModifier.Operation.MULTIPLY_BASE));
         this.defaultModifiers = builder.build();
         this.attributeModifiers = builder.build();
 
@@ -104,4 +104,13 @@ public class RunicArmor extends ArmorItem {
         super.inventoryTick(itemStack, level, entity, i, bl);
     }
 
+    @Override
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+        return equipmentSlot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
+        return slot == this.slot ? this.attributeModifiers : super.getDefaultAttributeModifiers(slot);
+    }
 }

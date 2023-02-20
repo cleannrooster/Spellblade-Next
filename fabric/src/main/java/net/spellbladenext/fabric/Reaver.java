@@ -21,11 +21,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,18 +34,26 @@ import net.minecraft.world.entity.ai.control.LookControl;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.piglin.*;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.schedule.Activity;
+import net.minecraft.world.inventory.MerchantMenu;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.Merchant;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.spell_engine.api.spell.Sound;
@@ -55,7 +63,10 @@ import net.spell_engine.utils.TargetHelper;
 import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
+import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.items.spellblades.Spellblade;
+import net.spellbladenext.items.spellblades.Spellblades;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.example.entity.GeoExampleEntity;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -70,16 +81,20 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatable {
+public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimatable, Merchant {
     public Player nemesis;
+    public boolean isScout = false;
     private boolean hasntthrownitems = true;
     private boolean firstattack = false;
     private boolean secondattack = false;
     private boolean isstopped = false;
     boolean isCaster = false;
+    private Player tradingplayer;
+
     public Reaver(EntityType<? extends Reaver> p_34652_, Level p_34653_) {
         super(p_34652_, p_34653_);
     }
@@ -98,16 +113,30 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
     public static final RawAnimation WALK2 = new RawAnimation("animation.hexblade.walk2", ILoopType.EDefaultLoopTypes.LOOP);
     public static final RawAnimation IDLE = new RawAnimation("idle", ILoopType.EDefaultLoopTypes.LOOP);
     public static final RawAnimation IDLE1 = new RawAnimation("idle", ILoopType.EDefaultLoopTypes.PLAY_ONCE);
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.LOOK_TARGET, MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, MemoryModuleType.NEAREST_VISIBLE_ADULT_PIGLINS, MemoryModuleType.NEARBY_ADULT_PIGLINS, MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.ATTACK_TARGET, MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.PATH, MemoryModuleType.ANGRY_AT, MemoryModuleType.UNIVERSAL_ANGER, MemoryModuleType.AVOID_TARGET, MemoryModuleType.ADMIRING_ITEM, MemoryModuleType.TIME_TRYING_TO_REACH_ADMIRE_ITEM, MemoryModuleType.ADMIRING_DISABLED, MemoryModuleType.DISABLE_WALK_TO_ADMIRE_ITEM, MemoryModuleType.CELEBRATE_LOCATION, MemoryModuleType.DANCING, MemoryModuleType.HUNTED_RECENTLY, MemoryModuleType.NEAREST_VISIBLE_BABY_HOGLIN, MemoryModuleType.NEAREST_VISIBLE_NEMESIS, MemoryModuleType.NEAREST_VISIBLE_ZOMBIFIED, MemoryModuleType.RIDE_TARGET, MemoryModuleType.VISIBLE_ADULT_PIGLIN_COUNT, MemoryModuleType.VISIBLE_ADULT_HOGLIN_COUNT, MemoryModuleType.NEAREST_VISIBLE_HUNTABLE_HOGLIN, MemoryModuleType.NEAREST_TARGETABLE_PLAYER_NOT_WEARING_GOLD, MemoryModuleType.NEAREST_PLAYER_HOLDING_WANTED_ITEM, MemoryModuleType.ATE_RECENTLY, MemoryModuleType.NEAREST_REPELLENT);
+    protected static final ImmutableList<SensorType<? extends Sensor<? super Reaver>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.HURT_BY, SensorType.PIGLIN_SPECIFIC_SENSOR);
 
+    @Override
+    public void setDropChance(EquipmentSlot equipmentSlot, float f) {
+    }
+
+    @Override
+    protected float getEquipmentDropChance(EquipmentSlot equipmentSlot) {
+        return 0;
+    }
 
     public boolean isCaster(){
         return this.isCaster;
     }
+    public boolean isScout(){
+        return this.isScout;
+    }
+
     public boolean canGiveGifts(){
         return this.canGiveGifts;
     }
     private static Optional<? extends LivingEntity> findNearestValidAttackTarget(Reaver piglin) {
-        Brain<PiglinBrute> brain = piglin.getBrain();
+        Brain<Reaver> brain = piglin.getBrain();
             Optional<LivingEntity> optional = BehaviorUtils.getLivingEntityFromUUIDMemory(piglin, MemoryModuleType.ANGRY_AT);
             if (optional.isPresent() && Sensor.isEntityAttackableIgnoringLineOfSight(piglin, (LivingEntity)optional.get())) {
                 return optional;
@@ -125,6 +154,12 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
 
             }
     }
+
+    @Override
+    public Brain<Reaver> getBrain() {
+        return (Brain<Reaver>) super.getBrain();
+    }
+
     static boolean isNearestValidAttackTarget(Reaver piglin, LivingEntity livingEntity) {
         return findNearestValidAttackTarget(piglin).filter((livingEntity2) -> {
             return livingEntity2 == livingEntity;
@@ -141,6 +176,13 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
             compoundTag.putBoolean("Caster", false);
 
         }
+        if (this.isScout) {
+            compoundTag.putBoolean("Scout", true);
+        }
+        else{
+            compoundTag.putBoolean("Scout", false);
+
+        }
     }
 
 
@@ -148,10 +190,12 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
         super.readAdditionalSaveData(compoundTag);
 
         this.isCaster = compoundTag.getBoolean("Caster");
+        this.isScout = compoundTag.getBoolean("Scout");
+
     }
 
 
-    @Override
+
     protected boolean isImmuneToZombification() {
         return true;
     }
@@ -207,9 +251,9 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
             };
             List<Entity> list = TargetHelper.targetsFromArea(this, this.getBoundingBox().getCenter(),2.5F, area,  selectionPredicate);
             for(Entity entity : list){
-                if(entity.hurt(SpellDamageSource.mob(getMagicSchool(),this),3)) {
+                if(entity.hurt(SpellDamageSource.mob(getMagicSchool(),this),(float)this.getAttributeValue(Attributes.ATTACK_DAMAGE)/2)) {
                     entity.invulnerableTime = 0;
-                    entity.hurt(DamageSource.mobAttack(this), 3);
+                    entity.hurt(DamageSource.mobAttack(this), (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE)/2);
                 }
             }
         }
@@ -268,7 +312,12 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
 
     @Override
     protected boolean shouldDropLoot() {
-        return this.random.nextBoolean();
+        return true;
+    }
+
+    @Override
+    public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType mobSpawnType) {
+        return super.checkSpawnRules(levelAccessor, mobSpawnType);
     }
 
     @Override
@@ -286,7 +335,7 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 50.0D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 7.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 50.0D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 4.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
     }
     protected void updateSwingTime() {
         int i = 18;
@@ -338,10 +387,18 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
 
     @Override
     protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-        return ReaverAI.makeBrain(this,this.brainProvider().makeBrain(dynamic));
+        return ReaverAI.makeBrain(this,brainProvider().makeBrain(dynamic));
     }
-
-
+    protected Brain.Provider<Reaver> brainProvider() {
+        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    }
+    protected void customServerAiStep() {
+        this.level.getProfiler().push("reaverBrain");
+        this.getBrain().tick((ServerLevel)this.level, this);
+        this.level.getProfiler().pop();
+        ReaverAI.updateActivity(this);
+        super.customServerAiStep();
+    }
     @Override
     public SimpleContainer getInventory() {
         return this.inventory;
@@ -370,6 +427,21 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
         return PlayState.CONTINUE;
 
     }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+        if (this.getOffers().isEmpty() || !this.isScout()) {
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        } else {
+            if (!this.level.isClientSide) {
+                this.setTradingPlayer(player);
+                this.openTradingScreen(player, this.getDisplayName(), 1);
+            }
+
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        }
+    }
+
     private <E extends IAnimatable> PlayState predicate2(AnimationEvent<E> event) {
         if(event.isMoving()){
             if(this.isAggressive()){
@@ -405,6 +477,92 @@ public class Reaver extends PiglinBrute implements  InventoryCarrier, IAnimatabl
     @Override
     public AnimationFactory getFactory() {
         return this.factory;
+    }
+
+    @Override
+    public void setTradingPlayer(@Nullable Player player) {
+        this.tradingplayer = player;
+    }
+
+    @Nullable
+    @Override
+    public Player getTradingPlayer() {
+        return this.tradingplayer;
+    }
+
+    @Override
+    public MerchantOffers getOffers() {
+        MerchantOffers offers = new MerchantOffers();
+        ItemStack offering = new ItemStack(SpellbladeNext.OFFERING.get());
+        offers.add(new MerchantOffer(
+                new ItemStack(SpellbladeNext.RUNEBLAZEPLATING.get(),8),
+                offering,10,8,0.02F));
+        offers.add(new MerchantOffer(
+                new ItemStack(SpellbladeNext.RUNEGLINTPLATING.get(),8),
+                offering,10,8,0.02F));
+        offers.add(new MerchantOffer(
+                new ItemStack(SpellbladeNext.RUNEFROSTPLATING.get(),8),
+                offering,10,8,0.02F));
+        for(var entry : Spellblades.entries) {
+            offers.add(new MerchantOffer(
+                    new ItemStack(entry.item(), 8),
+                    offering, 10, 8, 0.02F));
+        }
+
+        return offers;
+    }
+
+    @Override
+    public void overrideOffers(MerchantOffers merchantOffers) {
+
+    }
+
+    @Override
+    public void notifyTrade(MerchantOffer merchantOffer) {
+
+    }
+
+    @Override
+    public void notifyTradeUpdated(ItemStack itemStack) {
+
+    }
+
+    @Override
+    public int getVillagerXp() {
+        return 0;
+    }
+
+    @Override
+    public void overrideXp(int i) {
+
+    }
+
+    @Override
+    public boolean showProgressBar() {
+        return false;
+    }
+
+    @Override
+    public SoundEvent getNotifyTradeSound() {
+        return null;
+    }
+
+    public void openTradingScreen(Player player, Component component, int i) {
+        OptionalInt optionalInt = player.openMenu(new SimpleMenuProvider((ix, inventory, playerx) -> {
+            return new MerchantMenu(ix, inventory, this);
+        }, component));
+        if (optionalInt.isPresent() && this.isScout()) {
+            MerchantOffers merchantOffers = this.getOffers();
+            if (!merchantOffers.isEmpty()) {
+                player.sendMerchantOffers(optionalInt.getAsInt(), merchantOffers, i, this.getVillagerXp(), this.showProgressBar(), this.canRestock());
+            }
+        }
+
+    }
+
+    @Override
+    public boolean isClientSide() {
+        return false;
     }
 }
 

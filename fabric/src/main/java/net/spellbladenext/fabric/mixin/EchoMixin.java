@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.spell.Spell;
@@ -45,7 +46,6 @@ public class EchoMixin {
                             && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
                 };
                 Spell.Release.Target.Area area = new Spell.Release.Target.Area();
-
                 List<Entity> list = TargetHelper.targetsFromRaycast(player,40,selectionPredicate);
                 for(Entity entity1 : list) {
                     SpellHelper.performImpacts(spellProjectile.getLevel(),player,entity1,spellProjectile.getSpell(),spellProjectile.getImpactContext());
