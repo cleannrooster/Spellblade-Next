@@ -2,11 +2,14 @@ package net.spellbladenext.fabric;
 
 import com.google.gson.Gson;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -123,7 +126,10 @@ public class SpinAttack extends Reaver implements InventoryCarrier, IAnimatable 
         return PlayState.CONTINUE;
     }
 
-
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+        return InteractionResult.FAIL;
+    }
 
     @Override
     public void registerControllers(AnimationData animationData) {

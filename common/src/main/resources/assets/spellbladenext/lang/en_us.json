@@ -1,22 +1,37 @@
 {
   "entity.spellbladenext.reaver": "Hexblade Reaver",
-
+  "entity.spellbladenext.magus": "Magus",
+  "block.spellbladenext.hex": "The Hexblade",
   "item.spellbladenext.example_item": "Example Item",
+  "item.spellbladenext.spellblade": "Target",
+
   "item.spellbladenext.blade_arcane": "Arcane Spellblade",
   "item.spellbladenext.blade_fire": "Flaming Spellblade",
-  "item.spellbladenext.blade_frost": "Frosted Spellblade",
-  "item.spellbladenext.runeblazinghelmet": "Runeblazing Helmet",
-  "item.spellbladenext.runeblazingbodyarmor": "Runeblazing Chestplate",
-  "item.spellbladenext.runeblazingleggings": "Runeblazing Leggings",
-  "item.spellbladenext.runeblazingboots": "Runeblazing Boots",
-  "item.spellbladenext.runefrostedhelmet": "Runefrosted Helmet",
-  "item.spellbladenext.runefrostedbodyarmor": "Runefrosted Chestplate",
-  "item.spellbladenext.runefrostedleggings": "Runefrosted Leggings",
-  "item.spellbladenext.runefrostedboots": "Runefrosted Boots",
-  "item.spellbladenext.runegleaminghelmet": "Runegleaming Helmet",
-  "item.spellbladenext.runegleamingbodyarmor": "Runegleaming Chestplate",
-  "item.spellbladenext.runegleamingleggings": "Runegleaming Leggings",
-  "item.spellbladenext.runegleamingboots": "Runegleaming Boots",
+  "item.spellbladenext.blade_frost": "Frost Spellblade",
+  "item.spellbladenext.runeblazing_head": "Runeblaze Helmet",
+  "item.spellbladenext.runeblazing_chest": "Runeblaze Chestplate",
+  "item.spellbladenext.runeblazing_legs": "Runeblaze Leggings",
+  "item.spellbladenext.runeblazing_feet": "Runeblaze Boots",
+  "item.spellbladenext.runefrosted_head": "Runefrost Helmet",
+  "item.spellbladenext.runefrosted_chest": "Runefrost Chestplate",
+  "item.spellbladenext.runefrosted_legs": "Runefrost Leggings",
+  "item.spellbladenext.runefrosted_feet": "Runefrost Boots",
+  "item.spellbladenext.runegleaming_head": "Runegleam Helmet",
+  "item.spellbladenext.runegleaming_chest": "Runegleam Chestplate",
+  "item.spellbladenext.runegleaming_legs": "Runegleam Leggings",
+  "item.spellbladenext.runegleaming_feet": "Runegleam Boots",
+  "item.spellbladenext.deathchill_head": "Mageseeker Hat",
+  "item.spellbladenext.deathchill_chest": "Deathchill Inquisitor Chestplate",
+  "item.spellbladenext.deathchill_legs":  "Deathchill Inquisitor Leggings",
+  "item.spellbladenext.deathchill_feet":  "Deathchill Inquisitor Boots",
+  "item.spellbladenext.rimeblaze_head": "Magebreaker Helmet",
+  "item.spellbladenext.rimeblaze_chest": "Rimeblaze Inquisitor Chestplate",
+  "item.spellbladenext.rimeblaze_legs":  "Rimeblaze Inquisitor Leggings",
+  "item.spellbladenext.rimeblaze_feet":  "Rimeblaze Inquisitor Boots",
+  "item.spellbladenext.aetherfire_head": "Magebane Crown",
+  "item.spellbladenext.aetherfire_chest": "Aetherfire Inquisitor Chestplate",
+  "item.spellbladenext.aetherfire_legs": "Aetherfire Inquisitor Leggings",
+  "item.spellbladenext.aetherfire_feet": "Aetherfire Inquisitor Boots",
   "item.spellbladenext.debug": "Debug Item",
   "item.spellbladenext.orb_frost": "Frost Orb",
   "item.spellbladenext.orb_fire": "Fire Orb",
@@ -24,24 +39,49 @@
   "item.spellbladenext.claymore_arcane": "Arcane Claymore",
   "item.spellbladenext.claymore_fire": "Fire Claymore",
   "item.spellbladenext.claymore_frost": "Frost Claymore",
+  "item.spellbladenext.magus_feet": "Primordial Boots",
+  "item.spellbladenext.magus_chest": "Primordial Robe",
+  "item.spellbladenext.magus_legs": "Primordial Leggings",
+  "item.spellbladenext.magus_head": "Primordial Hood",
 
-  "item.spellbladenext.runeblazing_ingot": "Runeblazing Ingot",
-  "item.spellbladenext.runefrosted_ingot": "Runefrosted Ingot",
-  "item.spellbladenext.runegleaming_ingot": "Runegleaming Ingot",
+  "item.spellbladenext.offering": "Offering to the Hexblade",
+  "item.spellbladenext.prismaticeffigy": "Prismatic Effigy",
+
+  "item.spellbladenext.runeblazing_ingot": "Runeblaze Ingot",
+  "item.spellbladenext.runefrosted_ingot": "Runefrost Ingot",
+  "item.spellbladenext.runegleaming_ingot": "Runegleam Ingot",
+
+  "item.spellbladenext.nullifying_fire_totem": "Nullifying Totem of Fire",
+  "item.spellbladenext.nullifying_frost_totem": "Nullifying Totem of Frost",
+  "item.spellbladenext.nullifying_arcane_totem": "Nullifying Totem of the Arcane",
 
   "item.spellbladenext.bandofpacifism": "Band of Pacifism",
 
+  "item.spellbladenext.rune_dagger": "Primordial Dagger",
+
+
   "itemGroup.spellbladenext.example_tab": "Spellblade Next",
   "itemGroup.spellbladenext.example_tab.name": "Spellblade Next",
+  "spell.spellbladenext.backstab.name": "Sneak Attack",
+  "spell.spellbladenext.backstab.description": "Passive: Attacks from behind are Sneak Attacks, which always crit with triggered spells. Active: Interact with an enemy to teleport behind them and deliver a Sneak Attack.",
+  "spell.spellbladenext.steelblade.name": "Pure Steel",
+  "spell.spellbladenext.steelblade.description": "Passive: Deal {damage} extra physical damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
+  "spell.spellbladenext.searingblade.name": "Searing Steel",
+  "spell.spellbladenext.searingblade.description": "Passive: Deal {damage} extra fire damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
+  "spell.spellbladenext.gleamingblade.name": "Gleaming Steel",
+  "spell.spellbladenext.gleamingblade.description": "Passive: Deal {damage} extra arcane damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
+  "spell.spellbladenext.frozenblade.name": "Cold Steel",
+  "spell.spellbladenext.frozenblade.description": "Passive: Deal {damage} extra frost damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
+
   "spell.spellbladenext.inferno.name": "Inferno",
-  "spell.spellbladenext.inferno.description": "Spin, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you a stacking speed buff, up to 5 stacks.",
+  "spell.spellbladenext.inferno.description": "Passive: You deal 100% of your fire attribute as damage on hit. Active: Spin in a direction, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
   "spell.spellbladenext.cyclone.name": "Cyclone",
-  "spell.spellbladenext.cyclone.description": "Spin, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you a stacking speed buff, up to 5 stacks.",
+  "spell.spellbladenext.cyclone.description": "Passive: You deal 100% of your frost attribute as damage on hit. Active: Spin in a direction, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
 
   "spell.spellbladenext.maelstrom.name": "Maelstrom",
-  "spell.spellbladenext.maelstrom.description": "Spin, dealing {damage} arcane damage per second to nearby enemies. Hitting enemies gives you a stacking speed buff, up to 5 stacks.",
+  "spell.spellbladenext.maelstrom.description": "Passive: You deal 100% of your arcane attribute as damage on hit. Active: Spin in a direction, dealing {damage} arcane damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
   "spell.spellbladenext.coldfury.name": "Frost Flurry",
   "spell.spellbladenext.coldfury.description": "Project a frozen statue in the direction you are facing, which stops after a certain distance or when it collides with something, dealing {damage} frost damage repeatedly.",
@@ -59,6 +99,15 @@
   "spell.spellbladenext.arcaneoverdrive.name": "Arcane Overdrive",
   "spell.spellbladenext.arcaneoverdrive.description": "Perform a nova, dealing {damage} arcane damage to enemies around you, and giving yourself a stacking attack speed buff. Can be triggered on hit.",
 
+  "spell.spellbladenext.fireinfusion.name": "Flame Infusion",
+  "spell.spellbladenext.fireinfusion.description": "Passive: You deal 2/3 of your fire attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 fire attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+
+  "spell.spellbladenext.frostinfusion.name": "Frost Infusion",
+  "spell.spellbladenext.frostinfusion.description": "Passive: You deal 2/3 of your frost attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 frost attribute buff. This buff stacks and refreshes on hit, up to 3 times.",
+
+  "spell.spellbladenext.arcaneinfusion.name": "Arcane Infusion",
+  "spell.spellbladenext.arcaneinfusion.description": "Passive: You deal 2/3 of your arcane attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 arcane attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+
   "spell.spellbladenext.magic_missile.name": "Magic Missile",
   "spell.spellbladenext.magic_missile.description": "Shoot a projectile that shortly splits into three homing projectiles. These projectiles target the three closest enemies if no target is chosen. Each projectile deals {damage} damage.",
 
@@ -70,13 +119,13 @@
 
 
   "spell.spellbladenext.transmute_fire.name": "Transmute Copper",
-  "spell.spellbladenext.transmute_fire.description": "Transmute a single block of iron into four runeblazing ingots.",
+  "spell.spellbladenext.transmute_fire.description": "Transmute a single block of copper into four runeblaze ingots.",
 
   "spell.spellbladenext.transmute_frost.name": "Transmute Iron",
-  "spell.spellbladenext.transmute_frost.description": "Transmute a single block of iron into four runefrosted ingots.",
+  "spell.spellbladenext.transmute_frost.description": "Transmute a single block of iron into four runefrost ingots.",
 
   "spell.spellbladenext.transmute_arcane.name": "Transmute Gold",
-  "spell.spellbladenext.transmute_arcane.description": "Transmute a single block of iron into four runegleaming ingots.",
+  "spell.spellbladenext.transmute_arcane.description": "Transmute a single block of gold into four runegleam ingots.",
 
   "spell.spellbladenext.soulfire.name": "Burning Spirit",
   "spell.spellbladenext.soulfire.description": "Refresh and gain a stack of Burning Spirit for 10 seconds. Each stack of Burning Spirit gives you 1 extra fire power. When you reach over 5 stacks, you burn and take increasing fire damage per stack every second.",
@@ -135,6 +184,11 @@
   "effect.spellbladenext.fireoverdrive": "Flame Overdrive",
   "effect.spellbladenext.soulflame": "Burning Spirit",
   "effect.spellbladenext.hex": "Hexed",
+  "effect.spellbladenext.doused": "Extinguished",
+  "effect.spellbladenext.inert": "Inert",
+  "effect.spellbladenext.melted": "Ashen",
+  "effect.spellbladenext.runic_boon": "Primordial Boon",
+  "effect.spellbladenext.direhex": "Sneak Attack",
 
   "entity.spellbladenext.amethyst": "Arcane Amethyst",
   "entity.spellbladenext.amethyst2": "Arcane Amethyst",
@@ -145,6 +199,7 @@
   "entity.spellbladenext.flamewinds": "Flaming Wind",
   "entity.spellbladenext.magma": "Marma Orb",
   "entity.spellbladenext.iciclebarrier": "Frost Icicle",
-  "entity.spellbladenext.eruption": "Wave"
+  "entity.spellbladenext.eruption": "Wave",
+  "entity.spellbladenext.coldattack": "Frozen Legion"
 
 }

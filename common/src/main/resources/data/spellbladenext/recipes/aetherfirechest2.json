@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "spellbladenext:runeblazing_chest"
+  },
+  "addition": {
+    "item": "spellbladenext:nullifying_arcane_totem"
+  },
+  "result": {
+    "item": "spellbladenext:aetherfire_chest"
+  }
+}

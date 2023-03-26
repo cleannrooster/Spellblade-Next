@@ -1,40 +1,41 @@
 package net.spellbladenext.fabric.items;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
-import net.spellbladenext.items.spellblades.Spellblades;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
 
 import java.util.HashMap;
 
-import static net.spellbladenext.SpellbladeNext.*;
-import static  net.spellbladenext.fabric.ExampleModFabric.*;
+import static net.spellbladenext.SpellbladeNext.MOD_ID;
 
 public class SpellbladeItems {
     public static final HashMap<String, Item> entries;
     static {
         entries = new HashMap<>();
-        for(var weaponEntry: Spellblades.entries) {
+        for (var weaponEntry : Spellblades.entries) {
             entries.put(weaponEntry.id().toString(), weaponEntry.item());
         }
-        for(var weaponEntry: Spellblades.orbs) {
+        for (var weaponEntry : Orbs.orbs) {
             entries.put(weaponEntry.id().toString(), weaponEntry.item());
         }
-        for(var weaponEntry: Spellblades.claymores) {
+        for (var weaponEntry : Spellblades.claymores) {
             entries.put(weaponEntry.id().toString(), weaponEntry.item());
         }
-        entries.put(new ResourceLocation(MOD_ID, "runeblazinghelmet").toString(), RUNEBLAZINGHELMET);
-        entries.put(new ResourceLocation(MOD_ID, "runeblazingbodyarmor").toString(), RUNEBLAZINGCHEST);
-        entries.put(new ResourceLocation(MOD_ID, "runeblazingleggings").toString(), RUNEBLAZINGLEGS);
-        entries.put(new ResourceLocation(MOD_ID, "runeblazingboots").toString(), RUNEBLAZINGBOOTS);
-        entries.put(new ResourceLocation(MOD_ID, "runefrostedhelmet").toString(), RUNEFROSTEDHELMET);
-        entries.put(new ResourceLocation(MOD_ID, "runefrostedbodyarmor").toString(), RUNEFROSTEDCHEST);
-        entries.put(new ResourceLocation(MOD_ID, "runefrostedleggings").toString(), RUNEFROSTEDLEGS);
-        entries.put(new ResourceLocation(MOD_ID, "runefrostedboots").toString(), RUNEFROSTEDBOOTS);
-        entries.put(new ResourceLocation(MOD_ID, "runegleaminghelmet").toString(), RUNEGLEAMINGHELMET);
-        entries.put(new ResourceLocation(MOD_ID, "runegleamingbodyarmor").toString(), RUNEGLEAMINGCHEST);
-        entries.put(new ResourceLocation(MOD_ID, "runegleamingleggings").toString(), RUNEGLEAMINGLEGS);
-        entries.put(new ResourceLocation(MOD_ID, "runegleamingboots").toString(), RUNEFROSTEDBOOTS);
+        for (var weaponEntry : Spellblades.runedaggers) {
+            entries.put(weaponEntry.id().toString(), weaponEntry.item());
+        }
+        for (var entry : Armors.entries) {
+            if (entry.armorSet().head instanceof RunicArmor) {
+                entries.put(MOD_ID+":"+entry.armorSet().head.toString(),
+                        entry.armorSet().head);
+                entries.put(MOD_ID+":"+entry.armorSet().chest.toString(),
+                        entry.armorSet().chest);
+                entries.put(MOD_ID+":"+entry.armorSet().legs.toString(),
+                        entry.armorSet().legs);
+                entries.put(MOD_ID+":"+entry.armorSet().feet.toString(),
+                        entry.armorSet().feet);
+            }
 
+        }
+        System.out.println("asdf " + entries);
     }
 }

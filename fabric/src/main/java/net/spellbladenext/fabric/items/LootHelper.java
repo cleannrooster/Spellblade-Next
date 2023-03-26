@@ -8,7 +8,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.*;
-import net.spellbladenext.config.LootConfig;
+import net.spellbladenext.fabric.config.LootConfig;
 
 public class LootHelper {
     public static void configure(ResourceLocation id, LootTable.Builder tableBuilder, LootConfig config) {

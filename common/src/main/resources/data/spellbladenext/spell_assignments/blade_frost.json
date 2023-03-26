@@ -1,5 +1,5 @@
 {
   "pool": "spellbladenext:spellblade_frost",
-  "max_spell_count": 2,
-  "spell_ids": [  ]
+  "max_spell_count": 3,
+  "spell_ids": [ "spellbladenext:frostinfusion" ]
 }

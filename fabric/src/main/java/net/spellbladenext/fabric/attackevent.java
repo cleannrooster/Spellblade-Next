@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public class attackevent implements piglinsummon {
     public int tickCount;
+    public boolean done = false;
     Level level;
     Player player;
     boolean firstTick;
@@ -21,12 +22,10 @@ public class attackevent implements piglinsummon {
 
     @Override
     public void tick() {
-        if(this.firstTick){
+        if(this.tickCount % 5 == 0){
             Optional<netherPortalFrame> frame = piglinsummon.summonNetherPortal(this.level,this.player,false);
-            int ii = 0;
-            while(frame.isEmpty() && ii < 10){
-                frame = piglinsummon.summonNetherPortal(this.level,this.player, false);
-                ii++;
+            if(frame.isPresent()){
+                this.done = true;
             }
         }
 

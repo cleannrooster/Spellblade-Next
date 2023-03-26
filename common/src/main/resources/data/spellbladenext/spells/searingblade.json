@@ -1,0 +1,79 @@
+{
+  "school": "FIRE",
+  "range": 0,
+  "learn": {
+    "tier": 1
+  },
+  "cast": {
+    "duration": 0,
+    "animation": "spell_engine:two_handed_channeling",
+    "sound": {
+      "id": "spell_engine:generic_fire_casting",
+      "randomness": 0
+    },
+    "particles": [
+      {
+        "particle_id": "flame",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 1.0,
+        "min_speed": 0.05,
+        "max_speed": 0.1
+      }
+    ]
+  },
+  "release": {
+    "target": {
+      "type": "PROJECTILE",
+      "projectile": {
+        "velocity": 1.0,
+        "homing_angle": 1.5,
+        "client_data": {
+          "travel_particles": [
+            {
+              "particle_id": "flame",
+              "shape": "CIRCLE",
+              "rotation": "LOOK",
+              "origin": "CENTER",
+              "count": 2.0,
+              "min_speed": 0.05,
+              "max_speed": 0.1
+            }
+          ],
+          "model_id": "minecraft:amethyst_block",
+          "render": "DEEP",
+          "scale": 0.5
+        }
+      }
+    },
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    }
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 0.5,
+          "spell_power_coefficient": 0.75
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "flame",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 30,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        }
+      ]
+    }
+  ],
+  "cost": {
+    "item_id": "spellbladenext:spellblade",
+    "cooldown_duration": -1
+
+  }
+}

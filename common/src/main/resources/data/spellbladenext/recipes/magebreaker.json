@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "D": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "S": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "ASA",
+    "SDS",
+    "A A"
+  ],
+  "result": {
+    "item": "spellbladenext:rimeblaze_head"
+  }
+}

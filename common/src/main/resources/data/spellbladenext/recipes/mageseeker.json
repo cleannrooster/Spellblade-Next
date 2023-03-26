@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:black_wool"
+    },
+    "D": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "S": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "SDS",
+    "A A"
+  ],
+  "result": {
+    "item": "spellbladenext:deathchill_head"
+  }
+}

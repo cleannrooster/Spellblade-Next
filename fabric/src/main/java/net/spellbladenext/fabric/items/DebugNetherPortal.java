@@ -7,7 +7,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -33,10 +36,15 @@ public class DebugNetherPortal extends Item {
         }
         else {
             if(!p_41432_.isClientSide()) {
-                p_41433_.addEffect(new MobEffectInstance(ExampleModFabric.HEX.get(),20*60*60,0));
+                p_41433_.addEffect(new MobEffectInstance(ExampleModFabric.HEX.get(),20*60*3,0));
             }
         }
 
         return super.use(p_41432_, p_41433_, p_41434_);
+    }
+
+    @Override
+    public boolean overrideOtherStackedOnMe(ItemStack itemStack, ItemStack itemStack2, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
+        return super.overrideOtherStackedOnMe(itemStack, itemStack2, slot, clickAction, player, slotAccess);
     }
 }

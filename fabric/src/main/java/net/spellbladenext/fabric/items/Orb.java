@@ -5,7 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Tier;
-import net.spell_engine.api.item.StaffItem;
+
+import net.spell_engine.api.item.weapon.StaffItem;
 import net.spell_power.api.MagicSchool;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;

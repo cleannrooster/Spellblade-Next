@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "spellbladenext:runegleaming_legs"
+  },
+  "addition": {
+    "item": "spellbladenext:nullifying_frost_totem"
+  },
+  "result": {
+    "item": "spellbladenext:deathchill_legs"
+  }
+}

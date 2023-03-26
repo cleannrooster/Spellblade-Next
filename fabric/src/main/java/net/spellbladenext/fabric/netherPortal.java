@@ -1,22 +1,16 @@
 package net.spellbladenext.fabric;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.entity.monster.piglin.PiglinAi;
-import net.minecraft.world.entity.monster.piglin.PiglinBrute;
-import net.minecraft.world.entity.monster.piglin.RememberIfHoglinWasKilled;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -25,15 +19,11 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.phys.Vec3;
-import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.items.spellblades.Spellblade;
-import net.spellbladenext.items.spellblades.Spellblades;
+import net.spellbladenext.fabric.items.spellblades.Spellblade;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static net.spellbladenext.fabric.Reaver.isNearestValidAttackTarget;
 
 public class netherPortal extends FallingBlockEntity {
     public Player owner;

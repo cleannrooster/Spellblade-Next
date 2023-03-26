@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "spellbladenext:runefrosted_ingot"
+    },
+    "T": {
+      "item": "minecraft:totem_of_undying"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RTR",
+    "RRR"
+  ],
+  "result": {
+    "item": "spellbladenext:nullifying_frost_totem"
+  }
+}

@@ -1,53 +1,30 @@
 package net.spellbladenext.entities;
 
-import com.google.common.collect.ImmutableMultimap;
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ItemSupplier;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.spell_engine.api.spell.ParticleBatch;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.client.SpellEngineClient;
 import net.spell_engine.entity.SpellProjectile;
 import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.particle.ParticleHelper;
 import net.spell_engine.utils.TargetHelper;
-import net.spell_power.api.MagicSchool;
-import net.spell_power.api.SpellDamageSource;
 import net.spell_power.api.SpellPower;
+import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.items.FriendshipBracelet;
-import net.spellbladenext.items.spellblades.Spellblades;
-
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -223,7 +200,7 @@ public class IcicleBarrierEntity extends SpellProjectile implements ItemSupplier
     }
     @Override
     public ItemStack getItem() {
-        return Spellblades.dummyfrost.getDefaultInstance();
+        return SpellbladeNext.dummyfrost3.get().getDefaultInstance();
     }
 
     public Vec3 rotate(double x, double y, double z, double pitch, double roll, double yaw) {

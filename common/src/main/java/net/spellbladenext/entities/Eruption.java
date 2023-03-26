@@ -80,12 +80,12 @@ public class Eruption extends SpellProjectile implements FlyingSpellEntity, Item
     public void tick() {
         this.baseTick();
         this.setNoGravity(true);
-        if(this.tickCount % 2 == 1 && this.getImpactContext() != null && this.getSpell() != null && this.getOwner() != null) {
+        if(this.tickCount % 3 == 1 && this.getImpactContext() != null && this.getSpell() != null && this.getOwner() != null) {
             this.vec3s.add(this.position());
             ProjectileUtil.rotateTowardsMovement(this, 1F);
             for (Vec3 vec3 : this.vec3s) {
                 if (!this.getLevel().isClientSide()) {
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < 3; i++) {
                         CleansingFlameEntity cleansingFlameEntity = new CleansingFlameEntity(SpellbladeNext.CLEANSINGFLAME, this.getLevel());
                         cleansingFlameEntity.target = this.getFollowedTarget();
                         cleansingFlameEntity.context = this.getImpactContext();

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "spellbladenext:runefrosted_chest"
+  },
+  "addition": {
+    "item": "spellbladenext:nullifying_fire_totem"
+  },
+  "result": {
+    "item": "spellbladenext:rimeblaze_chest"
+  }
+}

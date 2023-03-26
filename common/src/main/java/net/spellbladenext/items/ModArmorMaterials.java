@@ -3,13 +3,17 @@ package net.spellbladenext.items;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.spellbladenext.SpellbladeNext;
 
 import java.util.function.Supplier;
+
+import static net.spellbladenext.SpellbladeNext.WOOL_INGREDIENTS;
 
 public enum ModArmorMaterials implements ArmorMaterial {
     RUNEBLAZING("runeblazing", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
@@ -20,7 +24,23 @@ public enum ModArmorMaterials implements ArmorMaterial {
     }),
     RUNEGLEAMING("runegleaming", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
         return Ingredient.of(SpellbladeNext.RUNEGLINTPLATING.get());
-    });
+    }),
+    AETHERFIRE("aetherfire", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
+        return Ingredient.of(SpellbladeNext.RUNEBLAZEPLATING.get(),SpellbladeNext.RUNEFROSTPLATING.get());
+    }),
+    RIMEBLAZE("rimeblaze", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
+        return Ingredient.of(SpellbladeNext.RUNEFROSTPLATING.get(),SpellbladeNext.RUNEBLAZEPLATING.get());
+    }),
+    DEATHCHILL("deathchill", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
+        return Ingredient.of(SpellbladeNext.RUNEGLINTPLATING.get(),SpellbladeNext.RUNEFROSTPLATING.get());
+    }),
+    WOOL("magus", 37, new int[]{2, 4, 6, 2}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0,
+            WOOL_INGREDIENTS);
+
+
+
+
+
 
 
     private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
@@ -65,7 +85,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
     }
 
     public String getName() {
-        return "spellbladenext" + ":" + this.name;
+        return this.name;
     }
 
     public float getToughness() {

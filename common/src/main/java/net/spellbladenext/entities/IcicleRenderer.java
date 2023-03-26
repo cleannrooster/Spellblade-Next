@@ -1,7 +1,6 @@
 package net.spellbladenext.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -11,12 +10,10 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.item.ItemStack;
-import net.spellbladenext.items.spellblades.Spellblades;
-
+import net.spellbladenext.SpellbladeNext;
 public class IcicleRenderer<T extends Entity & ItemSupplier> extends EntityRenderer<T> {
     public static final ResourceLocation TEXTURE  = new ResourceLocation("spellbladenext", "textures/entity/sword1.png");
     public static final ResourceLocation TEXTURE2  = new ResourceLocation("spellbladenext", "textures/entity/sword2.png");
@@ -48,7 +45,7 @@ public class IcicleRenderer<T extends Entity & ItemSupplier> extends EntityRende
                 p_116114_.mulPose(Vector3f.YP.rotationDegrees( p_116111_.getYRot() - 90.0F));
                 p_116114_.mulPose(Vector3f.ZP.rotationDegrees( p_116111_.getXRot() - 45.0F));
                 //VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(p_116115_, this.model.renderType(this.getTextureLocation(p_116111_)), false, false);
-                this.itemRenderer.renderStatic(new ItemStack(Spellblades.dummyfrost), ItemTransforms.TransformType.NONE, p_116116_, OverlayTexture.NO_OVERLAY, p_116114_, p_116115_, p_116111_.getId());
+                this.itemRenderer.renderStatic(new ItemStack(SpellbladeNext.dummyfrost2.get()), ItemTransforms.TransformType.NONE, p_116116_, OverlayTexture.NO_OVERLAY, p_116114_, p_116115_, p_116111_.getId());
 
                 p_116114_.popPose();
                 return;

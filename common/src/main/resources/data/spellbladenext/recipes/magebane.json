@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_ingot"
+    },
+    "D": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "S": {
+      "item": "minecraft:golden_helmet"
+    }
+  },
+  "pattern": [
+    "DDD",
+    "ASA",
+    "A A"
+  ],
+  "result": {
+    "item": "spellbladenext:aetherfire_head"
+  }
+}

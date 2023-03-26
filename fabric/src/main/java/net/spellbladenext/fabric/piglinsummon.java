@@ -8,6 +8,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -90,7 +91,8 @@ public interface piglinsummon {
                int posY = pos.getY() + level.getRandom().nextInt(10) - 10 / 2;
                int posZ = pos.getZ()  + c* level.getRandom().nextInt(10);
                BlockPos testPos = findGround(level, new BlockPos(posX, posY, posZ));
-               if(testPos != null && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, level, testPos, ExampleModFabric.REAVER))
+
+               if(testPos != null && level.getFluidState(testPos).isEmpty() && level.getBlockState(testPos.below()).canOcclude())
                {
                     safestPos = testPos;
                     break;

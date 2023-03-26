@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "spellbladenext:runefrosted_feet"
+  },
+  "addition": {
+    "item": "spellbladenext:nullifying_arcane_totem"
+  },
+  "result": {
+    "item": "spellbladenext:deathchill_feet"
+  }
+}

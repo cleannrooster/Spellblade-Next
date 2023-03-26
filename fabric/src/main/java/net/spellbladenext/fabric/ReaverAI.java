@@ -60,7 +60,7 @@ public class ReaverAI {
     private static void initFightActivity(Reaver piglinBrute, Brain<Reaver> brain) {
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new StopAttackingIfTargetInvalid<Reaver>((livingEntity) -> {
             return !isNearestValidAttackTarget(piglinBrute, (LivingEntity) livingEntity);
-        }),new RunIf<Reaver>(asdf -> piglinBrute.hasCustomName() &&piglinBrute.getCustomName().equals(Component.translatable("Caster")), new BackUp<Reaver>(10, 0.75F)),  new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new MeleeAttack(20),new SpellAttack<Reaver, LivingEntity>()), MemoryModuleType.ATTACK_TARGET);
+        }),new RunIf<Reaver>(asdf -> piglinBrute.isCaster() ,new BackUp<Reaver>(10, 0.75F)),  new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new MeleeAttack(20),new SpellAttack<Reaver, LivingEntity>()), MemoryModuleType.ATTACK_TARGET);
     }
 
     private static RunOne<Reaver> createIdleLookBehaviors() {
@@ -74,7 +74,7 @@ public class ReaverAI {
     protected static void updateActivity(Reaver piglinBrute) {
         Brain<?> brain = piglinBrute.getBrain();
         Activity activity = (Activity)brain.getActiveNonCoreActivity().orElse((Activity) null);
-        System.out.println(activity);
+        //System.out.println(activity);
         brain.setActiveActivityToFirstValid(ImmutableList.of(Activity.FIGHT, Activity.IDLE));
         Activity activity2 = (Activity)brain.getActiveNonCoreActivity().orElse((Activity) null);
         if (activity != activity2) {
@@ -85,7 +85,7 @@ public class ReaverAI {
     }
 
     private static boolean isNearestValidAttackTarget(Reaver reaver, LivingEntity livingEntity) {
-            if(reaver.isScout()){
+            if(reaver.isScout() && reaver.getMainHandItem().isEmpty()){
                 return false;
             }
         return findNearestValidAttackTarget(reaver).filter((livingEntity2) -> {
@@ -93,8 +93,8 @@ public class ReaverAI {
         }).isPresent();
     }
 
-    private static Optional<? extends LivingEntity> findNearestValidAttackTarget(Reaver abstractPiglin) {
-            if(abstractPiglin.isScout()){
+    static Optional<? extends LivingEntity> findNearestValidAttackTarget(Reaver abstractPiglin) {
+            if(abstractPiglin.isScout() && abstractPiglin.getMainHandItem().isEmpty()){
                 return Optional.empty();
             }
 

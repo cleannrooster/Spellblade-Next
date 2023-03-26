@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "spellbladenext:item/sonic_boom_entity"
+    "layer0": "minecraft:item/blaze_powder"
   }
 }

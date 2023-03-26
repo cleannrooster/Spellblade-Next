@@ -46,6 +46,9 @@ allprojects {
         mavenLocal()
         maven {
             url "https://www.cursemaven.com"
+            maven {
+                url 'https://server.bbkr.space/artifactory/libs-release/'
+            }
         }
         maven { url 'https://maven.shedaniel.me/' }
         maven { url 'https://maven.kosmx.dev/' }

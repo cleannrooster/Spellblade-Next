@@ -1,63 +1,74 @@
 package net.spellbladenext.fabric;
 
 import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.Registries;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.data.tags.BannerPatternTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.LoomMenu;
+import net.minecraft.world.item.BannerPatternItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.entity.SpellProjectile;
+import net.spell_engine.internals.SpellCasterEntity;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.SpellRegistry;
-import net.spell_engine.tinyconfig.ConfigManager;
+
 import net.spell_engine.utils.TargetHelper;
-import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.attributes.SpellAttributes;
-import net.spell_power.api.enchantment.MagicArmorEnchanting;
 import net.spellbladenext.SpellbladeNext;
 import net.fabricmc.api.ModInitializer;
-import net.spellbladenext.config.ItemConfig;
-import net.spellbladenext.config.LootConfig;
+import net.spellbladenext.fabric.block.Hexblade;
+import net.spellbladenext.fabric.config.ItemConfig;
+import net.spellbladenext.fabric.config.LootConfig;
 import net.spellbladenext.fabric.items.*;
 import net.spellbladenext.entities.*;
 import net.spellbladenext.items.FriendshipBracelet;
-import net.spellbladenext.items.ModArmorMaterials;
-import net.spellbladenext.items.spellblades.Spellblades;
-import software.bernie.example.client.model.item.JackInTheBoxModel;
-import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
+import net.tinyconfig.ConfigManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import static net.minecraft.core.Registry.ENTITY_TYPE;
 import static net.spell_engine.internals.SpellHelper.impactTargetingMode;
@@ -65,114 +76,131 @@ import static net.spell_engine.internals.SpellHelper.launchPoint;
 import static net.spellbladenext.SpellbladeNext.*;
 
 public class ExampleModFabric implements ModInitializer {
+
     public static ArrayList<attackevent> attackeventArrayList = new ArrayList<>();
     public static final Item NETHERDEBUG = new DebugNetherPortal(new FabricItemSettings().group(EXAMPLE_TAB).stacksTo(1));;
     public static final ResourceLocation SINCELASTHEX = new ResourceLocation(MOD_ID, "lasthextime");
     public static final ResourceLocation HEXRAID = new ResourceLocation(MOD_ID, "hex");
     public static final EntityType<Reaver> REAVER;
+    public static final EntityType<Magus> MAGUS;
+
     public static final EntityType<ColdAttack> COLDATTACK;
+    public static RegistrySupplier<Item> OFFERING = ITEMS.register("offering", () ->
+            new Offering(new Item.Properties().tab(EXAMPLE_TAB)));
+    public static RegistrySupplier<Item> PRISMATICEFFIGY = ITEMS.register("prismaticeffigy", () ->
+            new PrismaticEffigy(new Item.Properties().tab(EXAMPLE_TAB)));
 
     public static final EntityType<SpinAttack> SPIN;
     public static DeferredRegister<MobEffect> MOBEFFECTS = DeferredRegister.create(MOD_ID, Registry.MOB_EFFECT_REGISTRY);
 
-    public static RegistrySupplier<MobEffect> HEX = MOBEFFECTS.register("hex", () ->  new Hex(MobEffectCategory.HARMFUL, 0x64329F).addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute,"6b64d185-2b88-46c9-833e-5d1c33804eec",1, AttributeModifier.Operation.ADDITION));
+    public static RegistrySupplier<MobEffect> HEX = MOBEFFECTS.register("hex", () ->  new Hex(MobEffectCategory.HARMFUL, 0x64329F));
+    public static RegistrySupplier<MobEffect> DIREHEX = MOBEFFECTS.register("direhex", () ->  new DireHex(MobEffectCategory.HARMFUL, 0x64329F));
 
     public static final GameRules.Key<GameRules.BooleanValue> SHOULD_INVADE = GameRuleRegistry.register("hexbladeInvade", GameRules.Category.MOBS, GameRuleFactory.createBooleanRule(true));
-    public static RuneblazingArmor RUNEBLAZINGHELMET = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
+/*
+    public static RuneblazingArmor runeblazing_helmet = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
     public static RuneblazingArmor RUNEBLAZINGCHEST = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.CHEST, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
     public static RuneblazingArmor RUNEBLAZINGLEGS = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.LEGS, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
-    public static RuneblazingArmor RUNEBLAZINGBOOTS = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
-    public static RuneblazingArmor RUNEFROSTEDHELMET = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
+    public static RuneblazingArmor runeblazing_feet = new RuneblazingArmor(ModArmorMaterials.RUNEBLAZING, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FIRE);
+    public static RuneblazingArmor runefrosted_head = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
     public static RuneblazingArmor RUNEFROSTEDCHEST = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.CHEST, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
     public static RuneblazingArmor RUNEFROSTEDLEGS = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.LEGS, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
-    public static RuneblazingArmor RUNEFROSTEDBOOTS = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
-    public static RuneblazingArmor RUNEGLEAMINGHELMET = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
+    public static RuneblazingArmor runefrosted_feet = new RuneblazingArmor(ModArmorMaterials.RUNEFROSTED, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.FROST);
+    public static RuneblazingArmor runegleaming_head = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
     public static RuneblazingArmor RUNEGLEAMINGCHEST = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.CHEST, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
     public static RuneblazingArmor RUNEGLEAMINGLEGS = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.LEGS, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
-    public static RuneblazingArmor RUNEGLEAMINGBOOTS = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
+    public static RuneblazingArmor runegleaming_feet = new RuneblazingArmor(ModArmorMaterials.RUNEGLEAMING, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), MagicSchool.ARCANE);
+*/
+
+/*
+    public static Robes HOOD = new Robes(ModArmorMaterials.WOOL,EquipmentSlot.HEAD,new Item.Properties().tab(EXAMPLE_TAB));
+
+    public static Robes ROBE = new Robes(ModArmorMaterials.WOOL,EquipmentSlot.CHEST,new Item.Properties().tab(EXAMPLE_TAB));
+    public static Robes PANTS = new Robes(ModArmorMaterials.WOOL,EquipmentSlot.LEGS,new Item.Properties().tab(EXAMPLE_TAB));
+    public static Robes BOOTS = new Robes(ModArmorMaterials.WOOL,EquipmentSlot.FEET,new Item.Properties().tab(EXAMPLE_TAB));
+*/
+
     public static ConfigManager<ItemConfig> itemConfig;
     public static ConfigManager<LootConfig> lootConfig;
 
 
     public static EntityType<netherPortal> NETHERPORTAL;
     public static EntityType<netherPortalFrame> NETHERPORTALFRAME;
+    public static final Block HEXBLADE = new Hexblade(FabricBlockSettings.of(Material.METAL).strength(5.0F, 6.0F).requiresTool().requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion());
     @Override
     public void onInitialize() {
-
+        Registry.register(Registry.BLOCK, new ResourceLocation(MOD_ID,"hex"), HEXBLADE);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID,"hexblade"), new BlockItem(HEXBLADE, new FabricItemSettings().tab(EXAMPLE_TAB).stacksTo(1)));
+        //System.out.println(Registry.BANNER_PATTERN.getTag(tag2).get().toString());
         SpellbladeNext.init();
-        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-            LootHelper.configure(id, tableBuilder, lootConfig.value);
-        });
-    }
 
-    static {
-        ITEMS.register();
         itemConfig  = new ConfigManager<ItemConfig>
                 ("items", Default.itemConfig)
                 .builder()
                 .setDirectory(MOD_ID)
                 .sanitize(true)
                 .build();
+
         lootConfig = new ConfigManager<LootConfig>
                 ("loot", Default.lootConfig)
                 .builder()
                 .setDirectory(MOD_ID)
                 .sanitize(true)
+                .constrain(LootConfig::constrainValues)
                 .build();
+        MOBEFFECTS.register();
         lootConfig.refresh();
         itemConfig.refresh();
+        System.out.println(itemConfig.value.weapons);
         Spellblades.register(itemConfig.value.weapons);
-        MOBEFFECTS.register();
+        Orbs.register(itemConfig.value.weapons);
+        Armors.register(itemConfig.value.armor_sets);
+
+
 
         //Registry.register(Registry.ITEM, new ResourceLocation(SpellbladeNext.MOD_ID, "bandofpacifism"),
         //        FRIENDSHIPBRACELET);
 
 
-        Orbs.register(itemConfig.value.weapons);
         Registry.register(Registry.CUSTOM_STAT, "lasthextime", SINCELASTHEX);
         Registry.register(Registry.CUSTOM_STAT, "hex", HEXRAID);
 
         Stats.CUSTOM.get(SINCELASTHEX, StatFormatter.DEFAULT);
         Stats.CUSTOM.get(HEXRAID, StatFormatter.DEFAULT);
         Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "debug"), NETHERDEBUG);
+      /*  Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "hood"),
+                HOOD);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "robe"),
+                ROBE);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "pants"),
+                PANTS);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "boots"),
+                BOOTS);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazing_helmet"),
+                runeblazing_helmet);
 
-        MagicArmorEnchanting.register(RUNEBLAZINGHELMET);
-        MagicArmorEnchanting.register(RUNEBLAZINGCHEST);
-        MagicArmorEnchanting.register(RUNEBLAZINGLEGS);
-        MagicArmorEnchanting.register(RUNEBLAZINGBOOTS);
-        MagicArmorEnchanting.register(RUNEFROSTEDHELMET);
-        MagicArmorEnchanting.register(RUNEFROSTEDCHEST);
-        MagicArmorEnchanting.register(RUNEFROSTEDLEGS);
-        MagicArmorEnchanting.register(RUNEFROSTEDBOOTS);
-        MagicArmorEnchanting.register(RUNEGLEAMINGHELMET);
-        MagicArmorEnchanting.register(RUNEGLEAMINGCHEST);
-        MagicArmorEnchanting.register(RUNEGLEAMINGLEGS);
-        MagicArmorEnchanting.register(RUNEGLEAMINGBOOTS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazinghelmet"),
-                RUNEBLAZINGHELMET);
-
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazingbodyarmor"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazing_chest"),
                 RUNEBLAZINGCHEST);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazingleggings"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazing_legs"),
                 RUNEBLAZINGLEGS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazingboots"),RUNEBLAZINGBOOTS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrostedhelmet"), RUNEFROSTEDHELMET);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runeblazing_feet"),runeblazing_feet);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrosted_head"), runefrosted_head);
 
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrostedbodyarmor"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrosted_chest"),
                 RUNEFROSTEDCHEST);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrostedleggings"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrosted_legs"),
                 RUNEFROSTEDLEGS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrostedboots"),
-                RUNEFROSTEDBOOTS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleaminghelmet"),
-                RUNEGLEAMINGHELMET);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleamingbodyarmor"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runefrosted_feet"),
+                runefrosted_feet);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleaming_head"),
+                runegleaming_head);
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleaming_chest"),
                 RUNEGLEAMINGCHEST);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleamingleggings"),
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleaming_legs"),
                 RUNEGLEAMINGLEGS);
-        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleamingboots"),
-                RUNEGLEAMINGBOOTS);
-
+        Registry.register(Registry.ITEM, new ResourceLocation(MOD_ID, "runegleaming_feet"),
+                runegleaming_feet);
+*/
         ServerTickEvents.START_SERVER_TICK.register(server -> {
             for(ServerPlayer player : server.getPlayerList().getPlayers()){
                 if (((int) (player.getLevel().getDayTime() % 24000L)) % 1200 == 0) {
@@ -180,14 +208,22 @@ public class ExampleModFabric implements ModInitializer {
                     if(player.getLevel().getGameRules().getBoolean(SHOULD_INVADE) && player.getStats().getValue(Stats.CUSTOM.get(HEXRAID)) > 0) {
 
                         player.awardStat(SINCELASTHEX, 1);
-                        if (player.getRandom().nextFloat() < 0.01 * (player.getStats().getValue(Stats.CUSTOM.get(HEXRAID))/100F) * Math.pow((1.02930223664), player.getStats().getValue(Stats.CUSTOM.get(SINCELASTHEX)))) {
-                            player.addEffect(new MobEffectInstance(HEX.get(),20*60*20,0,false,false));
+
+                        if (!player.hasEffect(HEX.get()) && player.getStats().getValue(Stats.CUSTOM.get(SINCELASTHEX)) > 10 && player.getRandom().nextFloat() < 0.01 * (player.getStats().getValue(Stats.CUSTOM.get(HEXRAID))/100F) * Math.pow((1.02930223664), player.getStats().getValue(Stats.CUSTOM.get(SINCELASTHEX)))) {
+                            Optional<BlockPos> pos2 = BlockPos.findClosestMatch(player.blockPosition(),64,128,
+                                    asdf -> player.getLevel().getBlockState(asdf).getBlock().equals(HEXBLADE));
+                            if(pos2.isPresent() || player.getInventory().hasAnyOf(Set.of(Item.BY_BLOCK.get(HEXBLADE)))){
+                                player.sendSystemMessage(Component.translatable("Your triumph is respected."));
+                            }
+                            else {
+                                player.addEffect(new MobEffectInstance(HEX.get(), 20 * 60 * 3, 0, false, false));
+                            }
                         }
                     }
                     player.getStats().setValue(player,Stats.CUSTOM.get(HEXRAID),0);
                 }
             }
-            attackeventArrayList.removeIf(attackevent -> attackevent.tickCount > 500);
+            attackeventArrayList.removeIf(attackevent -> attackevent.tickCount > 500 || attackevent.done);
             for (attackevent attackEvent : attackeventArrayList) {
                 attackEvent.tick();
             }
@@ -257,6 +293,16 @@ public class ExampleModFabric implements ModInitializer {
             }
         });
 
+        itemConfig.save();
+
+        LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+            LootHelper.configure(id, tableBuilder, lootConfig.value);
+        });
+
+    }
+
+    static {
+
         SpellbladeNext.AMETHYST = Registry.register(
                 ENTITY_TYPE,
                 new ResourceLocation(MOD_ID, "amethyst"),
@@ -306,6 +352,15 @@ public class ExampleModFabric implements ModInitializer {
                 ENTITY_TYPE,
                 new ResourceLocation(MOD_ID, "reaver"),
                 FabricEntityTypeBuilder.<Reaver>create(MobCategory.MISC, Reaver::new)
+                        .dimensions(EntityDimensions.fixed(1F, 2F)) // dimensions in Minecraft units of the render
+                        .trackRangeBlocks(128)
+                        .trackedUpdateRate(1)
+                        .build()
+        );
+        MAGUS = Registry.register(
+                ENTITY_TYPE,
+                new ResourceLocation(MOD_ID, "magus"),
+                FabricEntityTypeBuilder.<Magus>create(MobCategory.MISC, Magus::new)
                         .dimensions(EntityDimensions.fixed(1F, 2F)) // dimensions in Minecraft units of the render
                         .trackRangeBlocks(128)
                         .trackedUpdateRate(1)
@@ -375,6 +430,8 @@ public class ExampleModFabric implements ModInitializer {
                         .build()
         );
         FabricDefaultAttributeRegistry.register(REAVER,Reaver.createAttributes());
+        FabricDefaultAttributeRegistry.register(MAGUS,Magus.createAttributes());
+
         FabricDefaultAttributeRegistry.register(SPIN,SpinAttack.createAttributes());
         FabricDefaultAttributeRegistry.register(COLDATTACK,ColdAttack.createAttributes());
 
@@ -405,7 +462,7 @@ public class ExampleModFabric implements ModInitializer {
                         .trackedUpdateRate(1)
                         .build()
         );
-        itemConfig.save();
+
 
     }
     public static BlockHitResult getPlayerPOVHitResult(Level p_41436_, Player p_41437_, ClipContext.Fluid p_41438_) {

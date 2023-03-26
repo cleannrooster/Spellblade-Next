@@ -1,25 +1,16 @@
 package net.spellbladenext.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.spell_power.SpellPowerMod;
-import net.spell_power.api.MagicSchool;
 import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.items.spellblades.Spellblade;
-import net.spellbladenext.items.spellblades.Spellblades;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
-import software.bernie.geckolib3.geo.render.built.GeoModel;
 import software.bernie.geckolib3.renderers.geo.ExtendedGeoEntityRenderer;
 
 public class SpinRenderer<T extends SpinAttack> extends ExtendedGeoEntityRenderer<SpinAttack> {
@@ -58,7 +49,7 @@ public class SpinRenderer<T extends SpinAttack> extends ExtendedGeoEntityRendere
     @Override
     protected ItemStack getHeldItemForBone(String s, SpinAttack reaver) {
         if(s.equals("rightItem") || s.equals("leftItem")) {
-            return new ItemStack(Spellblades.spellblade);
+            return new ItemStack(SpellbladeNext.SPELLBLADEDUMMY.get());
         }
         else{
             return null;

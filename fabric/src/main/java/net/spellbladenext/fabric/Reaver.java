@@ -1,19 +1,12 @@
 package net.spellbladenext.fabric;
 
-import carpet.script.language.Sys;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.serialization.Dynamic;
 
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerChunkCache;
@@ -30,19 +23,14 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.*;
-import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.CrossbowAttackMob;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.piglin.*;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.inventory.MerchantMenu;
 import net.minecraft.world.item.HoeItem;
@@ -56,7 +44,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
-import net.spell_engine.api.spell.Sound;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.utils.SoundHelper;
 import net.spell_engine.utils.TargetHelper;
@@ -64,10 +51,9 @@ import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
 import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.items.spellblades.Spellblade;
-import net.spellbladenext.items.spellblades.Spellblades;
+import net.spellbladenext.fabric.items.spellblades.Spellblade;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
 import org.jetbrains.annotations.Nullable;
-import software.bernie.example.entity.GeoExampleEntity;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -87,6 +73,7 @@ import java.util.function.Predicate;
 
 public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimatable, Merchant {
     public Player nemesis;
+    public boolean isthinking = false;
     public boolean isScout = false;
     private boolean hasntthrownitems = true;
     private boolean firstattack = false;
@@ -94,6 +81,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     private boolean isstopped = false;
     boolean isCaster = false;
     private Player tradingplayer;
+    float damagetakensincelastthink = 0;
 
     public Reaver(EntityType<? extends Reaver> p_34652_, Level p_34653_) {
         super(p_34652_, p_34653_);
@@ -121,6 +109,11 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     }
 
     @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+    }
+
+    @Override
     protected float getEquipmentDropChance(EquipmentSlot equipmentSlot) {
         return 0;
     }
@@ -136,7 +129,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
         return this.canGiveGifts;
     }
     private static Optional<? extends LivingEntity> findNearestValidAttackTarget(Reaver piglin) {
-        Brain<Reaver> brain = piglin.getBrain();
+        Brain<?> brain = piglin.getBrain();
             Optional<LivingEntity> optional = BehaviorUtils.getLivingEntityFromUUIDMemory(piglin, MemoryModuleType.ANGRY_AT);
             if (optional.isPresent() && Sensor.isEntityAttackableIgnoringLineOfSight(piglin, (LivingEntity)optional.get())) {
                 return optional;
@@ -154,7 +147,6 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
 
             }
     }
-
     @Override
     public Brain<Reaver> getBrain() {
         return (Brain<Reaver>) super.getBrain();
@@ -167,7 +159,6 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     }
     public void addAdditionalSaveData(CompoundTag compoundTag) {
 
-        super.addAdditionalSaveData(compoundTag);
 
         if (this.isCaster) {
             compoundTag.putBoolean("Caster", true);
@@ -183,18 +174,23 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
             compoundTag.putBoolean("Scout", false);
 
         }
+        super.addAdditionalSaveData(compoundTag);
+
     }
 
 
     public void readAdditionalSaveData(CompoundTag compoundTag) {
-        super.readAdditionalSaveData(compoundTag);
 
         this.isCaster = compoundTag.getBoolean("Caster");
         this.isScout = compoundTag.getBoolean("Scout");
+        super.readAdditionalSaveData(compoundTag);
 
     }
 
-
+    @Override
+    public int getHeadRotSpeed() {
+        return 9999999;
+    }
 
     protected boolean isImmuneToZombification() {
         return true;
@@ -213,16 +209,26 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     public boolean isCustomNameVisible() {
         return false;
     }
+    @Override
+    public void aiStep() {
+        updateSwingTime();
 
+        super.aiStep();
+    }
     @Override
     public void tick() {
         super.tick();
+
+
         if(this instanceof SpinAttack || this instanceof ColdAttack){
             return;
         }
+        if (this.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).isPresent()) {
+            this.lookAt(this.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET).get(), 999, 999);
+        }
         if(homecount2 > 1000){
-            this.playSound(SoundEvents.CHORUS_FRUIT_TELEPORT);
-            this.discard();
+        this.playSound(SoundEvents.CHORUS_FRUIT_TELEPORT);
+        this.discard();
         }
         List<Reaver> piglins = this.getLevel().getEntities(EntityTypeTest.forClass(Reaver.class),this.getBoundingBox().inflate(32), piglin -> !piglin.getBrain().isActive(Activity.IDLE) || piglin.tickCount < 1000);
         if(piglins.isEmpty() && this.tickCount % 10 == 0){
@@ -316,29 +322,34 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     }
 
     @Override
+    protected void dropFromLootTable(DamageSource damageSource, boolean bl) {
+        if(damageSource.getEntity() instanceof Player player && player.hasEffect(ExampleModFabric.HEX.get())){
+            player.removeEffect(ExampleModFabric.HEX.get());
+        }
+        super.dropFromLootTable(damageSource, bl);
+    }
+
+    @Override
     public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType mobSpawnType) {
         return super.checkSpawnRules(levelAccessor, mobSpawnType);
     }
 
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
-        if(damageSource.getDirectEntity() instanceof Player player && this.swingTime >= 8 && this.swingTime < 12){
-            SoundHelper.playSoundEvent(this.getLevel(),this,SoundEvents.ANVIL_LAND,1,0.8F);
-            this.knockback(1D,-this.getX()+damageSource.getDirectEntity().getX(),-this.getZ()+damageSource.getDirectEntity().getZ());
-            this.swingTime = 18;
-            this.swinging = false;
-            this.isstopped = true;
-            return false;
+        if(damageSource.getDirectEntity() instanceof Player player && this.isScout() && this.getHealth()/this.getMaxHealth() <= 0.5 && this.getMainHandItem().isEmpty()){
+           this.equipItemIfPossible(new ItemStack(Spellblades.entries.get(this.random.nextInt(Spellblades.entries.size())).item()));
         }
         return super.hurt(damageSource, f);
 
     }
+
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 50.0D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 4.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
     }
     protected void updateSwingTime() {
         int i = 18;
+
         if (this.swinging) {
             ++this.swingTime;
             if (this.swingTime >= i) {
@@ -354,6 +365,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     @Override
     public void swing(InteractionHand interactionHand, boolean bl) {
         if (!this.swinging || this.swingTime >= 18 || this.swingTime < 0) {
+
             this.swingTime = -1;
             this.swinging = true;
             this.swingingArm = interactionHand;
@@ -422,6 +434,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
             event.getController().setAnimation(asdf3);
             this.secondattack = false;
             this.swinging = false;
+
             return PlayState.CONTINUE;
         }
         return PlayState.CONTINUE;
@@ -430,15 +443,13 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
-        if (this.getOffers().isEmpty() || !this.isScout()) {
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        if (this.getOffers().isEmpty() || !this.getMainHandItem().isEmpty()) {
+            return InteractionResult.FAIL;
         } else {
-            if (!this.level.isClientSide) {
                 this.setTradingPlayer(player);
-                this.openTradingScreen(player, this.getDisplayName(), 1);
-            }
+                this.openTradingScreen(player, Component.translatable("Protection comes at a price"), 1);
 
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
     }
 
@@ -480,6 +491,11 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     }
 
     @Override
+    public Component getDisplayName() {
+        return super.getDisplayName();
+    }
+
+    @Override
     public void setTradingPlayer(@Nullable Player player) {
         this.tradingplayer = player;
     }
@@ -493,7 +509,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     @Override
     public MerchantOffers getOffers() {
         MerchantOffers offers = new MerchantOffers();
-        ItemStack offering = new ItemStack(SpellbladeNext.OFFERING.get());
+        ItemStack offering = new ItemStack(ExampleModFabric.OFFERING.get());
         offers.add(new MerchantOffer(
                 new ItemStack(SpellbladeNext.RUNEBLAZEPLATING.get(),8),
                 offering,10,8,0.02F));
@@ -551,7 +567,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
         OptionalInt optionalInt = player.openMenu(new SimpleMenuProvider((ix, inventory, playerx) -> {
             return new MerchantMenu(ix, inventory, this);
         }, component));
-        if (optionalInt.isPresent() && this.isScout()) {
+        if (optionalInt.isPresent() && this.getMainHandItem().isEmpty()) {
             MerchantOffers merchantOffers = this.getOffers();
             if (!merchantOffers.isEmpty()) {
                 player.sendMerchantOffers(optionalInt.getAsInt(), merchantOffers, i, this.getVillagerXp(), this.showProgressBar(), this.canRestock());

@@ -7,24 +7,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.spell_engine.api.item.ConfigurableAttributes;
-import net.spell_engine.api.item.StaffItem;
+
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.config.ItemConfig;
-import net.spellbladenext.items.spellblades.Claymores;
-import net.spellbladenext.items.spellblades.Spellblade;
+import net.spellbladenext.fabric.config.ItemConfig;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public class Orbs {
 

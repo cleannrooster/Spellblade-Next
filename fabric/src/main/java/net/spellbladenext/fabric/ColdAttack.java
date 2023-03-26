@@ -16,6 +16,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -122,6 +124,11 @@ public class ColdAttack extends Reaver implements InventoryCarrier, IAnimatable 
     }
     private Spell.ProjectileData projectileData() {
         return this.level.isClientSide ? this.clientSyncedData : this.spell.release.target.projectile;
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
+        return InteractionResult.FAIL;
     }
 
     @Override

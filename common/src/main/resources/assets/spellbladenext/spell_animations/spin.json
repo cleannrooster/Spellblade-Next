@@ -3,7 +3,7 @@
     "author": "",
     "description": "",
     "emote":{
-        "isLoop": "true",
+        "isLoop": "false",
         "returnTick": 0,
         "beginTick":0,
         "endTick":160,

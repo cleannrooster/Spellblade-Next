@@ -2,12 +2,17 @@ package net.spellbladenext.fabric.items;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.behavior.RandomSwim;
+import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.monster.Drowned;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -15,13 +20,17 @@ import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.spell_engine.api.item.ConfigurableAttributes;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.UUID;
 
-public class RunicArmor extends ArmorItem {
+public class RunicArmor extends ArmorItem implements ConfigurableAttributes {
     protected final EquipmentSlot slot;
     private static final UUID[] ARMOR_MODIFIER_UUID_PER_SLOT = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 
@@ -29,9 +38,7 @@ public class RunicArmor extends ArmorItem {
     private final float toughness;
     protected final float knockbackResistance;
     protected final ArmorMaterial material;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    private final Multimap<Attribute, AttributeModifier> attributeModifiers;
-
+    private Multimap<Attribute, AttributeModifier> defaultModifiers;
     private final MagicSchool magicschool;
     private final EquipmentSlot equipmentslot;
 
@@ -48,15 +55,7 @@ public class RunicArmor extends ArmorItem {
         DispenserBlock.registerBehavior(this, DISPENSE_ITEM_BEHAVIOR);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uUID = ARMOR_MODIFIER_UUID_PER_SLOT[equipmentSlot.getIndex()];
-        builder.put(Attributes.ARMOR, new AttributeModifier(uUID, "Armor modifier", (double)this.defense, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uUID, "Armor toughness", (double)this.toughness, AttributeModifier.Operation.ADDITION));
-        if (armorMaterial == ArmorMaterials.NETHERITE) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uUID, "Armor knockback resistance", (double)this.knockbackResistance, AttributeModifier.Operation.ADDITION));
-        }
-        builder.put(SpellAttributes.POWER.get(magicSchool).attribute, new AttributeModifier(uUID, "Armor Fire Power", 0.25, AttributeModifier.Operation.MULTIPLY_BASE));
         this.defaultModifiers = builder.build();
-        this.attributeModifiers = builder.build();
-
     }
 
     public MagicSchool getMagicschool() {
@@ -67,8 +66,6 @@ public class RunicArmor extends ArmorItem {
     @Override
     public ItemStack getDefaultInstance() {
         ItemStack item = new ItemStack(this);
-        item.addAttributeModifier(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[equipmentslot.getIndex()], "Armor modifier", (double)this.defense, AttributeModifier.Operation.ADDITION),equipmentslot);
-        item.addAttributeModifier(SpellAttributes.POWER.get(getMagicschool()).attribute,  new AttributeModifier(ARMOR_MODIFIER_UUID_PER_SLOT[equipmentslot.getIndex()], "Armor Fire Power", 2, AttributeModifier.Operation.ADDITION),equipmentslot);
 
         return item;
     }
@@ -108,9 +105,15 @@ public class RunicArmor extends ArmorItem {
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
         return equipmentSlot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
     }
-
+    public void setAttributes(Multimap<Attribute, AttributeModifier> attributes) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        // builder.putAll(super.getAttributeModifiers(this.slot));
+        System.out.println(attributes);
+        builder.putAll(attributes);
+        this.defaultModifiers = builder.build();
+    }
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        return slot == this.slot ? this.attributeModifiers : super.getDefaultAttributeModifiers(slot);
+        return slot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
     }
 }
