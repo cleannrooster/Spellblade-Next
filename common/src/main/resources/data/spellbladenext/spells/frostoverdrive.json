@@ -94,6 +94,6 @@
   ],
   "cost": {
     "item_id": "runes:frost_stone",
-    "cooldown_duration": 1
+    "cooldown_duration": 2
   }
 }

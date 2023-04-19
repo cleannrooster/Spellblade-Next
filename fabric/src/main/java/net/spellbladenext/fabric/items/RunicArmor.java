@@ -103,6 +103,9 @@ public class RunicArmor extends ArmorItem implements ConfigurableAttributes {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+        if (defaultModifiers == null) {
+            return super.getDefaultAttributeModifiers(equipmentSlot);
+        }
         return equipmentSlot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
     }
     public void setAttributes(Multimap<Attribute, AttributeModifier> attributes) {
@@ -112,8 +115,5 @@ public class RunicArmor extends ArmorItem implements ConfigurableAttributes {
         builder.putAll(attributes);
         this.defaultModifiers = builder.build();
     }
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        return slot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
-    }
+
 }

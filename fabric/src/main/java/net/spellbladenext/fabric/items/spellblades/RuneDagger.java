@@ -64,7 +64,7 @@ import static net.spellbladenext.fabric.ExampleModFabric.DIREHEX;
 
 public class RuneDagger extends SwordItem implements ConfigurableAttributes {
     private Multimap<Attribute, AttributeModifier> attributes;
-
+    private final EquipmentSlot slot = EquipmentSlot.MAINHAND;
     public RuneDagger(Tier material, Multimap<Attribute, AttributeModifier> attributes, Item.Properties settings, ArrayList<ItemConfig.SpellAttribute> school) {
         super(material,1,material.getAttackDamageBonus(),  settings);
 
@@ -162,10 +162,9 @@ public class RuneDagger extends SwordItem implements ConfigurableAttributes {
 
         return f + i;
     }
-
     @Override
     public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand interactionHand) {
-        if(!player.getCooldowns().isOnCooldown(this)) {
+        if(!player.getCooldowns().isOnCooldown(this) && !player.isShiftKeyDown()) {
             if(livingEntity instanceof Mob mob){
                 mob.setTarget(null);
             }
@@ -176,11 +175,12 @@ public class RuneDagger extends SwordItem implements ConfigurableAttributes {
             float f1 = player.getYRot() + 180;
             float f2 = player.xRotO;
             float f3 = player.yRotO + 180;
-            player.setXRot(f);
-            player.setYRot(f1);
-            player.xRotO = f2;
-            player.yRotO = f3;
-            player.hurtMarked = true;
+
+                player.setXRot(f);
+                player.setYRot(f1);
+                player.xRotO = f2;
+                player.yRotO = f3;
+                player.hurtMarked = true;
 
             player.teleportTo(vec3.x, vec3.y, vec3.z);
 

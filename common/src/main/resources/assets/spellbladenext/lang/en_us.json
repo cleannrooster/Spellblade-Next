@@ -60,8 +60,8 @@
   "item.spellbladenext.rune_dagger": "Primordial Dagger",
 
 
-  "itemGroup.spellbladenext.example_tab": "Spellblade Next",
-  "itemGroup.spellbladenext.example_tab.name": "Spellblade Next",
+  "itemGroup.spellbladenext.example_tab": "Spellblades and Such",
+  "itemGroup.spellbladenext.example_tab.name": "Spellblades and Such",
   "spell.spellbladenext.backstab.name": "Sneak Attack",
   "spell.spellbladenext.backstab.description": "Passive: Attacks from behind are Sneak Attacks, which always crit with triggered spells. Active: Interact with an enemy to teleport behind them and deliver a Sneak Attack.",
   "spell.spellbladenext.steelblade.name": "Pure Steel",
@@ -74,14 +74,14 @@
   "spell.spellbladenext.frozenblade.description": "Passive: Deal {damage} extra frost damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
 
   "spell.spellbladenext.inferno.name": "Inferno",
-  "spell.spellbladenext.inferno.description": "Passive: You deal 100% of your fire attribute as damage on hit. Active: Spin in a direction, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
+  "spell.spellbladenext.inferno.description": "Passive: You deal 100% of your fire attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
   "spell.spellbladenext.cyclone.name": "Cyclone",
-  "spell.spellbladenext.cyclone.description": "Passive: You deal 100% of your frost attribute as damage on hit. Active: Spin in a direction, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
+  "spell.spellbladenext.cyclone.description": "Passive: You deal 100% of your frost attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
 
   "spell.spellbladenext.maelstrom.name": "Maelstrom",
-  "spell.spellbladenext.maelstrom.description": "Passive: You deal 100% of your arcane attribute as damage on hit. Active: Spin in a direction, dealing {damage} arcane damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
+  "spell.spellbladenext.maelstrom.description": "Passive: You deal 100% of your arcane attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} arcane damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
   "spell.spellbladenext.coldfury.name": "Frost Flurry",
   "spell.spellbladenext.coldfury.description": "Project a frozen statue in the direction you are facing, which stops after a certain distance or when it collides with something, dealing {damage} frost damage repeatedly.",
@@ -100,16 +100,16 @@
   "spell.spellbladenext.arcaneoverdrive.description": "Perform a nova, dealing {damage} arcane damage to enemies around you, and giving yourself a stacking attack speed buff. Can be triggered on hit.",
 
   "spell.spellbladenext.fireinfusion.name": "Flame Infusion",
-  "spell.spellbladenext.fireinfusion.description": "Passive: You deal 2/3 of your fire attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 fire attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+  "spell.spellbladenext.fireinfusion.description": "Passive: You deal 2/3 of your fire attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 fire attribute buff. This buff stacks and refreshes on hit up to 3 times.",
 
   "spell.spellbladenext.frostinfusion.name": "Frost Infusion",
-  "spell.spellbladenext.frostinfusion.description": "Passive: You deal 2/3 of your frost attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 frost attribute buff. This buff stacks and refreshes on hit, up to 3 times.",
+  "spell.spellbladenext.frostinfusion.description": "Passive: You deal 2/3 of your frost attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 frost attribute buff. This buff stacks and refreshes on hit, up to 3 times.",
 
   "spell.spellbladenext.arcaneinfusion.name": "Arcane Infusion",
-  "spell.spellbladenext.arcaneinfusion.description": "Passive: You deal 2/3 of your arcane attribute as damage on hit. Active: Infuse your sword, gaining a stacking +2 arcane attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+  "spell.spellbladenext.arcaneinfusion.description": "Passive: You deal 2/3 of your arcane attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 arcane attribute buff. This buff stacks and refreshes on hit up to 3 times.",
 
   "spell.spellbladenext.magic_missile.name": "Magic Missile",
-  "spell.spellbladenext.magic_missile.description": "Shoot a projectile that shortly splits into three homing projectiles. These projectiles target the three closest enemies if no target is chosen. Each projectile deals {damage} damage.",
+  "spell.spellbladenext.magic_missile.description": "Shoot a projectile that shortly splits into three homing projectile. These projectiles target the three closest enemies if no target is chosen. Each projectile deals {damage} damage.",
 
   "spell.spellbladenext.shadeslash.name": "Arcane Twinslash",
   "spell.spellbladenext.shadeslash.description": "Slash around you at your location as well as at the targeted location, dealing {damage} arcane damage per slash.",

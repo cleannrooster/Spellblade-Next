@@ -4,8 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.spell_engine.api.spell.Spell;
@@ -32,6 +31,9 @@ public class RunicBoon extends MobEffect {
             return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, livingEntity, target2));
         };
         List<Entity> targets = livingEntity.getLevel().getEntities(livingEntity,livingEntity.getBoundingBox().inflate(6),selectionPredicate);
+        targets.removeIf(asdf -> asdf instanceof AgeableMob);
+        targets.removeIf(asdf -> asdf instanceof TamableAnimal);
+        targets.removeIf(asdf -> asdf instanceof OwnableEntity);
         if(!livingEntity.getLevel().isClientSide()) {
             if (livingEntity instanceof Player player ) {
                 Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "fireoverdrive"));

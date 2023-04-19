@@ -21,7 +21,7 @@ public class LootHelper {
                 var chance = group.chance > 0 ? group.chance : 1F;
                 LootPool.Builder lootPoolBuilder = LootPool.lootPool();
                 lootPoolBuilder.setRolls(BinomialDistributionGenerator.binomial(1, chance));
-                lootPoolBuilder.setBonusRolls(ConstantValue.exactly(1.2F * chance));
+                lootPoolBuilder.setBonusRolls(ConstantValue.exactly(group.bonus_roll_chance));
                 for (var entryId: group.ids) {
                     var item = SpellbladeItems.entries.get(entryId);
                     if (item == null) { continue; }

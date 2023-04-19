@@ -115,12 +115,10 @@ public class Robes extends ArmorItem implements IAnimatable, DyeableLeatherItem,
 
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+        if (defaultModifiers == null) {
+            return super.getDefaultAttributeModifiers(equipmentSlot);
+        }
         return equipmentSlot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        return slot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
     }
 
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);

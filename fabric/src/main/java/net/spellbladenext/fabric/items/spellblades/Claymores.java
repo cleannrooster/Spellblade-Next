@@ -1,6 +1,9 @@
 package net.spellbladenext.fabric.items.spellblades;
 
 import com.google.common.collect.Multimap;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.item.v1.FabricItemStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.spell_engine.api.item.ConfigurableAttributes;
@@ -68,8 +72,9 @@ public class Claymores extends SwordItem implements ConfigurableAttributes {
 
                 //particleMultiplier = power.criticalDamage() + (double)vulnerability.criticalDamageBonus();
                 target.invulnerableTime = 0;
-
-                target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
+                if(EnchantmentHelper.getEnchantments(stack).keySet().stream().noneMatch(asdf -> asdf.getDescriptionId().contains("void"))) {
+                    target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
+                }
                 switch (actualSchool) {
                     case FIRE -> {
                         if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:fireoverdrive")){

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,8 +49,6 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
         return this.school;
     }
 
-
-
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         for(ItemConfig.SpellAttribute school: this.getMagicSchools().stream().toList()) {
@@ -68,8 +67,9 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
 
                 //particleMultiplier = power.criticalDamage() + (double)vulnerability.criticalDamageBonus();
                 target.invulnerableTime = 0;
-
-                target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
+                if(EnchantmentHelper.getEnchantments(stack).keySet().stream().noneMatch(asdf -> asdf.getDescriptionId().contains("void"))) {
+                    target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
+                }
                 switch (actualSchool) {
                     case FIRE -> {
                         if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:fireoverdrive")){

@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "id": "spellbladenext",
   "version": "${version}",
-  "name": "Spellblade Next",
+  "name": "Spellblades and Such",
   "description": "Addon for Spell Engine",
   "authors": [
-    "Me!"
+    "cleannrooster!"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://legacy.curseforge.com/minecraft/mc-mods/spellblade-next",
+    "sources": "https://github.com/cleannrooster/Spellblade-Next"
   },
   "license": "MIT License",
   "icon": "assets/spellbladenext/icon.png",

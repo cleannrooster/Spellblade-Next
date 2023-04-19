@@ -54,6 +54,9 @@ public class InquisitorSet extends ArmorItem implements IAnimatable, Configurabl
 
     @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+        if (defaultModifiers == null) {
+            return super.getDefaultAttributeModifiers(equipmentSlot);
+        }
         return equipmentSlot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
     }
     public void setAttributes(Multimap<Attribute, AttributeModifier> attributes) {
@@ -63,10 +66,7 @@ public class InquisitorSet extends ArmorItem implements IAnimatable, Configurabl
         builder.putAll(attributes);
         this.defaultModifiers = builder.build();
     }
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
-        return slot == this.slot ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
-    }
+
 
     public AnimationFactory factory = GeckoLibUtil.createFactory(this);
     @Override
