@@ -228,6 +228,22 @@
                 }
             },
             {
+                "tick":11,
+                "easing": "EASEOUTQUAD",
+                "turn": 0,
+                "leftItem":{
+                    "z":-7
+                }
+            },
+            {
+                "tick":11,
+                "easing": "EASEOUTQUAD",
+                "turn": 0,
+                "rightItem":{
+                    "z":-7
+                }
+            },
+            {
                 "tick":20,
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
@@ -355,6 +371,7 @@
                     "yaw":0.3909537196159363
                 }
             },
+
             {
                 "tick":5,
                 "easing": "EASEINQUAD",

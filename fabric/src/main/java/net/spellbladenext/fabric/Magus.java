@@ -227,6 +227,9 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
 
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
+        if(f > 999999){
+            return super.hurt(damageSource,f);
+        }
         if(damageSource.getEntity() instanceof LivingEntity living && EnchantmentHelper.getEnchantmentLevel(Enchantments.SMITE, living) > 0) {
             this.entityData.set(modifier, this.entityData.get(modifier)+1);
         }

@@ -80,7 +80,6 @@ public class Hex extends MobEffect {
             Optional<BlockPos> pos = BlockPos.findClosestMatch(player.blockPosition(),64,128,
                     asdf -> player.getLevel().getBlockState(asdf).getBlock().equals(HEXBLADE));
             if(pos.isPresent()){
-                player.sendSystemMessage(Component.translatable("Your triumph is respected."));
                 return;
             }
             if(!player.getInventory().hasAnyMatching(itemStack -> itemStack.is(ExampleModFabric.OFFERING.get()))){

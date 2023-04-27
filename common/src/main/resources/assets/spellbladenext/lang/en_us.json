@@ -100,13 +100,13 @@
   "spell.spellbladenext.arcaneoverdrive.description": "Perform a nova, dealing {damage} arcane damage to enemies around you, and giving yourself a stacking attack speed buff. Can be triggered on hit.",
 
   "spell.spellbladenext.fireinfusion.name": "Flame Infusion",
-  "spell.spellbladenext.fireinfusion.description": "Passive: You deal 2/3 of your fire attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 fire attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+  "spell.spellbladenext.fireinfusion.description": "Passive: You deal 2/3 of your fire attribute on hit. Can crit. Active: Infuse your sword, gaining a stacking +2 fire attribute buff. This buff stacks and refreshes on hit up to 3 times.",
 
   "spell.spellbladenext.frostinfusion.name": "Frost Infusion",
-  "spell.spellbladenext.frostinfusion.description": "Passive: You deal 2/3 of your frost attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 frost attribute buff. This buff stacks and refreshes on hit, up to 3 times.",
+  "spell.spellbladenext.frostinfusion.description": "Passive: You deal 2/3 of your frost attribute on hit. Can crit. Active: Infuse your sword, gaining a stacking +2 frost attribute buff. This buff stacks and refreshes on hit, up to 3 times.",
 
   "spell.spellbladenext.arcaneinfusion.name": "Arcane Infusion",
-  "spell.spellbladenext.arcaneinfusion.description": "Passive: You deal 2/3 of your arcane attribute on hit. Can crit. Nullified by void enchantments. Active: Infuse your sword, gaining a stacking +2 arcane attribute buff. This buff stacks and refreshes on hit up to 3 times.",
+  "spell.spellbladenext.arcaneinfusion.description": "Passive: You deal 2/3 of your arcane attribute on hit. Can crit. Active: Infuse your sword, gaining a stacking +2 arcane attribute buff. This buff stacks and refreshes on hit up to 3 times.",
 
   "spell.spellbladenext.magic_missile.name": "Magic Missile",
   "spell.spellbladenext.magic_missile.description": "Shoot a projectile that shortly splits into three homing projectile. These projectiles target the three closest enemies if no target is chosen. Each projectile deals {damage} damage.",

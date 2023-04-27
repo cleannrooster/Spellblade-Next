@@ -67,9 +67,7 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
 
                 //particleMultiplier = power.criticalDamage() + (double)vulnerability.criticalDamageBonus();
                 target.invulnerableTime = 0;
-                if(EnchantmentHelper.getEnchantments(stack).keySet().stream().noneMatch(asdf -> asdf.getDescriptionId().contains("void"))) {
                     target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
-                }
                 switch (actualSchool) {
                     case FIRE -> {
                         if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:fireoverdrive")){
