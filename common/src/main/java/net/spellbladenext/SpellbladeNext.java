@@ -105,6 +105,7 @@ public class SpellbladeNext {
     public static final RegistrySupplier<MobEffect> RUNICABSORPTION = MOBEFFECTS.register("runic_absorption", () -> new RunicAbsorption(MobEffectCategory.BENEFICIAL, 0x994000));
     public static final RegistrySupplier<MobEffect> RUNICBOON = MOBEFFECTS.register("runic_boon", () -> new RunicBoon(MobEffectCategory.BENEFICIAL, 0x994000));
 
+
     public static final RegistrySupplier<Item> RUNEBLAZEPLATING = ITEMS.register("runeblazing_ingot", () ->
             new Item(new Item.Properties().tab(EXAMPLE_TAB)));
     public static RegistrySupplier<Item> RUNEGLINTPLATING = ITEMS.register("runegleaming_ingot", () ->

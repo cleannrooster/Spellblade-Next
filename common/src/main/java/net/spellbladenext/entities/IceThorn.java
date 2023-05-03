@@ -138,9 +138,7 @@ public class IceThorn extends SpellProjectile implements ItemSupplier {
             if(!list.isEmpty()){
                 this.target = list.get(this.random.nextInt(list.toArray().length));
             }
-            /*AABB aabb = this.getBoundingBox().inflate(8,8,8).move(8*this.getOwner().getViewVector(1).x(),8*this.getOwner().getViewVector(1).y(),8*this.getOwner().getViewVector(1).z());
-            List<LivingEntity> list = this.getLevel().getEntitiesOfClass(LivingEntity.class,aabb, asdf -> FriendshipBracelet.PlayerFriendshipPredicate(living,asdf) && TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL,living,asdf) &&  asdf.distanceToSqr(aabb.getCenter()) < 8*8);
-            */
+
             if(!list.isEmpty()) {
                 if(Registry.SOUND_EVENT.get(new ResourceLocation("spell_engine", "generic_frost_release")) != null) {
                     this.getLevel().playSound((Player) null, this.getX(), this.getY(), this.getZ(), Registry.SOUND_EVENT.get(new ResourceLocation("spell_engine", "generic_frost_release")), this.getOwner().getSoundSource(), 1F, 1.0F);

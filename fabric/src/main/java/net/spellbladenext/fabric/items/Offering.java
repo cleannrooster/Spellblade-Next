@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.spellbladenext.fabric.ExampleModFabric;
+import net.spellbladenext.fabric.SpellbladesFabric;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class Offering extends Item{
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int i, boolean bl) {
         if(entity instanceof Player player){
-            if(player.hasEffect(ExampleModFabric.HEX.get())){
-                player.removeEffect(ExampleModFabric.HEX.get());
+            if(player.hasEffect(SpellbladesFabric.HEX.get())){
+                player.removeEffect(SpellbladesFabric.HEX.get());
             }
         }
         super.inventoryTick(itemStack, level, entity, i, bl);
@@ -31,8 +31,8 @@ public class Offering extends Item{
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        if(player.hasEffect(ExampleModFabric.HEX.get())){
-            player.removeEffect(ExampleModFabric.HEX.get());
+        if(player.hasEffect(SpellbladesFabric.HEX.get())){
+            player.removeEffect(SpellbladesFabric.HEX.get());
             return InteractionResultHolder.consume(player.getItemInHand(interactionHand));
 
         }

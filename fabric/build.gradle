@@ -36,8 +36,8 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation  "maven.modrinth:better-combat:1.6.1+1.19-fabric"
-    modImplementation(files("../fabric/run/mods/geckolib-fabric-1.19-3.1.38.jar"))
-    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.15+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/geckolib-fabric-1.19-3.1.40.jar"))
+    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.16+1.19.jar"))
     modImplementation(files("../fabric/run/mods/spell_power-fabric-0.9.8+1.19.jar"))
     modImplementation(files("../fabric/run/mods/runes-fabric-0.9.4+1.19.jar"))
     modImplementation(files("../fabric/run/mods/fabric-carpet-1.19.2-1.4.84+v221018.jar"));

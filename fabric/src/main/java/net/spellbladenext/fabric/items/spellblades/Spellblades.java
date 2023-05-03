@@ -183,29 +183,11 @@ public class Spellblades {
         }
     }
 
-    // MARK: Wands
 
     private static final float wandAttackDamage = 2;
     private static final float wandAttackSpeed = -2.4F;
 
 
- /*   public static final Entry noviceWand = wand("wand_novice",
-            Material.matching(Tiers.WOOD, () -> Ingredient.of(Items.STICK)))
-            .add(ItemConfig.SpellAttribute.bonus(Attributes.POWER.get(MagicSchool.FIRE), 1));
-    public static final Entry arcaneWand = wand("wand_arcane",
-            Material.matching(Tiers.IRON, () -> Ingredient.of(Items.GOLD_INGOT)))
-            .add(ItemConfig.SpellAttribute.bonus(Attributes.POWER.get(MagicSchool.ARCANE), 2));
-    public static final Entry fireWand = wand("wand_fire",
-            Material.matching(Tiers.IRON, () -> Ingredient.of(Items.GOLD_INGOT)))
-            .add(ItemConfig.SpellAttribute.bonus(Attributes.POWER.get(MagicSchool.FIRE), 2));
-    public static final Entry frostWand = wand("wand_frost",
-            Material.matching(Tiers.IRON, () -> Ingredient.of(Items.IRON_INGOT)))
-            .add(ItemConfig.SpellAttribute.bonus(Attributes.POWER.get(MagicSchool.FROST), 2));
-*/
-    // MARK: Staves
-
-    private static final float staffAttackDamage = 2;
-    private static final float staffAttackSpeed = -2.4F;
     private static Entry entry(String name, Material material, ItemConfig.Weapon defaults) {
         return entry(null, name, material, defaults);
     }
@@ -270,9 +252,6 @@ public class Spellblades {
                 config = entry.defaults;
                 configs.put(entry.name(), config);
             };
-
-            //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
-            var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
             var item = entry.item;
 
             ((ConfigurableAttributes)item).setAttributes(attributesFrom(config));
@@ -285,8 +264,6 @@ public class Spellblades {
                 configs.put(entry.name(), config);
             };
 
-            //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
-            var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
             var item = entry.item();
             ((ConfigurableAttributes)item).setAttributes(attributesFrom(config));
             Registry.register(Registry.ITEM, entry.id(), item);
@@ -298,8 +275,6 @@ public class Spellblades {
                 configs.put(entry.name(), config);
             };
 
-            //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
-            var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
             var item = entry.item;
 
             ((ConfigurableAttributes)item).setAttributes(attributesFrom(config));

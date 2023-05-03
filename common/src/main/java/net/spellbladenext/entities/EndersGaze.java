@@ -142,9 +142,9 @@ public class EndersGaze extends SpellProjectile implements ItemSupplier {
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();
                     area.angle_degrees = 360;
                     List<Entity> list = TargetHelper.targetsFromArea(this, this.position(),4F, area,  selectionPredicate);
-                    list.removeIf(asdf -> asdf instanceof EndersGaze);
+                    list.removeIf(entity -> entity instanceof EndersGaze);
                     if(this.target != null) {
-                        list.removeIf(asdf -> asdf == this.target);
+                        list.removeIf(entity -> entity == this.target);
                     }
 
                     this.target = getNearestEntity(list, TargetingConditions.forNonCombat(), living, this.getX(), this.getY(), this.getZ());

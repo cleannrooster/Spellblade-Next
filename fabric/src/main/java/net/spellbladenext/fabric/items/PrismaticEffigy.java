@@ -10,10 +10,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
-import net.spellbladenext.fabric.ExampleModFabric;
-import net.spellbladenext.fabric.Magus;
-import net.spellbladenext.fabric.piglinsummon;
+import net.spellbladenext.fabric.SpellbladesFabric;
+import net.spellbladenext.fabric.entities.Magus;
+import net.spellbladenext.fabric.invasions.piglinsummon;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class PrismaticEffigy extends Item {
             for (int i = 0; i < 10; i++) {
                 BlockPos vec3 = piglinsummon.getSafePositionAroundPlayer(level, player.getOnPos(), 10);
                 if (vec3 != null && !level.isClientSide()) {
-                    Magus magus = new Magus(ExampleModFabric.MAGUS, level);
+                    Magus magus = new Magus(SpellbladesFabric.MAGUS, level);
                     magus.setPos(vec3.getX(), vec3.getY(), vec3.getZ());
                     if (!player.isCreative()) {
                         player.getItemInHand(interactionHand).shrink(1);

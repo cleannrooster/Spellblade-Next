@@ -140,7 +140,7 @@ public class IcicleBarrierEntity extends SpellProjectile implements ItemSupplier
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();
             area.angle_degrees = 360;
             List<Entity> entities = this.getLevel().getEntitiesOfClass(Entity.class,this.getBoundingBox().inflate(1),selectionPredicate);
-            entities.removeIf(asdf -> asdf == this);
+            entities.removeIf(entity -> entity == this);
             if (!entities.isEmpty()) {
                 if (this.power != null && this.spell != null && this.context != null) {
                     for (Entity target : entities) {

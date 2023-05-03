@@ -83,12 +83,12 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "apply_to_caster": true,
           "apply_mode": "ADD",
           "duration": 5,
           "amplifier": 2,
           "effect_id": "spellbladenext:frostoverdrive"
-        }
+        },
+        "apply_to_caster": true
       }
     }
   ],

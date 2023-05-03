@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.spellbladenext.fabric.ExampleModFabric"
+      "net.spellbladenext.fabric.SpellbladesFabric"
     ],
     "client": [
-      "net.spellbladenext.fabric.ExampleModFabricClient"
+      "net.spellbladenext.fabric.SpellbladesFabricClient"
     ]
   },
   "mixins": [
@@ -32,7 +32,7 @@
     "runes": ">=0.9.4",
     "player-animator": ">=1.0.0",
     "spell_power": ">=0.9.8",
-    "spell_engine": ">=0.9.15",
+    "spell_engine": ">=0.9.16",
     "geckolib3": ">=3.1.38"
 
   }

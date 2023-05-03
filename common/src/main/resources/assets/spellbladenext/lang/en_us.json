@@ -1,6 +1,8 @@
 {
   "entity.spellbladenext.reaver": "Hexblade Reaver",
   "entity.spellbladenext.magus": "Magus",
+  "entity.spellbladenext.monkeyclone": "Trickster Clone",
+
   "block.spellbladenext.hex": "The Hexblade",
   "item.spellbladenext.example_item": "Example Item",
   "item.spellbladenext.spellblade": "Target",
@@ -58,10 +60,22 @@
   "item.spellbladenext.bandofpacifism": "Band of Pacifism",
 
   "item.spellbladenext.rune_dagger": "Primordial Dagger",
+  "item.spellbladenext.monkeystaff": "Pillar of the Monkey King",
 
 
   "itemGroup.spellbladenext.example_tab": "Spellblades and Such",
   "itemGroup.spellbladenext.example_tab.name": "Spellblades and Such",
+  "spell.spellbladenext.monkeyreflect.name": "Cloud Barrier",
+  "spell.spellbladenext.monkeyreflect.description": "Spin up a barrier of clouds and smoke, dealing heavy knockback and minor damage to nearby enemies, and reflecting nearby incoming projectiles.",
+
+  "spell.spellbladenext.monkeyspin.name": "Monkey King's Reckoning",
+  "spell.spellbladenext.monkeyspin.description": "Spin, dealing {damage} physical damage per second to enemies.",
+  "spell.spellbladenext.monkeyslam.name": "Subjugate",
+  "spell.spellbladenext.monkeyslam.description": "Perform an overhead strike, dealing {damage} physical damage.",
+  "spell.spellbladenext.splitleft.name": "Trickster Clone",
+  "spell.spellbladenext.splitleft.description": "Shed a part of yourself and gain the Invisible effect for 8 seconds. This clone lasts 16 seconds, gains half your attack damage, attacks enemies you have attacked within the last 8 seconds, and follows your gaze when it has no target.",
+
+
   "spell.spellbladenext.backstab.name": "Sneak Attack",
   "spell.spellbladenext.backstab.description": "Passive: Attacks from behind are Sneak Attacks, which always crit with triggered spells. Active: Interact with an enemy to teleport behind them and deliver a Sneak Attack.",
   "spell.spellbladenext.steelblade.name": "Pure Steel",
@@ -189,6 +203,7 @@
   "effect.spellbladenext.melted": "Ashen",
   "effect.spellbladenext.runic_boon": "Primordial Boon",
   "effect.spellbladenext.direhex": "Sneak Attack",
+  "effect.spellbladenext.splitleft": "Split",
 
   "entity.spellbladenext.amethyst": "Arcane Amethyst",
   "entity.spellbladenext.amethyst2": "Arcane Amethyst",

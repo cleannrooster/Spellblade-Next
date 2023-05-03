@@ -1,7 +1,6 @@
 package net.spellbladenext.fabric.mixin;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,9 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.entity.SpellProjectile;
@@ -25,10 +22,8 @@ import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.entities.AmethystEntity;
 import net.spellbladenext.entities.AmethystEntity2;
 import net.spellbladenext.entities.EndersGaze;
-import net.spellbladenext.entities.EndersGazeEntity;
-import net.spellbladenext.fabric.ColdAttack;
-import net.spellbladenext.fabric.ExampleModFabric;
-import net.spellbladenext.fabric.SpinAttack;
+import net.spellbladenext.fabric.entities.ColdAttack;
+import net.spellbladenext.fabric.entities.ai.SpinAttack;
 import net.spellbladenext.items.FriendshipBracelet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static net.spellbladenext.fabric.ExampleModFabric.*;
+import static net.spellbladenext.fabric.SpellbladesFabric.*;
 
 @Mixin(ServerLevel.class)
 public class SpellMixin {

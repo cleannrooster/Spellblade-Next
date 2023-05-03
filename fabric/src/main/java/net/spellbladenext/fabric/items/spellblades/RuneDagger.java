@@ -1,21 +1,14 @@
 package net.spellbladenext.fabric.items.spellblades;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import dev.kosmx.playerAnim.core.util.Vec3d;
-import net.bettercombat.api.EntityPlayer_BetterCombat;
-import net.bettercombat.api.MinecraftClient_BetterCombat;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,44 +16,31 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.item.ConfigurableAttributes;
-import net.spell_engine.api.item.weapon.StaffItem;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.internals.SpellCast;
 import net.spell_engine.internals.SpellContainerHelper;
 import net.spell_engine.internals.SpellHelper;
 import net.spell_engine.internals.SpellRegistry;
-import net.spell_engine.mixin.ItemStackMixin;
-import net.spell_engine.utils.TargetHelper;
-import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
-import net.spell_power.api.SpellDamageSource;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.attributes.EntityAttributes_SpellPower;
-import net.spell_power.api.attributes.SpellAttributes;
-import net.spellbladenext.SpellbladeNext;
-import net.spellbladenext.fabric.ExampleModFabric;
 import net.spellbladenext.fabric.config.ItemConfig;
-import net.spellbladenext.items.FriendshipBracelet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static net.spell_power.api.SpellPower.getCriticalChance;
 import static net.spell_power.api.SpellPower.getCriticalMultiplier;
 import static net.spellbladenext.SpellbladeNext.MOD_ID;
-import static net.spellbladenext.fabric.ExampleModFabric.DIREHEX;
+import static net.spellbladenext.fabric.SpellbladesFabric.DIREHEX;
 
 public class RuneDagger extends SwordItem implements ConfigurableAttributes {
     private Multimap<Attribute, AttributeModifier> attributes;

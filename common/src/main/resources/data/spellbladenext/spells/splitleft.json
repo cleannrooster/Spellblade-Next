@@ -1,0 +1,63 @@
+{
+  "school": "PHYSICAL_MELEE",
+  "range": 6,
+  "learn": {
+    "tier": 0
+  },
+  "cast": {
+    "duration": 0,
+    "animation": "spell_engine:two_handed_channeling",
+    "sound": {
+      "id": "spell_engine:generic_frost_casting",
+      "randomness": 0
+    }
+  },
+  "release": {
+    "target": {
+      "type": "SELF",
+      "area": {
+        "vertical_range_multiplier": 0.5
+      }
+    },
+    "particles": [
+      {
+        "particle_id": "smoke",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 130.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "cloud",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 130.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
+    "sound": {
+      "id": "minecraft:entity.illusioner.cast_spell"
+    },
+    "animation": "spellbladenext:splitleft"
+
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "apply_mode": "ADD",
+          "duration": 1,
+          "amplifier": 0,
+          "effect_id": "spellbladenext:splitleft"
+        },
+        "apply_to_caster": true
+      }
+    }
+  ],
+  "cost": {
+    "cooldown_duration": 4
+  }
+}

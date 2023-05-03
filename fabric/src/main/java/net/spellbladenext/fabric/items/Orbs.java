@@ -205,7 +205,6 @@ public class Orbs {
             }
             ;
 
-            //entry.defaults().spell_attributes.removeIf(asdf -> Arrays.stream(MagicSchool.values()).noneMatch(asdf2 -> asdf2.toString().toLowerCase().equals(asdf.name)));
             var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
             var item = entry.item();
             ((ConfigurableAttributes) item).setAttributes(attributesFrom(config));

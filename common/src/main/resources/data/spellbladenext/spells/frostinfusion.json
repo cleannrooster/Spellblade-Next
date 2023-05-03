@@ -56,12 +56,12 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "apply_to_caster": true,
           "apply_mode": "ADD",
           "duration": 8,
           "amplifier": 2,
           "effect_id": "spellbladenext:frostinfusion"
-        }
+        },
+        "apply_to_caster": true
       }
     }
   ],

@@ -93,18 +93,14 @@ public class Eruption extends SpellProjectile implements FlyingSpellEntity, Item
                         cleansingFlameEntity.spell = this.getSpell();
                         cleansingFlameEntity.setOwner(this.getOwner());
                         cleansingFlameEntity.setPos(vec3.add(-4 + 8 * this.random.nextDouble(), -4 + 8 * this.random.nextDouble(), -4 + 8 * this.random.nextDouble()));
-                        int asdf = this.random.nextInt(2);
-                        int asdf2 = -1;
-                        if (asdf == 0) {
-                            asdf2 = 1;
-                        }
+                        int sign = this.random.nextBoolean() ? 1 : -1;
                         cleansingFlameEntity.life = 20;
                         cleansingFlameEntity.setXRot(this.getXRot());
                         cleansingFlameEntity.setYRot(this.getYRot());
                         if(vertical == 1)
-                        cleansingFlameEntity.shootFromRotation(this, -cleansingFlameEntity.getXRot() + 90 * vertical * asdf2, cleansingFlameEntity.getYRot() + 90 * horizontal * asdf2, 0, 1, 0);
+                        cleansingFlameEntity.shootFromRotation(this, -cleansingFlameEntity.getXRot() + 90 * vertical * sign, cleansingFlameEntity.getYRot() + 90 * horizontal * sign, 0, 1, 0);
                         if(horizontal == 1)
-                            cleansingFlameEntity.shootFromRotation(this, 0, cleansingFlameEntity.getYRot() + 90 * horizontal * asdf2, 0, 1, 0);
+                            cleansingFlameEntity.shootFromRotation(this, 0, cleansingFlameEntity.getYRot() + 90 * horizontal * sign, 0, 1, 0);
 
                         cleansingFlameEntity.setDeltaMovement(cleansingFlameEntity.getDeltaMovement().subtract(this.getDeltaMovement()));
 

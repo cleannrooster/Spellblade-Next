@@ -43,9 +43,9 @@ public class Orb extends StaffItem implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event){
-        AnimationBuilder asdf2 = new AnimationBuilder();
-        asdf2.getRawAnimationList().add(IDLE);
-        event.getController().setAnimation(asdf2);
+        AnimationBuilder anim = new AnimationBuilder();
+        anim.getRawAnimationList().add(IDLE);
+        event.getController().setAnimation(anim);
         return PlayState.CONTINUE;
     }
     @Override

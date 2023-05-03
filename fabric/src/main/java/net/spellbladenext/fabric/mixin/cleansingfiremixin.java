@@ -43,7 +43,7 @@ public class cleansingfiremixin {
                 area.angle_degrees = 360;
                 List<Entity> entities = TargetHelper.targetsFromArea(player, player.getEyePosition(),4F, area,  selectionPredicate);
                 entities.removeIf(Entity::isInvulnerable);
-                entities.removeIf(asdf -> !player.hasLineOfSight(asdf));
+                entities.removeIf(entity1 -> !player.hasLineOfSight(entity1));
 
 
                 Object[] entitiesarray = entities.toArray();
@@ -67,7 +67,6 @@ public class cleansingfiremixin {
                     //entities.remove(living2);
 
                 }
-                ParticleBatch[] asdf = new ParticleBatch[2];
                 ParticleHelper.sendBatches(spellProjectile.getOwner(),spellProjectile.getSpell().release.particles);
 
                 info.cancel();

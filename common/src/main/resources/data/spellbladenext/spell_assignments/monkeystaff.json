@@ -1,0 +1,5 @@
+{
+  "pool": "spellbladenext:monkeystaff",
+  "max_spell_count": 4,
+  "spell_ids": [ "spellbladenext:splitleft","spellbladenext:monkeyslam", "spellbladenext:monkeyspin", "spellbladenext:monkeyreflect"]
+}

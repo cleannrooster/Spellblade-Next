@@ -1,6 +1,8 @@
 package net.spellbladenext.fabric.items;
 
 import net.minecraft.world.item.Item;
+import net.spellbladenext.fabric.items.armors.Armors;
+import net.spellbladenext.fabric.items.armors.RunicArmor;
 import net.spellbladenext.fabric.items.spellblades.Spellblades;
 
 import java.util.HashMap;
@@ -36,6 +38,5 @@ public class SpellbladeItems {
             }
 
         }
-        System.out.println("asdf " + entries);
     }
 }

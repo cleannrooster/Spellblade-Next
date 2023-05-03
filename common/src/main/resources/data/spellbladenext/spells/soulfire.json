@@ -53,12 +53,12 @@
       "action": {
         "type": "STATUS_EFFECT",
         "status_effect": {
-          "apply_to_caster": true,
           "apply_mode": "ADD",
           "duration": 30,
           "amplifier": 10,
           "effect_id": "spellbladenext:soulflame"
-        }
+        },
+        "apply_to_caster": true
       }
     }
   ],

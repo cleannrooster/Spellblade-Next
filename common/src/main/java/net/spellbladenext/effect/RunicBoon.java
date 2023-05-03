@@ -31,9 +31,9 @@ public class RunicBoon extends MobEffect {
             return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, livingEntity, target2));
         };
         List<Entity> targets = livingEntity.getLevel().getEntities(livingEntity,livingEntity.getBoundingBox().inflate(6),selectionPredicate);
-        targets.removeIf(asdf -> asdf instanceof AgeableMob);
-        targets.removeIf(asdf -> asdf instanceof TamableAnimal);
-        targets.removeIf(asdf -> asdf instanceof OwnableEntity);
+        targets.removeIf(entity -> entity instanceof AgeableMob);
+        targets.removeIf(entity -> entity instanceof TamableAnimal);
+        targets.removeIf(entity -> entity instanceof OwnableEntity);
         if(!livingEntity.getLevel().isClientSide()) {
             if (livingEntity instanceof Player player ) {
                 Spell spell = SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID, "fireoverdrive"));

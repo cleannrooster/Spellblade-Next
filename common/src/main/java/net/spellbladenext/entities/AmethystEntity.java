@@ -165,36 +165,6 @@ public class AmethystEntity extends AbstractArrow implements ItemSupplier {
                 vec33 = hitresult.getLocation();
                 this.discard();
             }
-
-            /*if(this.getOwner() instanceof Player player) {
-                List<Entity> entity = this.getLevel().getEntitiesOfClass(Entity.class, this.getBoundingBox().expandTowards(this.getDeltaMovement()),asdf -> asdf != this.getOwner());
-                if(!entity.isEmpty() && ((int) (i/4)) < entity.toArray().length){
-                    AmethystEntity2 amethystEntity2 = new AmethystEntity2(ExampleMod.AMETHYST2,this.getLevel(),player);
-                    Vec3 vec31 = (entity.get(i)).position().subtract(this.position()).normalize();
-                    amethystEntity2.shoot(vec31.x,vec31.y,vec31.z,2,0);
-                    this.getLevel().addFreshEntity(amethystEntity2);
-                    i++;
-                }
-            }*/
-/*
-            if (hitresult != null && hitresult.getType() != HitResult.Type.MISS ) {
-                if(hitresult.getType() == HitResult.Type.BLOCK) {
-                    this.inGround = true;
-                    this.setDeltaMovement(Vec3.ZERO);
-                    if(this.getLevel() instanceof ServerLevel serverLevel) {
-
-                        for (ServerPlayer player1 : serverLevel.players()
-                        ) {
-                        }
-                    }
-                    this.discard();
-                }
-                else {
-                    this.onHit(hitresult);
-                    this.hasImpulse = true;
-                }
-            }*/
-
         }
         if(this.getOwner() instanceof Player player && !this.getLevel().isClientSide()) {
             if (this.tickCount == 20) {
@@ -211,47 +181,6 @@ public class AmethystEntity extends AbstractArrow implements ItemSupplier {
                 }
             }
         }
-        /*        List<AmethystEntity> same = this.getLevel().getEntitiesOfClass(AmethystEntity.class,this.getBoundingBox().inflate(16), asdf1 -> asdf1.getOwner() == this.getOwner());
-                List<LivingEntity> entities = this.getLevel().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(16), asdf -> {
-                    if (asdf.hasLineOfSight(this)) {
-                        List<AmethystEntity> same2 = List.copyOf(same);
-                        Stream<AmethystEntity> same3 = same2.stream().filter(same1 ->
-                                same1.target == asdf);
-                        return same3.toArray().length < 4;
-                    }
-                    else{
-                        return false;
-                    }
-                });
-                if (!entities.isEmpty()) {
-                    LivingEntity entity = this.getLevel().getNearestEntity(entities, TargetingConditions.forCombat(), player, this.getX(), this.getY(), this.getZ());
-                    if (entity != null) {
-                        this.target = entity;
-                        this.setDeltaMovement(entity.position().add(new Vec3(0, entity.getBoundingBox().getYsize() / 2, 0)).subtract(this.getEyePosition()).normalize().multiply(3, 3, 3));
-                    }
-                    else {
-                        if(player.getLevel() instanceof ServerLevel serverLevel) {
-
-                            for (ServerPlayer player1 : serverLevel.players()
-                            ) {
-                            }
-                        }
-                        this.discard();
-                    }
-                }
-                else{
-                    if(player.getLevel() instanceof ServerLevel serverLevel) {
-
-                        for (ServerPlayer player1 : serverLevel.players()
-                        ) {
-                        }
-                    }
-
-                    this.discard();
-                }
-
-            }
-        }*/
     }
     @Override
     protected ItemStack getPickupItem() {

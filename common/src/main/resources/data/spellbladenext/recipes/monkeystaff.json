@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "D": {
+      "item": "minecraft:stripped_mangrove_wood"
+    },
+    "A": {
+      "item": "minecraft:totem_of_undying"
+    }
+  },
+  "pattern": [
+    "  A",
+    " D ",
+    "A  "
+  ],
+  "result": {
+    "item": "spellbladenext:monkeystaff"
+  }
+}
