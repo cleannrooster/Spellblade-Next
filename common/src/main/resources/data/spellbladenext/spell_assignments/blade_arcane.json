@@ -1,5 +1,5 @@
 {
   "pool": "spellbladenext:spellblade_arcane",
   "max_spell_count": 3,
-  "spell_ids": [ "spellbladenext:arcaneinfusion" ]
+  "spell_ids": [ "spellbladenext:arcaneinfusion"]
 }

@@ -37,10 +37,12 @@ dependencies {
     }
     modImplementation  "maven.modrinth:better-combat:1.6.1+1.19-fabric"
     modImplementation(files("../fabric/run/mods/geckolib-fabric-1.19-3.1.40.jar"))
-    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.16+1.19.jar"))
-    modImplementation(files("../fabric/run/mods/spell_power-fabric-0.9.8+1.19.jar"))
-    modImplementation(files("../fabric/run/mods/runes-fabric-0.9.4+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/spell_engine-fabric-0.9.17+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/spell_power-fabric-0.9.12+1.19.jar"))
+    modImplementation(files("../fabric/run/mods/runes-fabric-0.9.8+1.19.jar"))
     modImplementation(files("../fabric/run/mods/fabric-carpet-1.19.2-1.4.84+v221018.jar"));
+    modImplementation(files("../fabric/run/mods/trinkets-3.4.2.jar"));
+
     shadowCommon(implementation("com.github.ZsoltMolnarrr:TinyConfig:${project.tiny_config_version}"))
     implementation("com.github.LlamaLad7:MixinExtras:0.1.1")
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")

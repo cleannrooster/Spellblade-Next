@@ -1,0 +1,89 @@
+{
+  "school": "FIRE",
+  "range": 8,
+  "learn": {
+    "tier": 2
+  },
+  "cast": {
+    "duration": 1,
+    "animation": "spell_engine:two_handed_channeling",
+    "sound": {
+      "id": "spell_engine:generic_fire_casting",
+      "randomness": 0
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:flame",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 8.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "smoke",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 8.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ]
+  },
+  "release": {
+    "target": {
+      "type": "CURSOR"
+    },
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    },
+    "animation": "spell_engine:one_handed_area_release"
+
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 0,
+          "spell_power_coefficient": 0.6
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:flame",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 15,
+          "min_speed": 0.2,
+          "max_speed": 0.7
+        },
+        {
+          "particle_id": "minecraft:smoke",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 10,
+          "min_speed": 0.05,
+          "max_speed": 0.2
+        }
+      ]
+
+    },
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "apply_mode": "ADD",
+          "duration": 10,
+          "amplifier": 255,
+          "effect_id": "spellbladenext:risingflames"
+        },
+        "apply_to_caster": true
+      }
+    }
+  ],
+  "cost": {
+    "item_id": "runes:fire_stone",
+    "cooldown_duration": 0.5
+  }
+}

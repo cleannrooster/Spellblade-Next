@@ -1,9 +1,19 @@
 package net.spellbladenext.fabric.entities;
 
+import dev.kosmx.playerAnim.core.util.Vec3d;
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -15,16 +25,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EndPortalBlock;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.SpellbladesFabric;
 import net.spellbladenext.fabric.items.spellblades.Spellblade;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class netherPortal extends FallingBlockEntity {
     public Player owner;
@@ -37,6 +54,7 @@ public class netherPortal extends FallingBlockEntity {
     public netherPortal(EntityType<netherPortal> netherPortalFrameEntityType, Level level) {
         super(netherPortalFrameEntityType, level);
     }
+    private static ResourceKey<Level> cachedOriginDimension;
 
     @Override
     public boolean canBeCollidedWith() {
@@ -136,8 +154,52 @@ public class netherPortal extends FallingBlockEntity {
 
 
     @Override
-    public void tick() {
+    public void playerTouch(Player player) {
+        ResourceKey<Level> resourceKey = player.level.dimension().equals(SpellbladeNext.DIMENSIONKEY) ? Level.OVERWORLD : SpellbladeNext.DIMENSIONKEY;
+        if(player.getCommandSenderWorld().isClientSide()){
+            return;
+        }
+        ServerLevel serverWorld = player.getCommandSenderWorld().getServer().getLevel(resourceKey);
+        if(serverWorld == null){
+            return;
+        }
+        if(this.distanceTo(player) > 0.5){
+            return;
+        }
+        if(player.isOnPortalCooldown())
+            return;
+        player.setPortalCooldown();
+                if (resourceKey == SpellbladeNext.DIMENSIONKEY) {
+                    PortalInfo target = new PortalInfo(
+                            new Vec3(0,150,0),
+                            Vec3.ZERO,
+                            0.0F,
+                            0.0F
+                    );
+                    FabricDimensions.teleport(player,serverWorld, target);
+                }
+                if (player instanceof ServerPlayer serverPlayer && resourceKey == Level.OVERWORLD) {
+                    PortalInfo target;
+                    if(serverPlayer.getRespawnPosition() != null) {
+                        target = new PortalInfo(
+                                Vec3.atCenterOf(serverPlayer.getRespawnPosition()),
+                                Vec3.ZERO,
+                                0.0F,
+                                0.0F
+                        );                    }
+                    else{
+                        target = new PortalInfo(
+                                Vec3.atCenterOf(serverWorld.getSharedSpawnPos()),
+                                Vec3.ZERO,
+                                0.0F,
+                                0.0F
+                        );                      }
+                    FabricDimensions.teleport(player,serverWorld, target);
+                }
+    }
 
+    @Override
+    public void tick() {
         if(this.ishome && this.spawn){
             List<Reaver> piglins = this.getLevel().getEntities(EntityTypeTest.forClass(Reaver.class),this.getBoundingBox().inflate(48),piglin -> piglin.returninghome);
             for(Reaver piglin : piglins){
@@ -153,19 +215,12 @@ public class netherPortal extends FallingBlockEntity {
         }
         this.setNoGravity(true);
         this.noPhysics = true;
-        if(tickCount < 20){
+        if(tickCount < 20 && !this.getLevel().isClientSide()){
             this.setPos(this.position().add(0,6F/20F,0));
         }
         else if(this.spawn && this.tickCount < 100 && this.tickCount % 10 == 5 && !this.ishome){
-            ArrayList<ItemStack> spellblades = new ArrayList<ItemStack>();
-            for(Item item : Registry.ITEM.stream().toList()){
-                if(item instanceof Spellblade){
-                    spellblades.add(new ItemStack(item));
-                }
-            }
-            ItemStack spellblade = spellblades.get(this.random.nextInt(spellblades.size()));
             Reaver piglin = new Reaver(SpellbladesFabric.REAVER,this.getLevel());
-            piglin.equipItemIfPossible(spellblade);
+            piglin.equipItemIfPossible(new ItemStack(Spellblades.entries.get(this.random.nextInt(Spellblades.entries.size())).item()));
             piglin.setPos(this.position());
             if(firstPiglin){
                 piglin.isleader = true;
@@ -183,14 +238,14 @@ public class netherPortal extends FallingBlockEntity {
             this.getLevel().addFreshEntity(piglin);
             firstPiglin = false;
         }
-        if(tickCount > 220 && !this.ishome){
+        if(tickCount > 220 && !this.ishome && !this.getLevel().isClientSide()){
             this.setPos(this.position().add(0,-6F/20F,0));
 
         }
-        if(tickCount > 240 && !this.ishome){
+        if(tickCount > 240  && !this.getLevel().isClientSide()){
             this.discard();
         }
-        if(this.ishome && this.getLevel().getNearestEntity(Reaver.class, TargetingConditions.forNonCombat().ignoreLineOfSight(),null,this.origin.getX(),this.origin.getY(),this.origin.getZ(),this.getBoundingBox().inflate(32)) == null){
+        if(this.ishome && !this.getLevel().isClientSide() && this.getLevel().getNearestEntity(Reaver.class, TargetingConditions.forNonCombat().ignoreLineOfSight(),null,this.origin.getX(),this.origin.getY(),this.origin.getZ(),this.getBoundingBox().inflate(32)) == null){
             goinghome = true;
             this.setPos(this.position().add(0,-6F/20F,0));
 
@@ -198,7 +253,7 @@ public class netherPortal extends FallingBlockEntity {
         if(goinghome){
             hometicks++;
         }
-        if(this.hometicks > 20 && this.ishome){
+        if(this.hometicks > 20 && this.ishome && !this.getLevel().isClientSide()){
             this.discard();
         }
 

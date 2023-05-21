@@ -1,0 +1,5 @@
+{
+  "is_proxy": true,
+  "max_spell_count": 3,
+  "spell_ids": [ "spellbladenext:frostslam", "spellbladenext:frostborn" ]
+}

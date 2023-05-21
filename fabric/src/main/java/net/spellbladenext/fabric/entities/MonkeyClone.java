@@ -18,10 +18,12 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.spellbladenext.fabric.SpellbladesFabric;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -45,12 +47,14 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
     public static final EntityDataAccessor<ItemStack> CHEST;
     public static final EntityDataAccessor<ItemStack> LEGS;
     public static final EntityDataAccessor<ItemStack> FEET;
+    public static final EntityDataAccessor<Boolean> SLAMMING;
 
     static {
         HEAD = SynchedEntityData.defineId(MonkeyClone.class, EntityDataSerializers.ITEM_STACK);
         CHEST = SynchedEntityData.defineId(MonkeyClone.class, EntityDataSerializers.ITEM_STACK);
         LEGS = SynchedEntityData.defineId(MonkeyClone.class, EntityDataSerializers.ITEM_STACK);
         FEET = SynchedEntityData.defineId(MonkeyClone.class, EntityDataSerializers.ITEM_STACK);
+        SLAMMING = SynchedEntityData.defineId(MonkeyClone.class, EntityDataSerializers.BOOLEAN);
 
     }
     public MonkeyClone(EntityType<? extends PathfinderMob> entityType, Level level, Player owner) {
@@ -60,6 +64,7 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         this.entityData.set(CHEST,owner.getItemBySlot(EquipmentSlot.CHEST));
         this.entityData.set(LEGS,owner.getItemBySlot(EquipmentSlot.LEGS));
         this.entityData.set(FEET,owner.getItemBySlot(EquipmentSlot.FEET));
+        this.entityData.set(SLAMMING,false);
 
     }
     protected void defineSynchedData() {
@@ -67,13 +72,15 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         this.entityData.define(CHEST, ItemStack.EMPTY);
         this.entityData.define(LEGS, ItemStack.EMPTY);
         this.entityData.define(FEET, ItemStack.EMPTY);
+        this.entityData.define(SLAMMING, false);
+
         super.defineSynchedData();
     }
     public MonkeyClone(EntityType<? extends PathfinderMob> entityType, Level level) {
         super(entityType, level);
     }
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 20.00D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 1.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 20.00D).add(Attributes.MOVEMENT_SPEED, 0.4499999940395355D).add(Attributes.ATTACK_DAMAGE, 1.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
     }
     public static final RawAnimation ATTACK = new RawAnimation("animation.extendedrendererentity.staffswing", ILoopType.EDefaultLoopTypes.PLAY_ONCE);
 
@@ -84,7 +91,6 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         }
 
     }
-
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
         if( this.getOwner() != null && damageSource.getEntity() == this.getOwner()){
@@ -126,6 +132,8 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         if(this.getOwner() != null) {
             compoundTag.putUUID("Owner", this.getOwner().getUUID());
         }
+        compoundTag.putBoolean("slamming",this.getEntityData().get(SLAMMING));
+
         super.addAdditionalSaveData(compoundTag);
 
     }
@@ -243,9 +251,11 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         if (!head.isEmpty()) {
             this.entityData.set(FEET, feet);
         }
+
         if (compoundTag.contains("Owner")) {
             this.owneruuid =  compoundTag.getUUID("Owner");
         }
+        this.entityData.set(SLAMMING,compoundTag.getBoolean("slamming"));
         super.readAdditionalSaveData(compoundTag);
 
     }
@@ -268,6 +278,38 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
         Vec3 vec32 = getInputVector(vec3, f, owner.getYRot());
         this.setDeltaMovement(this.getDeltaMovement().add(vec32));
     }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        if(entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(SpellbladesFabric.SLAMTARGET.get())){
+            f *= 6;
+        }
+        float g = (float)this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        if (entity instanceof LivingEntity) {
+            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity)entity).getMobType());
+            g += (float)EnchantmentHelper.getKnockbackBonus(this);
+        }
+
+        int i = EnchantmentHelper.getFireAspect(this);
+        if (i > 0) {
+            entity.setSecondsOnFire(i * 4);
+        }
+
+        boolean bl = entity.hurt(DamageSource.mobAttack(this), f);
+        if (bl) {
+            if (g > 0.0F && entity instanceof LivingEntity) {
+                ((LivingEntity)entity).knockback((double)(g * 0.5F), (double)Mth.sin(this.getYRot() * 0.017453292F), (double)(-Mth.cos(this.getYRot() * 0.017453292F)));
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+            }
+
+
+            this.doEnchantDamageEffects(this, entity);
+            this.setLastHurtMob(entity);
+        }
+
+        return bl;    }
+
     @Override
     public void tick() {
      /*   if(this.getOwner() != null && this.getOwner() instanceof Player player && this.tickCount <= 10){
@@ -278,6 +320,11 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
                 moveRelative(player,(float) player.getAttribute(Attributes.MOVEMENT_SPEED).getValue(), new Vec3(1, 0, 0));
             }
         }*/
+        if(this.getTarget() != null){
+            boolean bool = this.getTarget().hasEffect(SpellbladesFabric.SLAMTARGET.get());
+            this.entityData.set(SLAMMING,bool);
+        }
+
         if(this.tickCount > 320 && !this.getLevel().isClientSide()){
             this.discard();
         }
@@ -296,13 +343,19 @@ public class MonkeyClone extends PathfinderMob implements InventoryCarrier, IAni
     public static final RawAnimation WALK = new RawAnimation("animation.extendedrendererentity.walk", ILoopType.EDefaultLoopTypes.LOOP);
     public static final RawAnimation IDLE = new RawAnimation("animation.extendedrendererentity.new", ILoopType.EDefaultLoopTypes.LOOP);
     public static final RawAnimation ROLL = new RawAnimation("animation.extendedrendererentity.roll", ILoopType.EDefaultLoopTypes.PLAY_ONCE);
+    public static final RawAnimation SLAM = new RawAnimation("animation.extendedrendererentity.slam", ILoopType.EDefaultLoopTypes.PLAY_ONCE);
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
         boolean second = this.random.nextBoolean();
         if(this.swinging) {
             event.getController().markNeedsReload();
             AnimationBuilder anim = new AnimationBuilder();
-            anim.getRawAnimationList().add(ATTACK);
+            if(this.getEntityData().get(SLAMMING)) {
+                anim.getRawAnimationList().add(SLAM);
+            }
+            else{
+                anim.getRawAnimationList().add(ATTACK);
+            }
             event.getController().setAnimation(anim);
             this.swinging = false;
             return PlayState.CONTINUE;

@@ -15,12 +15,17 @@
     "VerticalMixin",
     "TNTmixin",
     "AirMixin",
-    "EntityMixin"
+    "EntityMixin",
+    "NaturalSpawnerMixin",
+    "PlayerMixin"
 
 
 
   ],
   "client": [
+    "EntityRenderDispatcherMixin",
+    "InteractMixin"
+
   ],
   "injectors": {
     "defaultRequire": 1

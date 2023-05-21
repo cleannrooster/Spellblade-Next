@@ -1,4 +1,4 @@
-package net.spellbladenext.fabric.entities;
+package net.spellbladenext.fabric.entities.ai;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -15,8 +15,8 @@ import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.GameRules;
-import net.spellbladenext.fabric.entities.ai.MagusJumpBack;
-import net.spellbladenext.fabric.entities.ai.MeleeAttack;
+import net.minecraft.world.scores.Team;
+import net.spellbladenext.fabric.entities.Magus;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class MagusAI {
 
         public MagusAI() {
         }
-        protected static Brain<?> makeBrain(Magus magus, Brain<Magus> brain) {
+        public static Brain<?> makeBrain(Magus magus, Brain<Magus> brain) {
             initCoreActivity(magus, brain);
             initIdleActivity(magus, brain);
             initFightActivity(magus, brain);
@@ -58,6 +58,7 @@ public class MagusAI {
             brain.addActivity(Activity.IDLE, 10, ImmutableList.of(new RunIf<Magus>(magus -> !magus.isthinking,new StartAttacking<Magus>(MagusAI::findNearestValidAttackTarget)), createIdleLookBehaviors(), createIdleMovementBehaviors(), new SetLookAndInteract(EntityType.PLAYER, 4)));
         }
 
+
         private static void initFightActivity(Magus magus1, Brain<Magus> brain) {
             brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new StopAttackingIfTargetInvalid<Magus>((livingEntity) -> {
                 return !isNearestValidAttackTarget(magus1, (LivingEntity) livingEntity);
@@ -72,7 +73,7 @@ public class MagusAI {
             return new RunOne(ImmutableList.of(Pair.of(new RandomStroll(0.6F), 2), Pair.of(InteractWith.of(EntityType.PIGLIN, 8, MemoryModuleType.INTERACTION_TARGET, 0.6F, 2), 2), Pair.of(InteractWith.of(EntityType.PIGLIN_BRUTE, 8, MemoryModuleType.INTERACTION_TARGET, 0.6F, 2), 2), Pair.of(new StrollToPoi(MemoryModuleType.HOME, 0.6F, 2, 100), 2), Pair.of(new StrollAroundPoi(MemoryModuleType.HOME, 0.6F, 5), 2), Pair.of(new DoNothing(30, 60), 1)));
         }
 
-        protected static void updateActivity(Magus magus) {
+        public static void updateActivity(Magus magus) {
             Brain<?> brain = magus.getBrain();
             Activity activity = (Activity)brain.getActiveNonCoreActivity().orElse((Activity) null);
             //System.out.println(activity);

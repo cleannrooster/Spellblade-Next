@@ -1,11 +1,30 @@
 {
+  "dimension.spellbladenext.glassocean": "Glass Ocean",
+
   "entity.spellbladenext.reaver": "Hexblade Reaver",
   "entity.spellbladenext.magus": "Magus",
+  "entity.spellbladenext.archmagus": "Archmagus",
+
   "entity.spellbladenext.monkeyclone": "Trickster Clone",
 
   "block.spellbladenext.hex": "The Hexblade",
   "item.spellbladenext.example_item": "Example Item",
   "item.spellbladenext.spellblade": "Target",
+  "item.spellbladenext.starforge": "Starforge",
+  "item.spellbladenext.firestarter": "Spirit Stick",
+  "item.spellbladenext.mulberry": "Spirit Sword",
+  "item.spellbladenext.holysymbol": "Holy Symbol",
+  "item.spellbladenext.warriorone_spell_book": "One-Handed Warrior",
+  "item.spellbladenext.warriortwo_spell_book": "Two-Handed Warrior",
+  "item.spellbladenext.warriorpolearm_spell_book": "Polearm Warrior",
+
+  "item.spellbladenext.juggone_spell_book": "One-Handed Juggernaut",
+  "item.spellbladenext.juggtwo_spell_book": "Two-Handed Juggernaut",
+  "item.spellbladenext.duelist_spell_book": "Duelist",
+  "item.spellbladenext.acrobat_spell_book": "Acrobat",
+  "item.spellbladenext.orb_fire_spell_book": "Flame Source",
+  "item.spellbladenext.orb_frost_spell_book": "Frost Source",
+  "item.spellbladenext.orb_arcane_spell_book": "Arcane Source",
 
   "item.spellbladenext.blade_arcane": "Arcane Spellblade",
   "item.spellbladenext.blade_fire": "Flaming Spellblade",
@@ -58,6 +77,7 @@
   "item.spellbladenext.nullifying_arcane_totem": "Nullifying Totem of the Arcane",
 
   "item.spellbladenext.bandofpacifism": "Band of Pacifism",
+  "item.spellbladenext.frostborn_gavel": "Frostborn Gavel",
 
   "item.spellbladenext.rune_dagger": "Primordial Dagger",
   "item.spellbladenext.monkeystaff": "Pillar of the Monkey King",
@@ -65,13 +85,26 @@
 
   "itemGroup.spellbladenext.example_tab": "Spellblades and Such",
   "itemGroup.spellbladenext.example_tab.name": "Spellblades and Such",
-  "spell.spellbladenext.monkeyreflect.name": "Cloud Barrier",
-  "spell.spellbladenext.monkeyreflect.description": "Spin up a barrier of clouds and smoke, dealing heavy knockback and minor damage to nearby enemies, and reflecting nearby incoming projectiles.",
+  "spell.spellbladenext.righteousfervor.name": "Divinity",
+  "spell.spellbladenext.righteousfervor.description": "Buff yourself to make your non holy spells deal an additional 25% of their damage as holy damage, which can't be scaled further.",
+
+  "spell.spellbladenext.risingflames.name": "Rising Flames",
+  "spell.spellbladenext.risingflames.description": "Blast an enemy {damage} fire damage, stacking 5% Spell Haste and Fire Spell Power per hit.",
+
+  "spell.spellbladenext.ashes.name": "Ashes of the Stars",
+  "spell.spellbladenext.ashes.description": "Passive: Your attacks deal 100% of your arcane attribute as extra damage. While equipped, gain 1 level of Arcane Infusion for every 2 frost or fire attributes. Active: Spin, dealing {damage} arcane damage per second. Shift to stop moving.",
+
+  "spell.spellbladenext.monkeyreflect.name": "Rending Winds",
+  "spell.spellbladenext.monkeyreflect.description": "Spin up a gust of wind, dealing heavy knockback and {damage} physical damage to the target enemy, while reflecting incoming projectiles.",
+  "spell.spellbladenext.frostborn.name": "Frozen Arena",
+  "spell.spellbladenext.frostborn.description": "Conjure an arena of frost around yourself, immobolizing nearby enemies for 2 seconds or until they break free (shift).",
+  "spell.spellbladenext.frostslam.name": "Glacial Hammer",
+  "spell.spellbladenext.frostslam.description": "Perform a mighty blow with your frozen weapon, dealing {damage} frost damage.",
 
   "spell.spellbladenext.monkeyspin.name": "Monkey King's Reckoning",
   "spell.spellbladenext.monkeyspin.description": "Spin, dealing {damage} physical damage per second to enemies.",
   "spell.spellbladenext.monkeyslam.name": "Subjugate",
-  "spell.spellbladenext.monkeyslam.description": "Perform an overhead strike, dealing {damage} physical damage.",
+  "spell.spellbladenext.monkeyslam.description": "Perform a gesture of war, subjugating nearby enemies. Subjugated enemies take 6x damage from clones.",
   "spell.spellbladenext.splitleft.name": "Trickster Clone",
   "spell.spellbladenext.splitleft.description": "Shed a part of yourself and gain the Invisible effect for 8 seconds. This clone lasts 16 seconds, gains half your attack damage, attacks enemies you have attacked within the last 8 seconds, and follows your gaze when it has no target.",
 
@@ -89,6 +122,26 @@
 
   "spell.spellbladenext.inferno.name": "Inferno",
   "spell.spellbladenext.inferno.description": "Passive: You deal 100% of your fire attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
+
+  "spell.spellbladenext.2hslam.name": "Slam",
+  "spell.spellbladenext.2hslam.description": "Slam with your weapon, dealing {damage} physical damage.",
+
+  "spell.spellbladenext.1hslam.name": "Slam",
+  "spell.spellbladenext.1hslam.description": "Slam with your weapon, dealing {damage} physical damage.",
+
+  "spell.spellbladenext.riposte.name": "Riposte",
+  "spell.spellbladenext.riposte.description": "Enter a defensive stance, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals {damage} physical damage.",
+
+  "spell.spellbladenext.roll.name": "Tactical Dive",
+  "spell.spellbladenext.roll.description": "Dive forward, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals {damage} physical damage.",
+
+  "spell.spellbladenext.whirlwind.name": "Whirlwind",
+  "spell.spellbladenext.whirlwind.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
+
+  "spell.spellbladenext.dualwield_whirlwind.name": "Whirlwind",
+  "spell.spellbladenext.dualwield_whirlwind.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
+  "spell.spellbladenext.whirlwind_polearm.name": "Whirlwind",
+  "spell.spellbladenext.whirlwind_polearm.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
 
   "spell.spellbladenext.cyclone.name": "Cyclone",
   "spell.spellbladenext.cyclone.description": "Passive: You deal 100% of your frost attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
@@ -144,6 +197,9 @@
   "spell.spellbladenext.soulfire.name": "Burning Spirit",
   "spell.spellbladenext.soulfire.description": "Refresh and gain a stack of Burning Spirit for 10 seconds. Each stack of Burning Spirit gives you 1 extra fire power. When you reach over 5 stacks, you burn and take increasing fire damage per stack every second.",
 
+  "spell.spellbladenext.mulberry.name": "A Mulberry is a Tree...",
+  "spell.spellbladenext.mulberry.description": "Conjure your Spirit Sword. Gain a stack of Burning Spirit for 10 seconds.",
+
   "stat.spellbladenext.hex": "Hex",
   "stat.spellbladenext.lasthextime": "Ire",
 
@@ -189,6 +245,7 @@
 
   "effect.spellbladenext.cleansing_fire": "Flaming Aura",
   "effect.spellbladenext.fireinfusion": "Fire Infusion",
+  "effect.spellbladenext.portalsickness": "Portal Sickness",
 
   "effect.spellbladenext.arcaneinfusion": "Arcane Infusion",
   "effect.spellbladenext.runic_absorption": "Runic Aegis",
@@ -204,6 +261,13 @@
   "effect.spellbladenext.runic_boon": "Primordial Boon",
   "effect.spellbladenext.direhex": "Sneak Attack",
   "effect.spellbladenext.splitleft": "Split",
+  "effect.spellbladenext.slamtarget": "Subjugated",
+  "effect.spellbladenext.righteousfervor": "Divinity",
+  "effect.spellbladenext.risingflames": "Rising Flames",
+  "effect.spellbladenext.crash": "Ice Crash",
+  "effect.spellbladenext.spiked": "Spiked",
+  "enchantment.spellbladenext.spellshield": "Magical Rebuke",
+  "enchantment.spellbladenext.spellshield.desc": "Cast your main hand spell upon blocking direct attackers.",
 
   "entity.spellbladenext.amethyst": "Arcane Amethyst",
   "entity.spellbladenext.amethyst2": "Arcane Amethyst",

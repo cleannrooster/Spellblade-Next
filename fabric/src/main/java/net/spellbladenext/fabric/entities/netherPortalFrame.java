@@ -133,18 +133,18 @@ public class netherPortalFrame extends FallingBlockEntity {
 
         this.setNoGravity(true);
         this.noPhysics = true;
-        if(tickCount < 20){
+        if(tickCount < 20 && !this.getLevel().isClientSide()){
             this.setPos(this.position().add(0,6F/20F,0));
         }
 
-        if(tickCount > 220 && !this.ishome){
+        if(tickCount > 220 && !this.ishome && !this.getLevel().isClientSide()){
             this.setPos(this.position().add(0,-6F/20F,0));
 
         }
-        if(tickCount > 240 && !this.ishome){
+        if(tickCount > 240 && !this.getLevel().isClientSide()){
             this.discard();
         }
-        if(this.ishome && this.getLevel().getNearestEntity(Reaver.class, TargetingConditions.forNonCombat(),null,this.origin.getX(),this.origin.getY(),this.origin.getZ(),this.getBoundingBox().inflate(32)) == null){
+        if(this.ishome && !this.getLevel().isClientSide() && this.getLevel().getNearestEntity(Reaver.class, TargetingConditions.forNonCombat(),null,this.origin.getX(),this.origin.getY(),this.origin.getZ(),this.getBoundingBox().inflate(32)) == null){
             goinghome = true;
             this.setPos(this.position().add(0,-6F/20F,0));
 
@@ -152,10 +152,14 @@ public class netherPortalFrame extends FallingBlockEntity {
         if(goinghome){
             hometicks++;
         }
-        if(this.hometicks > 20 && this.ishome){
+        if(this.hometicks > 20 && this.ishome && !this.getLevel().isClientSide()){
             this.discard();
         }
         this.firstTick = false;
     }
 
+    @Override
+    public void playerTouch(Player player) {
+        super.playerTouch(player);
+    }
 }

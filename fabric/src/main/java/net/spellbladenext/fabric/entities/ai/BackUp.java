@@ -1,15 +1,20 @@
-package net.spellbladenext.fabric.entities;
+package net.spellbladenext.fabric.entities.ai;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.EntityTracker;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
+import net.spell_power.api.MagicSchool;
+import net.spell_power.api.attributes.SpellAttributes;
+import net.spellbladenext.fabric.entities.Magus;
+import net.spellbladenext.fabric.entities.Reaver;
 
 public class BackUp<E extends Mob> extends Behavior<E> {
     private final int tooCloseDistance;
@@ -22,7 +27,14 @@ public class BackUp<E extends Mob> extends Behavior<E> {
     }
 
     protected boolean checkExtraStartConditions(ServerLevel serverLevel, E mob) {
-        return this.isTargetVisible(mob) && this.isTargetTooClose(mob);
+        if(this.getTarget(mob).getAttributeValue(Attributes.ATTACK_DAMAGE) > 40 ||
+                this.getTarget(mob).getAttributeValue(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute) > mob.getMaxHealth()/2 ||
+                this.getTarget(mob).getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute) > mob.getMaxHealth()/2 ||
+                this.getTarget(mob).getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute) > mob.getMaxHealth()/2 ||
+                this.getTarget(mob).getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute) > mob.getMaxHealth()/2){
+            return true;
+        }
+        return (mob instanceof Magus || (mob instanceof Reaver reaver && reaver.isCaster())) && this.isTargetVisible(mob) && this.isTargetTooClose(mob);
     }
 
     protected void start(ServerLevel serverLevel, E mob, long l) {

@@ -14,6 +14,10 @@ public class InquisitorModel extends AnimatedGeoModel<InquisitorSet> {
         if(orb.getSlot() == EquipmentSlot.HEAD){
             if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
                 if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                    if(orb.getMagicschool().contains(MagicSchool.FROST)){
+                        return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/magebreaker.geo.json");
+
+                    }
                     return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/magebane.geo.json");
 
                 }
@@ -25,6 +29,15 @@ public class InquisitorModel extends AnimatedGeoModel<InquisitorSet> {
             return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/magebreaker.geo.json");
 
         }
+            if (orb.getMagicschool().contains(MagicSchool.ARCANE)) {
+                if (orb.getMagicschool().contains(MagicSchool.FIRE)) {
+                    if (orb.getMagicschool().contains(MagicSchool.FROST)) {
+                        return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/spectral.geo.json");
+
+                    }
+
+                }
+            }
         return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/inquisitor.geo.json");
     }
 
@@ -33,7 +46,13 @@ public class InquisitorModel extends AnimatedGeoModel<InquisitorSet> {
         if(orb.getSlot() == EquipmentSlot.HEAD){
             if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
                 if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                    if(orb.getMagicschool().contains(MagicSchool.FROST)){
+
+                        return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/spectral.png");
+
+                    }
                     return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/magebane_crown.png");
+
 
                 }
                 if(orb.getMagicschool().contains(MagicSchool.FROST)){
@@ -46,6 +65,10 @@ public class InquisitorModel extends AnimatedGeoModel<InquisitorSet> {
         }
         if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
             if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                if(orb.getMagicschool().contains(MagicSchool.FROST)){
+                    return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/spectral.png");
+
+                }
                 return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/aetherfire.png");
 
             }

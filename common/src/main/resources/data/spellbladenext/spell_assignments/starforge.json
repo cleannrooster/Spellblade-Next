@@ -1,0 +1,5 @@
+{
+  "is_proxy": true,
+  "max_spell_count": 1,
+  "spell_ids": [ "spellbladenext:ashes" ]
+}

@@ -1,64 +1,16 @@
 {
-    "name": "staffslam1",
+    "name": "two_handed_slam",
     "author": "Daedelus",
     "description": "Two handed slam attack",
     "emote":{
-        "isLoop": "true",
-        "returnTick": 7,
-        "beginTick":7,
-        "endTick":10,
-        "stopTick":12,
+        "isLoop": "false",
+        "returnTick": 2,
+        "beginTick":2,
+        "endTick":160,
+        "stopTick":170,
         "degrees":false,
         "moves":[
-            
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "y":-0.0
-                }
-            },
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "z":-0.0
-                }
-            },
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "x":-0.0
-                }
-            },
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "yaw":-0.03691282495856285
-                }
-            },
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "roll":-0.0030113363172858953
-                }
-            },
-            {
-                "tick":7,
-                "easing": "EASEINOUTQUAD",
-                "turn": 0,
-                "head":{
-                    "pitch":0.36461931467056274
-                }
-            },
+
             {
                 "tick":7,
                 "easing": "EASEINOUTQUAD",
@@ -176,7 +128,7 @@
                 "easing": "EASEINOUTQUAD",
                 "turn": 0,
                 "leftArm":{
-                    "pitch":-3.7673189640045166
+                    "pitch":0.4673189640045166
                 }
             },
             {

@@ -24,7 +24,7 @@ import software.bernie.geckolib3.util.GeckoLibUtil;
 
 import java.util.*;
 
-public class Robes extends ArmorItem implements IAnimatable, DyeableLeatherItem, ConfigurableAttributes {
+public class Robes extends ArmorItem implements IAnimatable, ConfigurableAttributes {
     protected EquipmentSlot slot;
     Attribute attribute;
     Attribute attribute2;

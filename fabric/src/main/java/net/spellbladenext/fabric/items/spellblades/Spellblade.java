@@ -1,7 +1,12 @@
 package net.spellbladenext.fabric.items.spellblades;
 
 import com.google.common.collect.Multimap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,25 +19,31 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.spell_engine.api.item.ConfigurableAttributes;
 import net.spell_engine.api.item.weapon.StaffItem;
+import net.spell_engine.api.spell.Spell;
 import net.spell_engine.internals.*;
 import net.spell_engine.utils.TargetHelper;
 import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
 import net.spell_power.api.SpellPower;
+import net.spell_power.api.attributes.SpellAttributeEntry;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.config.ItemConfig;
 import net.spellbladenext.items.FriendshipBracelet;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static net.spellbladenext.SpellbladeNext.MOD_ID;
 
 public class Spellblade extends SwordItem implements ConfigurableAttributes {
     private final ArrayList<ItemConfig.SpellAttribute> school;
@@ -183,41 +194,28 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
             return slot == EquipmentSlot.MAINHAND ? this.attributes : super.getDefaultAttributeModifiers(slot);
         }
     }
-    /*
-    @Override
+    @Environment(EnvType.CLIENT)
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
-            if((Minecraft.getInstance().player.getMainHandItem().getItem() == this || Minecraft.getInstance().player.getOffhandItem().getItem() == this)) {
-                for (ItemConfig.SpellAttribute school : this.getMagicSchools().stream().toList()) {
+
+
+        if(level != null && level.isClientSide()){
+            for(ItemConfig.SpellAttribute school : getMagicSchools()) {
+                Player caster = Minecraft.getInstance().player;
+                if(caster != null) {
+                    Multimap<Attribute, AttributeModifier> heldAttributes = caster.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND);
+                    Multimap<Attribute, AttributeModifier> itemAttributes = itemStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
+                    caster.getAttributes().removeAttributeModifiers(heldAttributes);
+                    caster.getAttributes().addTransientAttributeModifiers(itemAttributes);
+
                     MagicSchool actualSchool = MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name));
 
-                    SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) Minecraft.getInstance().player);
-                    SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
+                    int min = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).baseValue() * 0.66);
+                    int max = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).forcedCriticalValue() * 0.66);
 
-                    //SpellPower.Result power = SpellPower.getSpellPower(MagicSchool.ARCANE, (LivingEntity) this.getOwner());
-                    double amount = 2 * power.nonCriticalValue() / 3;
-                    double amount2 = 2 * power.forcedCriticalValue() / 3;
-
-                    ChatFormatting chatFormatting = ChatFormatting.GRAY;
-                    switch (actualSchool) {
-                        case FIRE -> {
-                            chatFormatting = ChatFormatting.RED;
-                        }
-                        case FROST -> {
-                            chatFormatting = ChatFormatting.AQUA;
-
-                        }
-                        case ARCANE -> {
-                            chatFormatting = ChatFormatting.DARK_PURPLE;
-                        }
-                    }
-                    MutableComponent component = Component.translatable("Adds " + amount + " to " + amount2 + " damage to attacks with this weapon.").withStyle(chatFormatting);
-                    list.add(component);
+                    list.add(Component.translatable("Attacks with this weapon deal an additional " + min + " - " + max + " " + actualSchool.name().toLowerCase() + " damage on hit.").withStyle(ChatFormatting.GRAY));
                 }
             }
-            else{
-                list.add(Component.translatable("Does additional damage on hit when equipped.").withStyle(ChatFormatting.GRAY));
-            }
-
+        }
         super.appendHoverText(itemStack, level, list, tooltipFlag);
-    }*/
+    }
 }

@@ -3,6 +3,8 @@ package net.spellbladenext.fabric.entities.ai;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -86,6 +88,7 @@ public class MagusJumpBack <E extends Magus> extends Behavior<E> {
         if(bool){
             i = -1;
         }
+        livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,5,9,false,false));
         if(this.getTarget(livingEntity).isPresent()) {
             int ii = 1;
             if(this.isTargetTooClose(livingEntity)){

@@ -12,11 +12,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.SpellbladesFabric;
 import net.spellbladenext.fabric.client.entity.model.MonkeyCloneModel;
 import net.spellbladenext.fabric.entities.MonkeyClone;
+import net.spellbladenext.fabric.items.armors.Armors;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.example.client.DefaultBipedBoneIdents;
 import software.bernie.geckolib3.core.processor.IBone;
@@ -45,10 +47,10 @@ public class MonkeyCloneRenderer<T extends MonkeyClone, M extends HumanoidModel<
                             VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float partialTicks) {
         super.renderEarly(animatable, poseStack, partialTick, bufferSource, buffer, packedLight, packedOverlay, red, green, blue, partialTicks);
         this.mainHandItem = new ItemStack(SpellbladesFabric.MONKEYSTAFF.get());
-            this.helmetItem = animatable.getEntityData().get(HEAD);
-            this.chestplateItem = animatable.getEntityData().get(CHEST);
-            this.leggingsItem = animatable.getEntityData().get(LEGS);
-            this.bootsItem = animatable.getEntityData().get(FEET);
+            this.helmetItem = new ItemStack(Armors.rimeblaze.head);
+            this.chestplateItem = new ItemStack(Items.NETHERITE_CHESTPLATE);
+            this.leggingsItem = new ItemStack(Items.NETHERITE_LEGGINGS);
+            this.bootsItem = new ItemStack(Items.NETHERITE_BOOTS);
 
 
     }

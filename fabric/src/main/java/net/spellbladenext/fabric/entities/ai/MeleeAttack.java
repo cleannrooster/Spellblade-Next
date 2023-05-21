@@ -6,12 +6,15 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ProjectileWeaponItem;
+import net.spell_power.api.MagicSchool;
+import net.spell_power.api.attributes.SpellAttributes;
 
 public class MeleeAttack  extends Behavior<Mob> {
     private final int cooldownBetweenAttacks;
@@ -23,6 +26,7 @@ public class MeleeAttack  extends Behavior<Mob> {
 
     protected boolean checkExtraStartConditions(ServerLevel serverLevel, Mob mob) {
         LivingEntity livingEntity = this.getAttackTarget(mob);
+
         return !( mob.hasCustomName() &&mob.getCustomName().equals(Component.translatable("Caster"))) && BehaviorUtils.canSee(mob, livingEntity) && mob.isWithinMeleeAttackRange(livingEntity);
     }
 

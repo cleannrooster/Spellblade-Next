@@ -7,10 +7,15 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.spell_engine.utils.TargetHelper;
 import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
+import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.client.entity.model.ReaverModel;
 import net.spellbladenext.fabric.entities.Reaver;
@@ -19,6 +24,9 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.geo.render.built.GeoBone;
 import software.bernie.geckolib3.renderers.geo.*;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CivilizedPiglinRenderer<T extends Reaver, M extends HumanoidModel<T>> extends ExtendedGeoEntityRenderer<Reaver> {
 
@@ -35,6 +43,25 @@ public class CivilizedPiglinRenderer<T extends Reaver, M extends HumanoidModel<T
     }
 
 
+    @Override
+    protected void applyRotations(Reaver animatable, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
+        List<Player> list =  animatable.getLevel().getNearbyEntities(Player.class, TargetingConditions.DEFAULT,animatable,animatable.getBoundingBox().inflate(12));
+        if(list.stream().anyMatch(livingEntity ->
+                    livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute) > animatable.getMaxHealth()/2 ||
+                    livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute) > animatable.getMaxHealth()/2 ||
+                    livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute) > animatable.getMaxHealth()/2 ||
+                    livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute) > animatable.getMaxHealth()/2)
+
+        ){
+            rotationYaw += (float) (Math.cos((double) animatable.tickCount * 3.25D) * Math.PI * (double) 0.4F);
+        }
+
+
+
+
+
+        super.applyRotations(animatable, poseStack, ageInTicks, rotationYaw, partialTick);
+    }
 
     public ResourceLocation getTextureLocation(Reaver p_114891_) {
         if(p_114891_.getMainHandItem().getItem() instanceof Spellblade spellblade){

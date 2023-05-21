@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "minecraft:gold_nugget"
+    },
+    "T": {
+      "item": "minecraft:totem_of_undying"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RTR",
+    "RRR"
+  ],
+  "result": {
+    "item": "spellbladenext:holysymbol"
+  }
+}

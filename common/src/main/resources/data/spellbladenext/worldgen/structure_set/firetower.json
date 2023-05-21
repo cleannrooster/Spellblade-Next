@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "spellbladenext:firetower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1326488450,
+
+    "spacing": 40,
+
+    "separation": 24,
+
+    "type": "minecraft:random_spread"
+  }
+}

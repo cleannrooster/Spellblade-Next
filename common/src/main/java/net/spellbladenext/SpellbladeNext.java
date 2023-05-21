@@ -7,6 +7,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registries;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -17,8 +18,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.entity.BannerPattern;
-import net.spell_engine.api.item.weapon.StaffItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.spell_engine.api.render.CustomModels;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.attributes.SpellAttributes;
@@ -39,6 +40,9 @@ public class SpellbladeNext {
             new Item(new Item.Properties()));
     public static final CreativeModeTab EXAMPLE_TAB = CreativeTabRegistry.create(new ResourceLocation(MOD_ID, "example_tab"), () ->
             new ItemStack(SPELLBLADEDUMMY.get()));
+    public static final ResourceKey<Level> DIMENSIONKEY = ResourceKey.create(Registry.DIMENSION_REGISTRY,new ResourceLocation(SpellbladeNext.MOD_ID,"glassocean"));
+
+    public static final ResourceKey<DimensionType> DIMENSION_TYPE_RESOURCE_KEY = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY,new ResourceLocation(SpellbladeNext.MOD_ID,"glassocean"));
 
     public static EntityType<AmethystEntity> AMETHYST;
 
@@ -87,7 +91,6 @@ public class SpellbladeNext {
     public static RegistrySupplier<MobEffect> ARCANEOVERDRIVE = MOBEFFECTS.register("arcaneoverdrive", () ->  new Overdrive(MobEffectCategory.BENEFICIAL,MagicSchool.ARCANE, 0x64329F).addAttributeModifier(Attributes.ATTACK_SPEED,"4abf6ee7-591f-4ff5-b36a-babf2ffe23ca",0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
     public static RegistrySupplier<MobEffect> FROSTOVERDRIVE = MOBEFFECTS.register("frostoverdrive", () ->
             new Overdrive(MobEffectCategory.BENEFICIAL,MagicSchool.FROST, 0x60939F).addAttributeModifier(Attributes.ATTACK_SPEED,"8422cbc0-a935-4992-b187-60d69dd02cba",0.2, AttributeModifier.Operation.MULTIPLY_TOTAL));
-    public static RegistrySupplier<MobEffect> SOULFIRE = MOBEFFECTS.register("soulflame", () ->  new SoulFire(MobEffectCategory.BENEFICIAL, 0xFF5A4F).addAttributeModifier(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute,"6b64d185-2b88-46c9-833e-5d1c33804eec",1, AttributeModifier.Operation.ADDITION));
     public static RegistrySupplier<MobEffect> DOUSED = MOBEFFECTS.register("doused", () -> new Infusion(MobEffectCategory.HARMFUL, 0x990000).addAttributeModifier(
             SpellAttributes.POWER.get(MagicSchool.FIRE).attribute, "de7cee4d-954a-44a0-8b85-9b72fa475336", -0.95, AttributeModifier.Operation.MULTIPLY_TOTAL));
     public static RegistrySupplier<MobEffect> INERT = MOBEFFECTS.register("inert", () -> new Infusion(MobEffectCategory.HARMFUL, 0x990000).addAttributeModifier(
@@ -136,6 +139,7 @@ public class SpellbladeNext {
 
     public static void init() {
         ITEMS.register();
+
         CustomModels.registerModelIds(List.of(new ResourceLocation(MOD_ID,"projectile/magic_missile")));
 
         Registry.register(Registry.MOB_EFFECT,new ResourceLocation(MOD_ID,"cleansing_fire"), FLAMEAURA);

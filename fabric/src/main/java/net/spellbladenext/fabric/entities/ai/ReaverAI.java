@@ -14,7 +14,6 @@ import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.GameRules;
-import net.spellbladenext.fabric.entities.BackUp;
 import net.spellbladenext.fabric.entities.Reaver;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class ReaverAI {
     private static void initFightActivity(Reaver reaver, Brain<Reaver> brain) {
         brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(new StopAttackingIfTargetInvalid<Reaver>((livingEntity) -> {
             return !isNearestValidAttackTarget(reaver, (LivingEntity) livingEntity);
-        }),new RunIf<Reaver>(reave -> reaver.isCaster() ,new BackUp<Reaver>(10, 0.75F)),  new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new MeleeAttack(20),new SpellAttack<Reaver, LivingEntity>()), MemoryModuleType.ATTACK_TARGET);
+        }),new BackUp<Reaver>(10, 0.75F),  new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new SetWalkTargetFromAttackTargetIfTargetOutOfReach(1.0F), new MeleeAttack(20),new SpellAttack<Reaver, LivingEntity>()), MemoryModuleType.ATTACK_TARGET);
     }
 
     private static RunOne<Reaver> createIdleLookBehaviors() {

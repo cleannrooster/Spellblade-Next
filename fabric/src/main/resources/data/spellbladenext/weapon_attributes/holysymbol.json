@@ -1,0 +1,18 @@
+{
+  "attributes": {
+    "attack_range": 6,
+    "category": "holysymbol",
+    "attacks": [
+      {
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1,
+        "angle": 90,
+        "upswing": 0.5,
+        "animation": "spellbladenext:one_handed_area_release",
+        "swing_sound": {
+          "id": "spell_engine:generic_healing_release"
+        }
+      }
+    ]
+  }
+}

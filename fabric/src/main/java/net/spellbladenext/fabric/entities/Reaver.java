@@ -69,10 +69,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 import software.bernie.geckolib3.util.GeckoLibUtil;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimatable, Merchant {
@@ -86,7 +83,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     public boolean isCaster = false;
     private Player tradingplayer;
     float damagetakensincelastthink = 0;
-
+    public int xpReward = 20;
     public Reaver(EntityType<? extends Reaver> p_34652_, Level p_34653_) {
         super(p_34652_, p_34653_);
     }
@@ -322,7 +319,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
 
     @Override
     protected boolean shouldDropLoot() {
-        return true;
+        return !( this.getRandom().nextFloat() > 0.25 && this.getLevel().dimension() == SpellbladeNext.DIMENSIONKEY);
     }
 
     @Override
@@ -334,6 +331,11 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     }
 
     @Override
+    public int getExperienceReward() {
+        return xpReward;
+    }
+
+    @Override
     public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType mobSpawnType) {
         return super.checkSpawnRules(levelAccessor, mobSpawnType);
     }
@@ -341,7 +343,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
         if(damageSource.getDirectEntity() instanceof Player player && this.isScout() && this.getHealth()/this.getMaxHealth() <= 0.5 && this.getMainHandItem().isEmpty()){
-           this.equipItemIfPossible(new ItemStack(Spellblades.entries.get(this.random.nextInt(Spellblades.entries.size())).item()));
+            this.equipItemIfPossible(new ItemStack(Spellblades.entries.get(this.random.nextInt(Spellblades.entries.size())).item()));
         }
         return super.hurt(damageSource, f);
 

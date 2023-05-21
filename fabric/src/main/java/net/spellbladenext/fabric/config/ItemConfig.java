@@ -21,6 +21,9 @@ public class ItemConfig { public ItemConfig() { }
             this.value = value;
             this.operation = operation;
         }
+        public static SpellAttribute multiply(SpellAttributeEntry attribute, float value) {
+            return new SpellAttribute(attribute.name, value, AttributeModifier.Operation.MULTIPLY_BASE);
+        }
         public static SpellAttribute bonus(SpellAttributeEntry attribute, float value) {
             return new SpellAttribute(
                     attribute.name,

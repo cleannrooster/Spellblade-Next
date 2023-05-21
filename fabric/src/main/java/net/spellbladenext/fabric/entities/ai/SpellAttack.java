@@ -20,6 +20,7 @@ import net.spell_engine.internals.SpellRegistry;
 import net.spell_engine.utils.SoundHelper;
 import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellPower;
+import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.entities.Reaver;
 
@@ -36,7 +37,15 @@ public class SpellAttack<E extends Mob, T extends LivingEntity> extends Behavior
     }
 
     protected boolean checkExtraStartConditions(ServerLevel serverLevel, E mob) {
+
         LivingEntity livingEntity = getAttackTarget(mob);
+        if(livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE) > 40 ||
+                livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.ARCANE).attribute) > mob.getMaxHealth()/2 ||
+                livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FROST).attribute) > mob.getMaxHealth()/2 ||
+                livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.FIRE).attribute) > mob.getMaxHealth()/2 ||
+                livingEntity.getAttributeValue(SpellAttributes.POWER.get(MagicSchool.HEALING).attribute) > mob.getMaxHealth()/2){
+            return false;
+        }
         return  mob instanceof Reaver reaver && reaver.isCaster() && BehaviorUtils.canSee(mob, livingEntity) && mob.distanceTo(livingEntity) < 32;
     }
 

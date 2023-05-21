@@ -7,6 +7,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.spellbladenext.SpellbladeNext;
@@ -16,6 +17,7 @@ import java.util.function.Supplier;
 import static net.spellbladenext.SpellbladeNext.WOOL_INGREDIENTS;
 
 public enum ModArmorMaterials implements ArmorMaterial {
+
     RUNEBLAZING("runeblazing", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
         return Ingredient.of(SpellbladeNext.RUNEBLAZEPLATING.get());
     }),
@@ -34,6 +36,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
     DEATHCHILL("deathchill", 37, new int[]{1, 2, 3, 1}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 0, 0, () -> {
         return Ingredient.of(SpellbladeNext.RUNEGLINTPLATING.get(),SpellbladeNext.RUNEFROSTPLATING.get());
     }),
+    SPECTRAL("chainmail", 37, new int[]{2, 4, 6, 2}, 15, SoundEvents.ARMOR_EQUIP_CHAIN, 3.0F, 0.1F, Ingredient::of),
     WOOL("magus", 37, new int[]{2, 4, 6, 2}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0,
             WOOL_INGREDIENTS);
 

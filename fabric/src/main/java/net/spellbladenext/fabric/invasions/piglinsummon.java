@@ -26,39 +26,40 @@ public interface piglinsummon {
           double xRand = -1+level.getRandom().nextDouble()*2;
           double zRand = -1+level.getRandom().nextDouble()*2;
           double d0 = sqrt(xRand*xRand+zRand*zRand);
-
-          BlockHitResult result = level.clip(new ClipContext(player.getEyePosition(),new Vec3(player.getX()+40*xRand/d0,player.getY()-40*.2,player.getZ()+40*zRand/d0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,player));
-          if(result.getType() != HitResult.Type.MISS) {
-               BlockPos pos = result.getBlockPos();
-               if(result.getLocation().subtract(player.getEyePosition()).horizontalDistance() > 2) {
-                    boolean flag = level.getBlockState(pos.above()).isSuffocating(level, result.getBlockPos().above())
-                            || level.getBlockState(pos.above().above()).isSuffocating(level, pos.above().above())
-                            || level.getBlockState(pos.above().above().above()).isSuffocating(level, pos.above().above().above())
-                            || level.getBlockState(pos.above().above().above().above()).isSuffocating(level, pos.above().above().above().above());
-                    int ii = 0;
-                    boolean found = true;
-                    while (flag) {
-                         pos = pos.above();
-                         flag = level.getBlockState(pos.above()).isSuffocating(level, result.getBlockPos().above())
+          if(player != null) {
+               BlockHitResult result = level.clip(new ClipContext(player.getEyePosition(), new Vec3(player.getX() + 40 * xRand / d0, player.getY() - 40 * .2, player.getZ() + 40 * zRand / d0), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+               if (result.getType() != HitResult.Type.MISS) {
+                    BlockPos pos = result.getBlockPos();
+                    if (result.getLocation().subtract(player.getEyePosition()).horizontalDistance() > 2) {
+                         boolean flag = level.getBlockState(pos.above()).isSuffocating(level, result.getBlockPos().above())
                                  || level.getBlockState(pos.above().above()).isSuffocating(level, pos.above().above())
                                  || level.getBlockState(pos.above().above().above()).isSuffocating(level, pos.above().above().above())
                                  || level.getBlockState(pos.above().above().above().above()).isSuffocating(level, pos.above().above().above().above());
-                         ii++;
-                         if (ii > 10) {
-                              found = false;
-                              break;
+                         int ii = 0;
+                         boolean found = true;
+                         while (flag) {
+                              pos = pos.above();
+                              flag = level.getBlockState(pos.above()).isSuffocating(level, result.getBlockPos().above())
+                                      || level.getBlockState(pos.above().above()).isSuffocating(level, pos.above().above())
+                                      || level.getBlockState(pos.above().above().above()).isSuffocating(level, pos.above().above().above())
+                                      || level.getBlockState(pos.above().above().above().above()).isSuffocating(level, pos.above().above().above().above());
+                              ii++;
+                              if (ii > 10) {
+                                   found = false;
+                                   break;
+                              }
                          }
-                    }
-                    if (found) {
-                         boolean bool = level.getRandom().nextBoolean();
-                         netherPortal portal = new netherPortal(SpellbladesFabric.NETHERPORTAL, level, player, pos, 0, bool,home);
-                         netherPortalFrame frame = new netherPortalFrame(SpellbladesFabric.NETHERPORTALFRAME, level, player, pos, 0, bool,home);
-                         if(player instanceof ServerPlayer player1) {
-                              player1.getStats().setValue(player1, Stats.CUSTOM.get(SINCELASTHEX), 0);
+                         if (found) {
+                              boolean bool = level.getRandom().nextBoolean();
+                              netherPortal portal = new netherPortal(SpellbladesFabric.NETHERPORTAL, level, player, pos, 0, bool, home);
+                              netherPortalFrame frame = new netherPortalFrame(SpellbladesFabric.NETHERPORTALFRAME, level, player, pos, 0, bool, home);
+                              if (player instanceof ServerPlayer player1) {
+                                   player1.getStats().setValue(player1, Stats.CUSTOM.get(SINCELASTHEX), 0);
+                              }
+
+                              return Optional.of(frame);
+
                          }
-
-                         return Optional.of(frame);
-
                     }
                }
           }
@@ -100,6 +101,42 @@ public interface piglinsummon {
           }
           return safestPos;
      }
+     @Nullable
+     public static BlockPos getSafePositionAroundPlayer2(Level level, BlockPos pos, int range)
+     {
+          if(range == 0)
+          {
+               return null;
+          }
+          BlockPos safestPos = null;
+          for(int attempts = 0; attempts < 1; attempts++)
+          {
+               int a = -1;
+               int b = -1;
+               int c = -1;
+               if(level.getRandom().nextBoolean()){
+                    a = 1;
+               }
+               if(level.getRandom().nextBoolean()){
+                    b = 1;
+               }
+               if(level.getRandom().nextBoolean()){
+                    c = 1;
+               }
+               int posX = pos.getX()  + a*level.getRandom().nextInt(10 );
+               int posY = pos.getY() + level.getRandom().nextInt(10) - 10 / 2;
+               int posZ = pos.getZ()  + c* level.getRandom().nextInt(10);
+               BlockPos testPos = findGround(level, new BlockPos(posX, posY, posZ));
+
+               if(testPos != null)
+               {
+                    safestPos = testPos;
+                    break;
+               }
+          }
+          return safestPos;
+     }
+
 
      @Nullable
      private static BlockPos findGround(Level level, BlockPos pos)

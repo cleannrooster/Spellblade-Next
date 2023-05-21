@@ -15,6 +15,10 @@ public class InquisitorItemModel extends AnimatedGeoModel<InquisitorSet> {
         if(orb.getSlot() == EquipmentSlot.HEAD){
             if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
                 if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                    if(orb.getMagicschool().contains(MagicSchool.FROST)){
+                        return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/magebreaker.geo.json");
+
+                    }
                     return new ResourceLocation(SpellbladeNext.MOD_ID,"geo/magebane.geo.json");
 
                 }
@@ -47,6 +51,10 @@ public class InquisitorItemModel extends AnimatedGeoModel<InquisitorSet> {
         if(orb.getSlot() == EquipmentSlot.HEAD){
             if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
                 if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                    if(orb.getMagicschool().contains(MagicSchool.FROST)){
+                        return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/spectral.png");
+
+                    }
                     return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/magebane_crown.png");
 
                 }
@@ -60,6 +68,10 @@ public class InquisitorItemModel extends AnimatedGeoModel<InquisitorSet> {
         }
         if(orb.getMagicschool().contains(MagicSchool.ARCANE)){
             if(orb.getMagicschool().contains(MagicSchool.FIRE)){
+                if(orb.getMagicschool().contains(MagicSchool.FROST)){
+                    return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/spectral.png");
+
+                }
                 return new ResourceLocation(SpellbladeNext.MOD_ID,"textures/armor/aetherfire.png");
 
             }

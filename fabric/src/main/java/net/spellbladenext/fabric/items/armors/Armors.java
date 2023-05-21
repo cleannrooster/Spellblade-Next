@@ -2,6 +2,7 @@ package net.spellbladenext.fabric.items.armors;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -292,6 +293,54 @@ public class Armors {
                             new InquisitorSet(ModArmorMaterials.DEATHCHILL, EquipmentSlot.LEGS, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST,MagicSchool.ARCANE)),
                             new InquisitorSet(ModArmorMaterials.DEATHCHILL, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST,MagicSchool.ARCANE))
                     ), entries);
+    public static final Armor.Set spectral =
+            create(
+                    new Armor.CustomMaterial(
+                            "spectral",
+                            20,
+                            10,
+                            SoundEvents.ARMOR_EQUIP_CHAIN,
+                            Ingredient::of
+                    ),
+                    ItemConfig.ArmorSet.with(
+                            new ItemConfig.ArmorSet.Piece(2)
+                                    .addAll(List.of(
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.CRITICAL_CHANCE, 0.06F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.CRITICAL_DAMAGE, 0.3F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.HASTE, 0.09F)
+
+                                    )),
+                            new ItemConfig.ArmorSet.Piece(6)
+                                    .addAll(List.of(
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FIRE), 0.15F)
+
+
+                                    )),
+                            new ItemConfig.ArmorSet.Piece(4)
+                                    .addAll(List.of(
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FIRE), 0.15F)
+
+
+                                    )),
+                            new ItemConfig.ArmorSet.Piece(2)
+                                    .addAll(List.of(
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.15F),
+                                            ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FIRE), 0.15F)
+
+
+                                    ))
+                    ))
+                    .armorSet(material -> new Armor.Set(SpellbladeNext.MOD_ID,
+                            new InquisitorSet(ArmorMaterials.CHAIN, EquipmentSlot.HEAD, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST, MagicSchool.ARCANE,MagicSchool.FIRE)),
+                            new InquisitorSet(ArmorMaterials.CHAIN, EquipmentSlot.CHEST, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST,MagicSchool.ARCANE,MagicSchool.FIRE)),
+                            new InquisitorSet(ArmorMaterials.CHAIN, EquipmentSlot.LEGS, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST,MagicSchool.ARCANE,MagicSchool.FIRE)),
+                            new InquisitorSet(ArmorMaterials.CHAIN, EquipmentSlot.FEET, new Item.Properties().tab(EXAMPLE_TAB), List.of(MagicSchool.FROST,MagicSchool.ARCANE,MagicSchool.FIRE))
+                    ), entries);
     public static final Armor.Set magus =
             create(
                     new Armor.CustomMaterial(
@@ -302,13 +351,13 @@ public class Armors {
                             WOOL_INGREDIENTS
                     ),
                     ItemConfig.ArmorSet.with(
-                            new ItemConfig.ArmorSet.Piece(2)
+                            new ItemConfig.ArmorSet.Piece(3)
                                     .addAll(List.of(
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FIRE), 0.125F)
                                     )),
-                            new ItemConfig.ArmorSet.Piece(6)
+                            new ItemConfig.ArmorSet.Piece(8)
                                     .addAll(List.of(
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.125F),
@@ -318,7 +367,7 @@ public class Armors {
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FIRE), 0.125F)                                )),
-                            new ItemConfig.ArmorSet.Piece(2)
+                            new ItemConfig.ArmorSet.Piece(3)
                                     .addAll(List.of(
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.FROST), 0.125F),
                                             ItemConfig.SpellAttribute.multiply(SpellAttributes.POWER.get(MagicSchool.ARCANE), 0.125F),

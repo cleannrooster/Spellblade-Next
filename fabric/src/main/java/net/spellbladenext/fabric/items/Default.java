@@ -1,6 +1,7 @@
 package net.spellbladenext.fabric.items;
 
 import net.minecraft.resources.ResourceLocation;
+import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.config.ItemConfig;
 import net.spellbladenext.fabric.config.LootConfig;
 import net.spellbladenext.fabric.items.spellblades.Spellblades;
@@ -27,7 +28,7 @@ public class Default {
         for (var weapon: Spellblades.runedaggers) {
             itemConfig.weapons.put(weapon.name(), weapon.defaults());
         }
-
+        itemConfig.weapons.put("frostborn_gavel",Spellblades.frost);
 
         lootConfig = new LootConfig();
         lootConfig.item_groups.put("spellblades", new LootConfig.ItemGroup(List.of(
@@ -35,19 +36,19 @@ public class Default {
                 Spellblades.frostBlade.id().toString(),
                 Spellblades.arcaneBlade.id().toString()),
                 1
-        ).chance(0.2F));
+        ).chance(0.1F));
         lootConfig.item_groups.put("foci", new LootConfig.ItemGroup(List.of(
                 Orbs.arcaneOrb.id().toString(),
                 Orbs.fireOrb.id().toString(),
                 Orbs.frostOrb.id().toString()),
                 1
-        ).chance(0.2F));
+        ).chance(0.1F));
         lootConfig.item_groups.put("claymores", new LootConfig.ItemGroup(List.of(
                 Spellblades.arcaneClaymore.id().toString(),
                 Spellblades.fireClaymore.id().toString(),
                 Spellblades.frostClaymore.id().toString()),
                 1
-        ).chance(0.2F));
+        ).chance(0.1F));
         lootConfig.item_groups.put("runedaggers", new LootConfig.ItemGroup(List.of(
                 Spellblades.runedagger.id().toString()),
                 1
@@ -66,7 +67,7 @@ public class Default {
                 new ResourceLocation(MOD_ID, "runegleaming_legs").toString(),
                 new ResourceLocation(MOD_ID, "runegleaming_feet").toString()),
                 1
-        ).chance(0.4F));
+        ).chance(0.1F));
 
         List.of("minecraft:chests/abandoned_mineshaft",
                         "minecraft:chests/igloo_chest",

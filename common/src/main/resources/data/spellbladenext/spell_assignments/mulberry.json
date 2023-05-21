@@ -1,0 +1,8 @@
+{
+  "is_proxy": true,
+  "pool": "minecraft:fire",
+  "max_spell_count": 1,
+  "spell_ids": [
+    "spellbladenext:soulfire"
+  ]
+}

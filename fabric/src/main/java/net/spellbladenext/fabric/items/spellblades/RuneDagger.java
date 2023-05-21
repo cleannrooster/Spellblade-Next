@@ -1,6 +1,8 @@
 package net.spellbladenext.fabric.items.spellblades;
 
 import com.google.common.collect.Multimap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -155,17 +157,14 @@ public class RuneDagger extends SwordItem implements ConfigurableAttributes {
             float f1 = player.getYRot() + 180;
             float f2 = player.xRotO;
             float f3 = player.yRotO + 180;
-
+            if (player.getLevel().isClientSide()) {
                 player.setXRot(f);
                 player.setYRot(f1);
                 player.xRotO = f2;
                 player.yRotO = f3;
-                player.hurtMarked = true;
+            player.setPos(vec3.x, vec3.y, vec3.z);
+            player.hurtMarked = true;
 
-            player.teleportTo(vec3.x, vec3.y, vec3.z);
-
-
-            if (player.getLevel().isClientSide()) {
 
                 KeyMapping.click(Minecraft.getInstance().options.keyAttack.getDefaultKey());
             }

@@ -1,6 +1,6 @@
 {
   "school": "PHYSICAL_MELEE",
-  "range": 3.5,
+  "range": 6,
   "learn": {
     "tier": 0
   },
@@ -12,32 +12,48 @@
     "target": {
       "type": "AREA",
       "area": {
-        "angle_degrees": 60,
-        "vertical_range_multiplier": 2
-
+        "vertical_range_multiplier": 1
       }
     },
+    "particles": [
+      {
+        "particle_id": "smoke",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 130.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "cloud",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 130.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ],
     "sound": {
-      "id": "bettercombat:staff_slam"
+      "id": "minecraft:entity.illusioner.cast_spell"
     },
     "animation": "spellbladenext:staffslam2"
   },
   "impact": [
     {
       "action": {
-        "type": "DAMAGE",
-        "damage": {
-          "knockback": 2,
-          "spell_power_coefficient": 6
-        }
-      },
-      "sound": {
-        "id": "minecraft:entity.player.attack.knockback"
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "apply_mode": "ADD",
+          "duration": 8,
+          "amplifier": 1,
+          "effect_id": "spellbladenext:slamtarget"
+        },
+        "apply_to_caster": false
       }
     }
   ],
   "cost": {
-    "cooldown_duration": 2,
+    "cooldown_duration": 4,
     "cooldown_proportional": true
   }
 }

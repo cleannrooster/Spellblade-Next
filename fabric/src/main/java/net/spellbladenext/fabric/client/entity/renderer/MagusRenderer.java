@@ -1,4 +1,4 @@
-package net.spellbladenext.fabric.client.item.renderer;
+package net.spellbladenext.fabric.client.entity.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;

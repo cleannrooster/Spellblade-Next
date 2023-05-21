@@ -1,0 +1,77 @@
+{
+  "school": "HEALING",
+  "range": 8,
+  "learn": {
+    "tier": 2
+  },
+  "cast": {
+    "duration": 1,
+    "animation": "spell_engine:two_handed_channeling",
+    "sound": {
+      "id": "spell_engine:generic_fire_casting",
+      "randomness": 0
+    },
+    "particles": [
+      {
+        "particle_id": "spell_engine:holy_hit",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 20.0,
+        "min_speed": 0.2,
+        "max_speed": 0.6
+      },
+      {
+        "particle_id": "holy_spark",
+        "shape": "CIRCLE",
+        "origin": "CENTER",
+        "count": 30.0,
+        "min_speed": 0.5,
+        "max_speed": 0.9
+      }
+    ]
+  },
+  "release": {
+    "target": {
+      "type": "CURSOR"
+    },
+    "sound": {
+      "id": "spell_engine:generic_fire_release"
+    },
+    "animation": "spell_engine:one_handed_area_release"
+
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "HEAL",
+        "heal": {
+          "spell_power_coefficient": 0.75
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "spell_engine:healing_ascend",
+          "shape": "PILLAR",
+          "origin": "FEET",
+          "count": 15,
+          "min_speed": 0.02,
+          "max_speed": 0.15
+        },
+        {
+          "particle_id": "spell_engine:holy_ascend",
+          "shape": "PILLAR",
+          "origin": "FEET",
+          "count": 15,
+          "min_speed": 0.02,
+          "max_speed": 0.15
+        }
+      ]
+    }
+
+
+  ],
+  "cost": {
+    "item_id": "runes:healing_stone",
+    "cooldown_duration": 0.5
+  }
+}

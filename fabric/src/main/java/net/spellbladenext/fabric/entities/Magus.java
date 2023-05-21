@@ -3,7 +3,10 @@ package net.spellbladenext.fabric.entities;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Dynamic;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -15,6 +18,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -23,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.InventoryCarrier;
@@ -33,6 +39,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.internals.SpellRegistry;
@@ -44,6 +51,7 @@ import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.SpellbladesFabric;
+import net.spellbladenext.fabric.entities.ai.MagusAI;
 import net.spellbladenext.fabric.items.spellblades.Spellblade;
 import net.spellbladenext.fabric.items.spellblades.Spellblades;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -66,6 +74,8 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
     public Player nemesis;
     public boolean isthinking = false;
     public boolean isScout = false;
+    public int xpReward = 50;
+
     private boolean hasntthrownitems = true;
     private boolean firstattack = false;
     private boolean secondattack = false;
@@ -206,7 +216,7 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 400.0D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 7.0D).add(Attributes.KNOCKBACK_RESISTANCE,1);
+        return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 400.0D).add(Attributes.MOVEMENT_SPEED, 0.3499999940395355D).add(Attributes.ATTACK_DAMAGE, 7.0D).add(Attributes.KNOCKBACK_RESISTANCE,0.5);
     }
 
     @Override
@@ -223,10 +233,31 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
         return super.getMainHandItem();
     }
 
+
+    @Override
+    public void heal(float f) {
+        this.hurt(SpellDamageSource.mob(MagicSchool.HEALING,this),f);
+    }
+
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
+        if(this.tickCount <= 10 && f < 999999){
+            return false;
+        }
+
         if(f > 999999){
+
             return super.hurt(damageSource,f);
+        }
+        if(this.isInvisible() || (this.getEffect(MobEffects.DAMAGE_RESISTANCE) != null && this.getEffect(MobEffects.DAMAGE_RESISTANCE).getAmplifier() >= 4)){
+            this.playSound(SoundEvents.ILLUSIONER_MIRROR_MOVE);
+
+            return false;
+        }
+        if(damageSource instanceof SpellDamageSource spellDamageSource && spellDamageSource.getMagicSchool() == MagicSchool.HEALING) {
+                this.entityData.set(modifier, this.entityData.get(modifier)+Math.max((int)(100*f/this.getMaxHealth()),1));
+                return false;
+
         }
         if(damageSource.getEntity() instanceof LivingEntity living && EnchantmentHelper.getEnchantmentLevel(Enchantments.SMITE, living) > 0) {
             this.entityData.set(modifier, this.entityData.get(modifier)+1);
@@ -239,7 +270,7 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
         }
         else{
             damagetakensincelastthink += f*(damagemodifier);
-            return super.hurt(damageSource, (float) (damagemodifier));
+            return super.hurt(damageSource, (float) (f*damagemodifier));
         }
     }
 
@@ -260,6 +291,10 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
         return MagicSchool.ARCANE;
     }
 
+    @Override
+    public int getExperienceReward() {
+        return xpReward;
+    }
 
     @Override
     public void tick() {
@@ -267,7 +302,32 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
         if(this.isOnGround()){
             this.getEntityData().set(JUMPING,false);
         }
+        if(this.tickCount % 5 == 0 && this.getLevel().isClientSide){
+            List<Player> players = this.getLevel().getNearbyPlayers(TargetingConditions.forNonCombat(),this,this.getBoundingBox().inflate(32));
+
+            players.forEach(player -> {
+                String string = "null";
+                ChatFormatting chatFormatting = ChatFormatting.GRAY;
+                if(getMagicSchool() == MagicSchool.ARCANE){
+                    string = "ARCANE";
+                    chatFormatting = ChatFormatting.DARK_PURPLE;
+
+                }
+                if(getMagicSchool() == MagicSchool.FROST){
+                    string = "FROST";
+                    chatFormatting = ChatFormatting.AQUA;
+
+                }
+                if(getMagicSchool() == MagicSchool.FIRE){
+                    string = "FIRE";
+                    chatFormatting = ChatFormatting.RED;
+
+                }
+                player.displayClientMessage(Component.translatable("Magus' Barrier absorbs all but " + string + " magic. Barrier Strength: "+ Math.max(0,(95-this.getEntityData().get(modifier))) + "%.").withStyle(chatFormatting), true);
+            });
+        }
         if (this.tickCount % 5 == 0 && this.getLevel() instanceof ServerLevel level) {
+
             List<Entity> magi =  StreamSupport.stream(level.getAllEntities().spliterator(),true).filter(entity -> entity instanceof Magus).toList();
             if(magi.size() > 1 && magi.stream().anyMatch(entity -> entity != this && this.tickCount <= entity.tickCount)){
                 if(this.spawnedfromitem) {
@@ -277,20 +337,6 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
                 this.discard();
                 return;
             }
-           /* for (ServerPlayer serverPlayer : PlayerLookup.tracking(this)) {
-
-                if (getMagicSchool() != MagicSchool.ARCANE && !serverPlayer.getActiveEffectsMap().keySet().containsAll(List.of(SpellbladeNext.DOUSED.get(),SpellbladeNext.MELTED.get()))) {
-                    serverPlayer.addEffect(new MobEffectInstance(SpellbladeNext.INERT.get(), 10, 0));
-                }
-                if (getMagicSchool() != MagicSchool.FIRE && !serverPlayer.getActiveEffectsMap().keySet().containsAll(List.of(SpellbladeNext.INERT.get(),SpellbladeNext.MELTED.get()))) {
-                    serverPlayer.addEffect(new MobEffectInstance(SpellbladeNext.DOUSED.get(), 10, 0));
-                }
-                if (getMagicSchool() != MagicSchool.FROST && !serverPlayer.getActiveEffectsMap().keySet().containsAll(List.of(SpellbladeNext.INERT.get(),SpellbladeNext.DOUSED.get()))) {
-                    serverPlayer.addEffect(new MobEffectInstance(SpellbladeNext.MELTED.get(), 10, 0));
-                }
-
-
-            }*/
 
         }
         if (isInvisible()) {
