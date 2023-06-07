@@ -16,15 +16,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.spell_engine.api.item.ConfigurableAttributes;
-import net.spell_engine.internals.SpellCast;
-import net.spell_engine.internals.SpellContainerHelper;
-import net.spell_engine.internals.SpellHelper;
-import net.spell_engine.internals.SpellRegistry;
+import net.spell_engine.internals.*;
+import net.spell_engine.particle.ParticleHelper;
+import net.spell_engine.particle.Particles;
 import net.spell_engine.utils.TargetHelper;
 import net.spell_power.SpellPowerMod;
 import net.spell_power.api.MagicSchool;
@@ -39,6 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static net.spellbladenext.SpellbladeNext.MOD_ID;
 
 public class Starforge extends SwordItem implements ConfigurableAttributes {
     private Multimap<Attribute, AttributeModifier> attributes;
@@ -64,14 +66,23 @@ public class Starforge extends SwordItem implements ConfigurableAttributes {
             if (attacker instanceof Player player) {
                 //System.out.println(school.name);
                 MagicSchool actualSchool = MagicSchool.ARCANE;
-
+                double modifier = 0.75;
+                if(player instanceof SpellCasterEntity caster){
+                    if(caster.getCurrentSpellId() != null &&
+                        (caster.getCurrentSpellId().equals(new ResourceLocation(MOD_ID,"whirlwind")) ||
+                        caster.getCurrentSpellId().equals(new ResourceLocation(MOD_ID,"dualwield_whirlwind")) ||
+                        caster.getCurrentSpellId().equals(new ResourceLocation(MOD_ID,"flicker_strike")))){
+                        modifier *= 0.2;
+                        modifier *= player.getAttributeValue(Attributes.ATTACK_SPEED);
+                    }
+                }
                 SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) attacker);
                 SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
 
                 vulnerability = SpellPower.getVulnerability(target, actualSchool);
 
                 //SpellPower.Result power = SpellPower.getSpellPower(MagicSchool.ARCANE, (LivingEntity) this.getOwner());
-                double amount = 3 * power.randomValue(vulnerability) / 3;
+                double amount = modifier * 3 * power.randomValue(vulnerability) / 3;
 
 
                 //particleMultiplier = power.criticalDamage() + (double)vulnerability.criticalDamageBonus();
@@ -116,7 +127,6 @@ public class Starforge extends SwordItem implements ConfigurableAttributes {
 
             Player caster = Minecraft.getInstance().player;
             if(caster != null) {
-
                 Multimap<Attribute, AttributeModifier> heldAttributes = caster.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND);
                 Multimap<Attribute, AttributeModifier> itemAttributes = itemStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
                 caster.getAttributes().removeAttributeModifiers(heldAttributes);
@@ -124,9 +134,13 @@ public class Starforge extends SwordItem implements ConfigurableAttributes {
 
                 MagicSchool actualSchool = MagicSchool.ARCANE;
 
-                int min = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).baseValue());
-                int max = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).forcedCriticalValue());
-                list.add(Component.translatable("Attacks with this weapon deal an additional " + min + " - " + max + " " + actualSchool.name().toLowerCase() + " damage on hit.").withStyle(ChatFormatting.GRAY));
+                int min = (int) ((0.75)*Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).baseValue()));
+                int max = (int) ((0.75)*Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).forcedCriticalValue()));
+                list.add(Component.translatable("Attacks with this weapon deal an additional " + min + " - " + max + " " + actualSchool.name().toLowerCase() + " damage on hit.").withStyle(ChatFormatting.LIGHT_PURPLE));
+                caster.getAttributes().removeAttributeModifiers(itemAttributes);
+                caster.getAttributes().addTransientAttributeModifiers(heldAttributes);
+                list.add(Component.translatable("While holding this weapon, you gain Arcane Infusion equal to half of your total FROST and FIRE power.").withStyle(ChatFormatting.LIGHT_PURPLE));
+
             }
         }
     }

@@ -343,7 +343,7 @@ public class Reaver extends PathfinderMob implements  InventoryCarrier, IAnimata
     @Override
     public boolean hurt(DamageSource damageSource, float f) {
         if(damageSource.getDirectEntity() instanceof Player player && this.isScout() && this.getHealth()/this.getMaxHealth() <= 0.5 && this.getMainHandItem().isEmpty()){
-            this.equipItemIfPossible(new ItemStack(Spellblades.entries.get(this.random.nextInt(Spellblades.entries.size())).item()));
+            this.equipItemIfPossible(new ItemStack(Spellblades.arcaneBlade.item()));
         }
         return super.hurt(damageSource, f);
 

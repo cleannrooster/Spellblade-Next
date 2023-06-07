@@ -9,6 +9,7 @@
     "animation": "spellbladenext:riposte_1h"
   },
   "release": {
+    "custom_impact": true,
     "target": {
       "type": "AREA",
       "area": {

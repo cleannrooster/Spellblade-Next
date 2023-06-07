@@ -171,7 +171,7 @@ public class AmethystEntity extends AbstractArrow implements ItemSupplier {
                 if(this.detected == null) {
                     Predicate<Entity> selectionPredicate = (target) -> {
                         return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                                && FriendshipBracelet.PlayerFriendshipPredicate(player,target) && target instanceof LivingEntity);
+                               );
                     };
 
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();

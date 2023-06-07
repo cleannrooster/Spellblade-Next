@@ -144,37 +144,7 @@ public class RuneDagger extends SwordItem implements ConfigurableAttributes {
 
         return f + i;
     }
-    @Override
-    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity livingEntity, InteractionHand interactionHand) {
-        if(!player.getCooldowns().isOnCooldown(this) && !player.isShiftKeyDown()) {
-            if(livingEntity instanceof Mob mob){
-                mob.setTarget(null);
-            }
-            player.addEffect(new MobEffectInstance(DIREHEX.get(),20,0,false,false));
-            Vec3 vec3 = livingEntity.position().add(player.getViewVector(1F).subtract(0, player.getViewVector(1F).y, 0).normalize().scale(livingEntity.getBoundingBox().getXsize() / 2)).add(player.getViewVector(1F).subtract(0, player.getViewVector(1F).y, 0).normalize().scale(1.5));
 
-            float f = player.getXRot();
-            float f1 = player.getYRot() + 180;
-            float f2 = player.xRotO;
-            float f3 = player.yRotO + 180;
-            if (player.getLevel().isClientSide()) {
-                player.setXRot(f);
-                player.setYRot(f1);
-                player.xRotO = f2;
-                player.yRotO = f3;
-            player.setPos(vec3.x, vec3.y, vec3.z);
-            player.hurtMarked = true;
-
-
-                KeyMapping.click(Minecraft.getInstance().options.keyAttack.getDefaultKey());
-            }
-            player.getCooldowns().addCooldown(this,160);
-            return InteractionResult.PASS;
-        }
-        else{
-            return InteractionResult.FAIL;
-        }
-    }
     public void setAttributes(Multimap<Attribute, AttributeModifier> attributes) {
         this.attributes = attributes;
     }

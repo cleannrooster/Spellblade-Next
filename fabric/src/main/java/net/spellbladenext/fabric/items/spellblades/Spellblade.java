@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -34,6 +35,7 @@ import net.spell_power.api.MagicSchool;
 import net.spell_power.api.SpellDamageSource;
 import net.spell_power.api.SpellPower;
 import net.spell_power.api.attributes.SpellAttributeEntry;
+import net.spell_power.api.attributes.SpellAttributes;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.config.ItemConfig;
 import net.spellbladenext.items.FriendshipBracelet;
@@ -41,6 +43,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import static net.spellbladenext.SpellbladeNext.MOD_ID;
@@ -66,71 +69,33 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
             if(attacker instanceof Player player) {
                 //System.out.println(school.name);
                 MagicSchool actualSchool = MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name));
-
-                SpellPower.Result power = SpellPower.getSpellPower(actualSchool, (LivingEntity) attacker);
-                SpellPower.Vulnerability vulnerability = SpellPower.Vulnerability.none;
-
-                vulnerability = SpellPower.getVulnerability(target, actualSchool);
-
-                //SpellPower.Result power = SpellPower.getSpellPower(MagicSchool.ARCANE, (LivingEntity) this.getOwner());
-                double amount = 2 * power.randomValue(vulnerability) / 3;
-
-
-                //particleMultiplier = power.criticalDamage() + (double)vulnerability.criticalDamageBonus();
-                target.invulnerableTime = 0;
-                    target.hurt(SpellDamageSource.create(actualSchool, (LivingEntity) attacker), (float) amount);
-                switch (actualSchool) {
-                    case FIRE -> {
-                        if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:fireoverdrive")){
-                            Predicate<Entity> selectionPredicate = (target2) -> {
-                                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                                        && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
-                            };
-                            List<Entity> targets = player.getLevel().getEntities(player,player.getBoundingBox().inflate(6),selectionPredicate);
-
-                            if(SpellHelper.ammoForSpell(player, SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID,"fireoverdrive")),stack).satisfied()) {
-                                SpellHelper.performSpell(player.level,player, new ResourceLocation(SpellbladeNext.MOD_ID,"fireoverdrive"), targets,stack, SpellCast.Action.RELEASE, InteractionHand.MAIN_HAND, 0);
-                            }
-                        }
-                        if (attacker.hasEffect(SpellbladeNext.FIREINFUSION.get())){
-                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FIREINFUSION.get(), 100, Math.min(attacker.getEffect(SpellbladeNext.FIREINFUSION.get()).getAmplifier()+1,2)));
-                        }
-                    }
-                    case FROST -> {
-                        if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:frostoverdrive")){
-                            Predicate<Entity> selectionPredicate = (target2) -> {
-                                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                                        && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
-                            };
-                            List<Entity> targets = player.getLevel().getEntities(player,player.getBoundingBox().inflate(6),selectionPredicate);
-                            if(SpellHelper.ammoForSpell(player, SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID,"frostoverdrive")),stack).satisfied()) {
-
-                                SpellHelper.performSpell(player.level,player, new ResourceLocation(SpellbladeNext.MOD_ID,"frostoverdrive"), targets,stack, SpellCast.Action.RELEASE, InteractionHand.MAIN_HAND, 0);
-                            }
-                        }
+                if((int) (player.getAttributeValue(Attributes.ATTACK_DAMAGE)/2) > 0) {
+                    if (actualSchool == MagicSchool.FROST) {
                         if (attacker.hasEffect(SpellbladeNext.FROSTINFUSION.get())) {
-                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FROSTINFUSION.get(), 100, Math.min(attacker.getEffect(SpellbladeNext.FROSTINFUSION.get()).getAmplifier()+1,2)));
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FROSTINFUSION.get(), 160, Math.min(attacker.getEffect(SpellbladeNext.FROSTINFUSION.get()).getAmplifier() + 1, (int) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2)- 1) , false, false));
+                        } else {
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FROSTINFUSION.get(), 160, 0, false, false));
+
                         }
                     }
-                    case ARCANE -> {
+                    if (actualSchool == MagicSchool.ARCANE) {
+                        if (attacker.hasEffect(SpellbladeNext.ARCANEINFUSION.get())) {
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.ARCANEINFUSION.get(), 160, Math.min(attacker.getEffect(SpellbladeNext.ARCANEINFUSION.get()).getAmplifier() + 1, (int) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2)- 1) , false, false));
+                        } else {
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.ARCANEINFUSION.get(), 160, 0, false, false));
 
-                        if(SpellContainerHelper.containerFromItemStack(stack).spell_ids.contains("spellbladenext:arcaneoverdrive")){
-                            Predicate<Entity> selectionPredicate = (target2) -> {
-                                return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                                        && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
-                            };
-                            List<Entity> targets = player.getLevel().getEntities(player,player.getBoundingBox().inflate(6),selectionPredicate);
-
-                            if(SpellHelper.ammoForSpell(player, SpellRegistry.getSpell(new ResourceLocation(SpellbladeNext.MOD_ID,"arcaneoverdrive")),stack).satisfied()) {
-
-                                SpellHelper.performSpell(player.level,player, new ResourceLocation(SpellbladeNext.MOD_ID,"arcaneoverdrive"), targets,stack, SpellCast.Action.RELEASE, InteractionHand.MAIN_HAND, 0);
-                            }
                         }
-                        if (attacker.hasEffect(SpellbladeNext.ARCANEINFUSION.get())){
-                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.ARCANEINFUSION.get(), 100, Math.min(attacker.getEffect(SpellbladeNext.ARCANEINFUSION.get()).getAmplifier()+1,2)));
+                    }
+                    if (actualSchool == MagicSchool.FIRE) {
+                        if (attacker.hasEffect(SpellbladeNext.FIREINFUSION.get())) {
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FIREINFUSION.get(), 160, Math.min(attacker.getEffect(SpellbladeNext.FIREINFUSION.get()).getAmplifier() + 1, (int) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 2)- 1) , false, false));
+                        } else {
+                            attacker.addEffect(new MobEffectInstance(SpellbladeNext.FIREINFUSION.get(), 160, 0, false, false));
+
                         }
                     }
                 }
+
             }
 
         }
@@ -196,23 +161,27 @@ public class Spellblade extends SwordItem implements ConfigurableAttributes {
     }
     @Environment(EnvType.CLIENT)
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
+        if(level != null && level.isClientSide){
 
-
-        if(level != null && level.isClientSide()){
-            for(ItemConfig.SpellAttribute school : getMagicSchools()) {
-                Player caster = Minecraft.getInstance().player;
-                if(caster != null) {
-                    Multimap<Attribute, AttributeModifier> heldAttributes = caster.getMainHandItem().getAttributeModifiers(EquipmentSlot.MAINHAND);
-                    Multimap<Attribute, AttributeModifier> itemAttributes = itemStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
-                    caster.getAttributes().removeAttributeModifiers(heldAttributes);
-                    caster.getAttributes().addTransientAttributeModifiers(itemAttributes);
-
+            Player caster = Minecraft.getInstance().player;
+            if(caster != null) {
+                for(ItemConfig.SpellAttribute school : getMagicSchools()) {
                     MagicSchool actualSchool = MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name));
-
-                    int min = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).baseValue() * 0.66);
-                    int max = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).forcedCriticalValue() * 0.66);
-
-                    list.add(Component.translatable("Attacks with this weapon deal an additional " + min + " - " + max + " " + actualSchool.name().toLowerCase() + " damage on hit.").withStyle(ChatFormatting.GRAY));
+                    if(caster.getAttribute(SpellAttributes.POWER.get(actualSchool).attribute) != null) {
+                        Set<AttributeModifier> base = caster.getAttribute(SpellAttributes.POWER.get(actualSchool).attribute).getModifiers(AttributeModifier.Operation.MULTIPLY_BASE);
+                        Set<AttributeModifier> total = caster.getAttribute(SpellAttributes.POWER.get(actualSchool).attribute).getModifiers(AttributeModifier.Operation.MULTIPLY_TOTAL);
+                        double modifierbase = 1;
+                        double modifiertotal = 1;
+                        for(AttributeModifier bases : base){
+                            modifierbase += bases.getAmount();
+                        }
+                        for(AttributeModifier totals : total){
+                            modifiertotal *= 1 + totals.getAmount();
+                        }
+                        double modifier = modifierbase*modifiertotal;
+                        list.add(Component.translatable("Attacks with this weapon deal an additional " + (int)(50 * modifier) + "% " + actualSchool.name().toLowerCase() + " damage on hit.").
+                                withStyle(ChatFormatting.GRAY));
+                    }
                 }
             }
         }

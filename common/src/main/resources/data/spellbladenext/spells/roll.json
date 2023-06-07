@@ -9,6 +9,7 @@
     "animation": "spellbladenext:splitleft"
   },
   "release": {
+    "custom_impact": true,
     "target": {
       "type": "AREA",
       "area": {

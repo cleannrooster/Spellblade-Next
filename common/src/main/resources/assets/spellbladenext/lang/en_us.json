@@ -1,30 +1,37 @@
 {
   "dimension.spellbladenext.glassocean": "Glass Ocean",
 
-  "entity.spellbladenext.reaver": "Hexblade Reaver",
+  "entity.spellbladenext.reaver": "Magister",
   "entity.spellbladenext.magus": "Magus",
   "entity.spellbladenext.archmagus": "Archmagus",
 
   "entity.spellbladenext.monkeyclone": "Trickster Clone",
-
-  "block.spellbladenext.hex": "The Hexblade",
+  "death.attack.determination": "%1$s wasn't determined enough",
+  "block.spellbladenext.hex": "Magister's Hexblade",
   "item.spellbladenext.example_item": "Example Item",
   "item.spellbladenext.spellblade": "Target",
   "item.spellbladenext.starforge": "Starforge",
   "item.spellbladenext.firestarter": "Spirit Stick",
+  "item.spellbladenext.laser_bow": "Hailstorm",
+
   "item.spellbladenext.mulberry": "Spirit Sword",
   "item.spellbladenext.holysymbol": "Holy Symbol",
-  "item.spellbladenext.warriorone_spell_book": "One-Handed Warrior",
-  "item.spellbladenext.warriortwo_spell_book": "Two-Handed Warrior",
-  "item.spellbladenext.warriorpolearm_spell_book": "Polearm Warrior",
+  "item.spellbladenext.warriorone_spell_book": "One-Handed Warrior's War Tome",
+  "item.spellbladenext.warriortwo_spell_book": "Two-Handed Warrior's War Tome",
+  "item.spellbladenext.warriorpolearm_spell_book": "Phalanx War Tome",
+  "item.spellbladenext.assassin_spell_book": "Assassin War Tome",
 
-  "item.spellbladenext.juggone_spell_book": "One-Handed Juggernaut",
-  "item.spellbladenext.juggtwo_spell_book": "Two-Handed Juggernaut",
-  "item.spellbladenext.duelist_spell_book": "Duelist",
-  "item.spellbladenext.acrobat_spell_book": "Acrobat",
+  "item.spellbladenext.juggone_spell_book": "One-Handed Juggernaut' War Tome",
+  "item.spellbladenext.juggtwo_spell_book": "Two-Handed Juggernaut War Tome",
+  "item.spellbladenext.duelist_spell_book": "Duelist's War Tome",
+  "item.spellbladenext.acrobat_spell_book": "Acrobat's War Tome",
   "item.spellbladenext.orb_fire_spell_book": "Flame Source",
   "item.spellbladenext.orb_frost_spell_book": "Frost Source",
   "item.spellbladenext.orb_arcane_spell_book": "Arcane Source",
+
+  "item.spellbladenext.spellblade_fire_spell_book": "Flame Battlemage's Spellbook",
+  "item.spellbladenext.spellblade_frost_spell_book": "Frost Battlemage's Spellbook",
+  "item.spellbladenext.spellblade_arcane_spell_book": "Arcane Battlemage's Spellbook",
 
   "item.spellbladenext.blade_arcane": "Arcane Spellblade",
   "item.spellbladenext.blade_fire": "Flaming Spellblade",
@@ -42,17 +49,17 @@
   "item.spellbladenext.runegleaming_legs": "Runegleam Leggings",
   "item.spellbladenext.runegleaming_feet": "Runegleam Boots",
   "item.spellbladenext.deathchill_head": "Mageseeker Hat",
-  "item.spellbladenext.deathchill_chest": "Deathchill Inquisitor Chestplate",
-  "item.spellbladenext.deathchill_legs":  "Deathchill Inquisitor Leggings",
-  "item.spellbladenext.deathchill_feet":  "Deathchill Inquisitor Boots",
+  "item.spellbladenext.deathchill_chest": "Deathchill Magister Chestplate",
+  "item.spellbladenext.deathchill_legs":  "Deathchill Magister Leggings",
+  "item.spellbladenext.deathchill_feet":  "Deathchill Magister Boots",
   "item.spellbladenext.rimeblaze_head": "Magebreaker Helmet",
-  "item.spellbladenext.rimeblaze_chest": "Rimeblaze Inquisitor Chestplate",
-  "item.spellbladenext.rimeblaze_legs":  "Rimeblaze Inquisitor Leggings",
-  "item.spellbladenext.rimeblaze_feet":  "Rimeblaze Inquisitor Boots",
+  "item.spellbladenext.rimeblaze_chest": "Rimeblaze Magister Chestplate",
+  "item.spellbladenext.rimeblaze_legs":  "Rimeblaze Magister Leggings",
+  "item.spellbladenext.rimeblaze_feet":  "Rimeblaze Magister Boots",
   "item.spellbladenext.aetherfire_head": "Magebane Crown",
-  "item.spellbladenext.aetherfire_chest": "Aetherfire Inquisitor Chestplate",
-  "item.spellbladenext.aetherfire_legs": "Aetherfire Inquisitor Leggings",
-  "item.spellbladenext.aetherfire_feet": "Aetherfire Inquisitor Boots",
+  "item.spellbladenext.aetherfire_chest": "Aetherfire Magister Chestplate",
+  "item.spellbladenext.aetherfire_legs": "Aetherfire Magister Leggings",
+  "item.spellbladenext.aetherfire_feet": "Aetherfire Magister Boots",
   "item.spellbladenext.debug": "Debug Item",
   "item.spellbladenext.orb_frost": "Frost Orb",
   "item.spellbladenext.orb_fire": "Fire Orb",
@@ -99,18 +106,18 @@
   "spell.spellbladenext.frostborn.name": "Frozen Arena",
   "spell.spellbladenext.frostborn.description": "Conjure an arena of frost around yourself, immobolizing nearby enemies for 2 seconds or until they break free (shift).",
   "spell.spellbladenext.frostslam.name": "Glacial Hammer",
-  "spell.spellbladenext.frostslam.description": "Perform a mighty blow with your frozen weapon, dealing {damage} frost damage.",
+  "spell.spellbladenext.frostslam.description": "Perform a mighty blow with your frozen weapon, dealing 2x melee damage.",
 
   "spell.spellbladenext.monkeyspin.name": "Monkey King's Reckoning",
-  "spell.spellbladenext.monkeyspin.description": "Spin, dealing {damage} physical damage per second to enemies.",
-  "spell.spellbladenext.monkeyslam.name": "Subjugate",
-  "spell.spellbladenext.monkeyslam.description": "Perform a gesture of war, subjugating nearby enemies. Subjugated enemies take 6x damage from clones.",
+  "spell.spellbladenext.monkeyspin.description": "Spin, dealing 1.5x melee dps to nearby enemies. Penalty for hitting multiple enemies. Shift to stop moving.",
+  "spell.spellbladenext.monkeyslam.name": "Trickster King",
+  "spell.spellbladenext.monkeyslam.description": "Leap into the clouds, becoming invulnerable while channeling.",
   "spell.spellbladenext.splitleft.name": "Trickster Clone",
   "spell.spellbladenext.splitleft.description": "Shed a part of yourself and gain the Invisible effect for 8 seconds. This clone lasts 16 seconds, gains half your attack damage, attacks enemies you have attacked within the last 8 seconds, and follows your gaze when it has no target.",
 
 
-  "spell.spellbladenext.backstab.name": "Sneak Attack",
-  "spell.spellbladenext.backstab.description": "Passive: Attacks from behind are Sneak Attacks, which always crit with triggered spells. Active: Interact with an enemy to teleport behind them and deliver a Sneak Attack.",
+  "spell.spellbladenext.backstab.name": "Assassinate",
+  "spell.spellbladenext.backstab.description": "Passive: Attacks from behind are Sneak Attacks, which always crit with triggered spells. Active: Cast on a target enemy to teleport behind them and deliver a Sneak Attack. Cast without a target to make your next blow a Sneak Attack.",
   "spell.spellbladenext.steelblade.name": "Pure Steel",
   "spell.spellbladenext.steelblade.description": "Passive: Deal {damage} extra physical damage on hit. Behaves as a spell rather than an attack for critical strike purposes.",
   "spell.spellbladenext.searingblade.name": "Searing Steel",
@@ -124,24 +131,24 @@
   "spell.spellbladenext.inferno.description": "Passive: You deal 100% of your fire attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} fire damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
 
   "spell.spellbladenext.2hslam.name": "Slam",
-  "spell.spellbladenext.2hslam.description": "Slam with your weapon, dealing {damage} physical damage.",
+  "spell.spellbladenext.2hslam.description": "Slam with your weapon, dealing 2x melee damage to enemies in an area.",
 
   "spell.spellbladenext.1hslam.name": "Slam",
-  "spell.spellbladenext.1hslam.description": "Slam with your weapon, dealing {damage} physical damage.",
+  "spell.spellbladenext.1hslam.description": "Slam with your weapon, dealing 2x melee damage to enemies in an area.",
 
   "spell.spellbladenext.riposte.name": "Riposte",
-  "spell.spellbladenext.riposte.description": "Enter a defensive stance, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals {damage} physical damage.",
+  "spell.spellbladenext.riposte.description": "Enter a defensive stance, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals melee damage.",
 
   "spell.spellbladenext.roll.name": "Tactical Dive",
-  "spell.spellbladenext.roll.description": "Dive forward, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals {damage} physical damage.",
+  "spell.spellbladenext.roll.description": "Dive forward, parrying incoming attacks, immediately performing a counterattack upon successful parry. Deals 1.5x melee damage.",
 
   "spell.spellbladenext.whirlwind.name": "Whirlwind",
-  "spell.spellbladenext.whirlwind.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
+  "spell.spellbladenext.whirlwind.description": "Spin, dealing 3x melee damage to nearby enemies. Penalty for hitting multiple enemies. 0.2x modifier for spell on hit effects. Shift to stop moving.",
 
   "spell.spellbladenext.dualwield_whirlwind.name": "Whirlwind",
-  "spell.spellbladenext.dualwield_whirlwind.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
+  "spell.spellbladenext.dualwield_whirlwind.description": "Spin, dealing one handed (1.5x) or dual wielding (variable) melee dps to nearby enemies. Penalty for hitting multiple enemies. 0.2x modifier for spell on hit effects. Shift to stop moving.",
   "spell.spellbladenext.whirlwind_polearm.name": "Whirlwind",
-  "spell.spellbladenext.whirlwind_polearm.description": "Spin, dealing {damage} physical damage per second to nearby enemies. Shift to stop moving.",
+  "spell.spellbladenext.whirlwind_polearm.description": "Spin, dealing 3x melee dps to nearby enemies. Penalty for hitting multiple enemies. 0.2x modifier for spell on hit effects. Shift to stop moving.",
 
   "spell.spellbladenext.cyclone.name": "Cyclone",
   "spell.spellbladenext.cyclone.description": "Passive: You deal 100% of your frost attribute as damage on hit. Can crit. Active: Spin in a direction, dealing {damage} frost damage per second to nearby enemies. Hitting enemies gives you Infusion buffs, up to 5 stacks. Shift to stop moving.",
@@ -184,6 +191,8 @@
   "spell.spellbladenext.multislash.name": "Multislash",
   "spell.spellbladenext.multislash.description": "Slash around you at your location as well as at two locations 2 blocks forward and to each side, dealing {damage} arcane damage per slash.",
 
+  "spell.spellbladenext.opportunity.name": "Opportunity Attack",
+  "spell.spellbladenext.opportunity.description": "Raise your shield and weapon in a defensive stance, blocking front attacks. If an enemy moves in front of you, it and nearby enemies are dealth 2x melee damage.",
 
   "spell.spellbladenext.transmute_fire.name": "Transmute Copper",
   "spell.spellbladenext.transmute_fire.description": "Transmute a single block of copper into four runeblaze ingots.",
@@ -228,6 +237,9 @@
   "spell.spellbladenext.amethyst_rain.name": "Amethyst Rain",
   "spell.spellbladenext.amethyst_rain.description": "Launch four Amethysts into the air that slow down to a halt, and then home into the nearest enemy, each dealing {damage} arcane damage.",
 
+  "spell.spellbladenext.flicker_strike.name": "Flickering Flame",
+  "spell.spellbladenext.flicker_strike.description": "Teleport to the nearest enemy, striking them repeatedly for 1x melee DPS if they are the only enemy nearby. If there are more enemies nearby, you teleport to all of them equally. 0.2x modifier for spell on hit effects.",
+
   "spell.spellbladenext.flame_winds.name": "Scorching Wind",
   "spell.spellbladenext.flame_winds.description": "Launch a sphere of scorching air in a direction, dealing {damage} fire damage per second to enemies caught in it and carrying them in the direction of the wind.",
 
@@ -237,15 +249,39 @@
   "spell.spellbladenext.visionofender.name": "Visions of Ender",
   "spell.spellbladenext.visionofender.description": "Nearby enemies gain five rotating ender eyes for 2 seconds, each dealing {damage} arcane damage every two-fifths of a second. If the enemy dies, the eyes detach, refreshing their durations if they find new hosts.",
 
+  "spell.spellbladenext.supernova.name": "Supernova",
+  "spell.spellbladenext.supernova.description": "Charge up and release a devastating supernova at your location, dealing {damage} fire damage to enemies in the area.",
+
   "spell.spellbladenext.snowball_bombardment.name": "Snow Bombard",
   "spell.spellbladenext.snowball_bombardment.description": "Channel to summon three snowballs that rotate around you every 1/4 second. These snowballs orbit once and then launch themsenves into the sky towards a random enemy in the direction you are looking, dealing {damage} frost damage.",
+  "spell.spellbladenext.chain.name": "Chain",
+  "spell.spellbladenext.chain.description": "Your arrows chain to nearby enemies twice, possibly hitting the first enemy twice.",
+
+  "spell.spellbladenext.multishot.name": "Multishot",
+  "spell.spellbladenext.multishot.description": "When you shoot an arrow, you shoot up to two more arrows at nearby enemies.",
+
+  "spell.spellbladenext.primordialburst.name": "Primordial Burst",
+  "spell.spellbladenext.primordialburst.description": "33% chance on arrow hit to trigger an elemental nova. Each element has a separate 2 second cooldown.",
+
+  "spell.spellbladenext.barrage.name": "Hailstorm",
+  "spell.spellbladenext.barrage.description": "Channel to continuously shoot arrows. These arrows deal base physical projectile damage equal to your Frost attribute. This bow can contain up to two additional effects via the Spell Binding Table.",
 
   "spell.spellbladenext.explosion.name": "Combust",
   "spell.spellbladenext.explosion.description": "Summon a delayed explosion at the target or target enemy, dealing up to {damage} damage at the center of the explosion to ALL enemies except you.",
 
+  "spell.spellbladenext.defiance.name": "Endurance",
+  "spell.spellbladenext.defiance.description": "Upon being hit, you gain a level of Regeneration, up to IV, for two seconds. Use to immediately get Regeneration IV for 2 seconds. Does not passively work while on cooldown.",
+
+  "spell.spellbladenext.courage.name": "Courage",
+  "spell.spellbladenext.courage.description": "You passively gain up to Resistance III, one level every 4 seconds. Getting hit makes you lose a level of Resistance, after the hit. Use to immediately get Resistance III. Does not passively work while on cooldown.",
+
+  "spell.spellbladenext.determination.name": "Determination",
+  "spell.spellbladenext.determination.description": "Give yourself a bunch of combat buffs. If you die while off cooldown, incurs a longer cooldown to prevent yourself from dying and apply the buffs for 8 seconds. You take heavy damage after 8 seconds.",
+
   "effect.spellbladenext.cleansing_fire": "Flaming Aura",
   "effect.spellbladenext.fireinfusion": "Fire Infusion",
   "effect.spellbladenext.portalsickness": "Portal Sickness",
+  "effect.spellbladenext.determination": "Determined",
 
   "effect.spellbladenext.arcaneinfusion": "Arcane Infusion",
   "effect.spellbladenext.runic_absorption": "Runic Aegis",

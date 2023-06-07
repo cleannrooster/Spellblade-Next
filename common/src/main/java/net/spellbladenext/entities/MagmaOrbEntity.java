@@ -196,7 +196,7 @@ public class MagmaOrbEntity extends SpellProjectile implements ItemSupplier {
                         }
                         Predicate<Entity> selectionPredicate = (target) -> {
                             return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, owner, target)
-                                    && FriendshipBracelet.PlayerFriendshipPredicate(owner,target));
+                                    );
                         };
                         Spell.Release.Target.Area area = new Spell.Release.Target.Area();
                         area.angle_degrees = 360;

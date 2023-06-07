@@ -5,28 +5,35 @@
     "tier": 2
   },
   "cast": {
-    "duration": 1,
+    "duration": 0.1,
     "animation": "spell_engine:two_handed_channeling",
     "sound": {
       "id": "spell_engine:generic_fire_casting",
       "randomness": 0
     },
+    "action": {
+      "type": "DAMAGE",
+      "damage": {
+        "knockback": 0,
+        "spell_power_coefficient": 0.6
+      }
+    },
     "particles": [
       {
-        "particle_id": "spell_engine:flame",
-        "shape": "CIRCLE",
-        "origin": "CENTER",
-        "count": 8.0,
-        "min_speed": 0.2,
-        "max_speed": 0.6
+        "particle_id": "minecraft:smoke",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 4,
+        "min_speed": 0.0125,
+        "max_speed": 0.15
       },
       {
-        "particle_id": "smoke",
-        "shape": "CIRCLE",
-        "origin": "CENTER",
-        "count": 8.0,
-        "min_speed": 0.5,
-        "max_speed": 0.9
+        "particle_id": "spell_engine:flame",
+        "shape": "PIPE",
+        "origin": "FEET",
+        "count": 8,
+        "min_speed": 0.025,
+        "max_speed": 0.3
       }
     ]
   },
@@ -51,20 +58,20 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:flame",
-          "shape": "SPHERE",
-          "origin": "CENTER",
-          "count": 15,
-          "min_speed": 0.2,
-          "max_speed": 0.7
+          "particle_id": "minecraft:smoke",
+          "shape": "PIPE",
+          "origin": "FEET",
+          "count": 80,
+          "min_speed": 0.025,
+          "max_speed": 0.3
         },
         {
-          "particle_id": "minecraft:smoke",
-          "shape": "SPHERE",
-          "origin": "CENTER",
-          "count": 10,
+          "particle_id": "spell_engine:flame",
+          "shape": "PIPE",
+          "origin": "FEET",
+          "count": 120.0,
           "min_speed": 0.05,
-          "max_speed": 0.2
+          "max_speed": 0.6
         }
       ]
 
@@ -84,6 +91,6 @@
   ],
   "cost": {
     "item_id": "runes:fire_stone",
-    "cooldown_duration": 0.5
+    "cooldown_duration": 0.6
   }
 }

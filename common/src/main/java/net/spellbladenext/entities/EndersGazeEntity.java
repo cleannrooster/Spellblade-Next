@@ -72,7 +72,7 @@ public class EndersGazeEntity extends SpellProjectile implements ItemSupplier {
 
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
-        if(this.getOwner() instanceof Player player && entityHitResult.getEntity() instanceof LivingEntity living && this.power != null && this.spell != null && this.context != null && TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL,player,entityHitResult.getEntity()) && FriendshipBracelet.PlayerFriendshipPredicate(player,living)) {
+        if(this.getOwner() instanceof Player player && entityHitResult.getEntity() instanceof LivingEntity living && this.power != null && this.spell != null && this.context != null && TargetHelper.actionAllowed(TargetHelper.TargetingMode.DIRECT, TargetHelper.Intent.HARMFUL,player,entityHitResult.getEntity()) ) {
             for(int i = 1; i < 6; i++) {
                 EndersGaze endersGaze = new EndersGaze(SpellbladeNext.GAZEHITTER, this.getLevel(), player, entityHitResult.getEntity(), i);
                 endersGaze.setPos(entityHitResult.getEntity().getEyePosition());

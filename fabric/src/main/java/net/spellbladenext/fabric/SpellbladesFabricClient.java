@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -17,10 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.internals.SpellCasterClient;
-import net.spell_engine.internals.SpellCasterEntity;
-import net.spell_engine.internals.SpellContainerHelper;
-import net.spell_engine.internals.SpellRegistry;
+import net.spell_engine.internals.*;
 import net.spell_engine.mixin.LivingEntityMixin;
 import net.spell_engine.mixin.client.ClientPlayerEntityMixin;
 import net.spell_power.api.attributes.SpellAttributes;
@@ -37,6 +36,7 @@ import net.spellbladenext.fabric.items.*;
 import net.spellbladenext.fabric.items.armors.Armors;
 import net.spellbladenext.fabric.items.armors.InquisitorSet;
 import net.spellbladenext.fabric.items.armors.Robes;
+import net.spellbladenext.fabric.items.spellblades.Spellblades;
 import software.bernie.geckolib3.renderers.geo.GeoArmorRenderer;
 import software.bernie.geckolib3.renderers.geo.GeoItemRenderer;
 
@@ -49,7 +49,22 @@ public class SpellbladesFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
         ClientMod.initialize();
+        ItemProperties.register(LASERBOW.get(), new ResourceLocation("pull"), (stack, world, entity, seed) -> {
+            if (entity == null) {
+                return 0.0f;
+            }
+            if (entity.getUseItem() != stack) {
+                return 0.0f;
+            }
+            if( entity instanceof SpellCasterEntity caster && caster.getCurrentSpellId() != null && caster.getCurrentSpellId().equals(new ResourceLocation(MOD_ID,"barrage"))){
+                return ((float)(caster.getCurrentCastProgress()*((caster.getCurrentSpell().cast.duration*20)) % caster.getCurrentSpell().cast.channel_ticks))/(float)caster.getCurrentSpell().cast.channel_ticks;
+            }
+            return (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0f;
+        });
+        ItemProperties.register(LASERBOW.get(), new ResourceLocation("pulling"), (stack, world, entity, seed) -> entity != null && entity.isUsingItem()
+                && entity.getUseItem() == stack ? 1.0f : 0.0f);
         ClientPlayNetworking.registerGlobalReceiver(new ResourceLocation(MOD_ID,"blockspell"), (client, handler, buf, responseSender) -> {
             client.execute(() -> {
                 if(client.player instanceof SpellCasterClient client1) {
@@ -78,52 +93,29 @@ public class SpellbladesFabricClient implements ClientModInitializer {
         ClientTickEvents.START_CLIENT_TICK.register(server -> {
             Player player = server.player;
             Level level = server.level;
-            if (SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "roll")) != null && player instanceof SpellCasterClient client && Objects.equals(client.getCurrentSpellId(), new ResourceLocation(MOD_ID, "roll"))) {
-                Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "roll"));
-                player.getCooldowns().addCooldown(player.getUseItem().getItem(), (int) (spell.cost.cooldown_duration * 20));
 
-
-                if (client.getCurrentCastProgress() >= 1.0) {
-                    client.clearCasting();
-                }
-            }
-            if (SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "riposte")) != null && player instanceof SpellCasterClient client && Objects.equals(client.getCurrentSpellId(), new ResourceLocation(MOD_ID, "riposte"))) {
-                Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "riposte"));
-                player.getCooldowns().addCooldown(player.getUseItem().getItem(), (int) (spell.cost.cooldown_duration * 20));
-
-
-                if (client.getCurrentCastProgress() >= 1.0) {
-                    client.clearCasting();
-
-                }
-            }
-            if (player != null && level != null && !player.isShiftKeyDown()) {
+            if (player != null && level != null ) {
                 double speed = player.getAttributeValue(Attributes.MOVEMENT_SPEED) * player.getAttributeValue(SpellAttributes.HASTE.attribute)*0.01 * 4;
                 BlockHitResult result = level.clip(new ClipContext(player.position(), player.position().add(0, -2, 0), ClipContext.Block.COLLIDER, ClipContext.Fluid.ANY, player));
+                if(player.isShiftKeyDown()){
+                    speed *= 0;
+                }
                 double modifier = 0;
                 if (result.getType() == HitResult.Type.BLOCK) {
                     modifier = 1;
                 }
 
-                if (SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "roll")) != null) {
+                if (player instanceof SpellCasterEntity caster && Objects.equals(caster.getCurrentSpellId(), new ResourceLocation(MOD_ID, "roll")) && SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "roll")) != null) {
                     Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "roll"));
 
-                    if(player instanceof SpellCasterClient client && client.getCurrentCastProgress() > 1.01){
-                        client.clearCasting();
-                        client.getCooldownManager().set(new ResourceLocation(MOD_ID, "roll"), (int) (spell.cost.cooldown_duration*20));
-                    }
                     speed *= 1.5;
-                    if (player instanceof SpellCasterEntity caster) {
-                        if (Objects.equals(caster.getCurrentSpellId(), new ResourceLocation(MOD_ID, "roll"))) {
-
                             player.setDeltaMovement(player.getViewVector(1).subtract(0, player.getViewVector(1).y, 0).normalize().multiply(speed, speed * modifier, speed).add(0,player.getDeltaMovement().y,0));
-                        }
-                    }
                 }
                 if (SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "whirlwind_polearm")) != null) {
                     Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "whirlwind_polearm"));
 
                     if (player instanceof SpellCasterEntity caster) {
+
                         if (Objects.equals(caster.getCurrentSpellId(), new ResourceLocation(MOD_ID, "whirlwind_polearm"))) {
 
                             player.setDeltaMovement(player.getViewVector(1).subtract(0, player.getViewVector(1).y, 0).normalize().multiply(speed, speed * modifier, speed).add(0,player.getDeltaMovement().y,0));
@@ -134,7 +126,13 @@ public class SpellbladesFabricClient implements ClientModInitializer {
                     Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "whirlwind"));
 
                     if (player instanceof SpellCasterEntity caster) {
+
                         if (Objects.equals(caster.getCurrentSpellId(), new ResourceLocation(MOD_ID, "whirlwind"))) {
+                            if(!player.getOffhandItem().isEmpty()){
+                                caster.clearCasting();
+                                player.sendSystemMessage(Component.translatable("You can't do this technique with two weapons."));
+                                player.getCooldowns().addCooldown(player.getMainHandItem().getItem(), 40);
+                            }
 
                             player.setDeltaMovement(player.getViewVector(1).subtract(0, player.getViewVector(1).y, 0).normalize().multiply(speed, speed * modifier, speed).add(0,player.getDeltaMovement().y,0));
                         }
@@ -144,6 +142,7 @@ public class SpellbladesFabricClient implements ClientModInitializer {
                     Spell spell = SpellRegistry.getSpell(new ResourceLocation(MOD_ID, "dualwield_whirlwind"));
 
                     if (player instanceof SpellCasterEntity caster) {
+
                         if (Objects.equals(caster.getCurrentSpellId(), new ResourceLocation(MOD_ID, "dualwield_whirlwind"))) {
 
                             player.setDeltaMovement(player.getViewVector(1).subtract(0, player.getViewVector(1).y, 0).normalize().multiply(speed, speed * modifier, speed).add(0,player.getDeltaMovement().y,0));
@@ -260,6 +259,8 @@ public class SpellbladesFabricClient implements ClientModInitializer {
         EntityRendererRegistry.register(ICESPIKE, context -> { return new IceSpikeRenderer<IceSpikeEntity>(context,1,false);});
 
         EntityRendererRegistry.register(SpellbladeNext.AMETHYST2, AmethystRenderer::new);
+        EntityRendererRegistry.register(SpellbladeNext.AMETHYST2, AmethystRenderer::new);
+
         //EntityRendererRegistry.register(SpellbladeNext.AMETHYST2, AmethystRenderer::new);
 
         EntityRendererRegistry.register(SpellbladeNext.ICICLEBARRIER, IcicleRenderer::new);
@@ -267,6 +268,8 @@ public class SpellbladesFabricClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(SpellbladeNext.GAZE, ThrownItemRenderer::new);
         EntityRendererRegistry.register(SpellbladeNext.GAZEHITTER, ThrownItemRenderer::new);
+        EntityRendererRegistry.register(SpellbladeNext.LASERARROW, (context) -> new ThrownRendererEmissive(context,2.0F,true));
+
         EntityRendererRegistry.register(SpellbladesFabric.REAVER, CivilizedPiglinRenderer::new);
         EntityRendererRegistry.register(SpellbladesFabric.MAGUS, MagusRenderer::new);
         EntityRendererRegistry.register(SpellbladesFabric.ARCHMAGUS, ArchmagusRenderer::new);

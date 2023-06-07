@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.spell_engine.api.item.ConfigurableAttributes;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.internals.*;
 import net.spell_engine.mixin.ItemStackMixin;
 import net.spell_engine.utils.TargetHelper;
@@ -115,10 +116,13 @@ public class HolySymbol extends AxeItem implements ConfigurableAttributes, Vanis
                 caster.getAttributes().addTransientAttributeModifiers(itemAttributes);
 
                 MagicSchool actualSchool = MagicSchool.HEALING;
-
                 int min = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).baseValue());
                 int max = (int) Math.floor(SpellPower.getSpellPower(actualSchool, caster, itemStack).forcedCriticalValue());
                 list.add(Component.translatable("Attacks with this weapon deal an additional " + min + " - " + max + " holy damage on hit.").withStyle(ChatFormatting.GRAY));
+                caster.getAttributes().removeAttributeModifiers(itemAttributes);
+                caster.getAttributes().addTransientAttributeModifiers(heldAttributes);
+
+
             }
         }
         super.appendHoverText(itemStack, level, list, tooltipFlag);

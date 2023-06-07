@@ -76,7 +76,7 @@ public int life = 0;
 
     @Override
     protected void onHitEntity(EntityHitResult entityHitResult) {
-        if(this.getOwner() instanceof Player living && this.spell != null && this.context != null && FriendshipBracelet.PlayerFriendshipPredicate(living,entityHitResult.getEntity())) {
+        if(this.getOwner() instanceof Player living && this.spell != null && this.context != null) {
             if (entityHitResult.getEntity().invulnerableTime <= 10 && SpellHelper.performImpacts(this.getLevel(), living, entityHitResult.getEntity(), this.spell, this.context)) {
                 entityHitResult.getEntity().invulnerableTime = 20;
             }

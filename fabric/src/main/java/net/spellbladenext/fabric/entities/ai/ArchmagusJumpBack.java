@@ -71,7 +71,6 @@ public class ArchmagusJumpBack<E extends Archmagus> extends Behavior<E> {
     protected void stop(ServerLevel serverLevel, E livingEntity, long l) {
         this.time = 0;
         if(this.getTarget(livingEntity).isPresent()) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,5,9,false,false));
 
             Vec3 vec31 = new Vec3(-this.getTarget(livingEntity).get().getX()+livingEntity.getX(),0,-this.getTarget(livingEntity).get().getZ()+livingEntity.getZ());
             Vec3 vec3 = new Vec3(vec31.normalize().x*1, 0.5,vec31.normalize().z*1 );
@@ -98,6 +97,8 @@ public class ArchmagusJumpBack<E extends Archmagus> extends Behavior<E> {
         if(bool){
             i = -1;
         }
+        livingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,5,9,false,false));
+
         if(this.getTarget(livingEntity).isPresent()) {
             int ii = 1;
             if(this.isTargetTooClose(livingEntity)){

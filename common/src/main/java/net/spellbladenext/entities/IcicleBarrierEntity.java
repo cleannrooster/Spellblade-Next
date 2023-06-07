@@ -135,7 +135,7 @@ public class IcicleBarrierEntity extends SpellProjectile implements ItemSupplier
         if (this.getOwner() instanceof Player player) {
             Predicate<Entity> selectionPredicate = (target) -> {
                 return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, player, target)
-                        && FriendshipBracelet.PlayerFriendshipPredicate(player,target));
+                        );
             };
             Spell.Release.Target.Area area = new Spell.Release.Target.Area();
             area.angle_degrees = 360;

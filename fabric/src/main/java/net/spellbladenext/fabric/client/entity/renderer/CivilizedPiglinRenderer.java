@@ -30,10 +30,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CivilizedPiglinRenderer<T extends Reaver, M extends HumanoidModel<T>> extends ExtendedGeoEntityRenderer<Reaver> {
 
-    private static final ResourceLocation DEFAULT_LOCATION = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/hexblade_none.png");
-    private static final ResourceLocation FIRE = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/hexblade_fire.png");
-    private static final ResourceLocation FROST = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/hexblade_cold.png");
-    private static final ResourceLocation ARCANE = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/hexblade_arcane.png");
+    private static final ResourceLocation DEFAULT_LOCATION = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/arcanehexblade.png");
+    private static final ResourceLocation FIRE = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/firehexblade.png");
+    private static final ResourceLocation FROST = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/frosthexblade.png");
+    private static final ResourceLocation ARCANE = new ResourceLocation(SpellbladeNext.MOD_ID,"textures/mob/arcanehexblade.png");
 
 
     public CivilizedPiglinRenderer(EntityRendererProvider.Context renderManager) {

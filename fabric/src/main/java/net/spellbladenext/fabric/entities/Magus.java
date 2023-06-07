@@ -52,6 +52,7 @@ import net.spell_power.api.SpellDamageSource;
 import net.spellbladenext.SpellbladeNext;
 import net.spellbladenext.fabric.SpellbladesFabric;
 import net.spellbladenext.fabric.entities.ai.MagusAI;
+import net.spellbladenext.fabric.items.spellblades.Claymores;
 import net.spellbladenext.fabric.items.spellblades.Spellblade;
 import net.spellbladenext.fabric.items.spellblades.Spellblades;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -263,7 +264,17 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
             this.entityData.set(modifier, this.entityData.get(modifier)+1);
         }
         double damagemodifier = Math.min(1,0.05+(double)this.entityData.get(modifier)/100);
-        if(damageSource instanceof SpellDamageSource damageSource1 && damageSource1.getMagicSchool() == this.getMagicSchool()){
+        boolean bool1 = (damageSource.getDirectEntity() instanceof LivingEntity living && living.getMainHandItem().getItem() instanceof Spellblade spellblade &&
+                spellblade.getMagicSchools().stream().anyMatch(school -> MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name)) == this.getMagicSchool()));
+        boolean bool2 = (damageSource.getDirectEntity() instanceof LivingEntity living && living.getMainHandItem().getItem() instanceof Claymores spellblade &&
+                spellblade.getMagicSchools().stream().anyMatch(school -> MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name)) == this.getMagicSchool()));
+        boolean bool3 = (damageSource.getDirectEntity() instanceof LivingEntity living && living.getOffhandItem().getItem() instanceof Spellblade spellblade &&
+                spellblade.getMagicSchools().stream().anyMatch(school -> MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name)) == this.getMagicSchool()));
+        boolean bool4 = (damageSource.getDirectEntity() instanceof LivingEntity living && living.getOffhandItem().getItem() instanceof Claymores spellblade &&
+                spellblade.getMagicSchools().stream().anyMatch(school -> MagicSchool.fromAttributeId(new ResourceLocation(SpellPowerMod.ID, school.name)) == this.getMagicSchool()));
+
+        if((bool1 || bool2 || bool3 || bool4) ||
+                (damageSource instanceof SpellDamageSource damageSource1 && damageSource1.getMagicSchool() == this.getMagicSchool())){
             damagetakensincelastthink += f;
             return super.hurt(damageSource, (float) (f));
 
@@ -323,7 +334,7 @@ public class Magus extends PathfinderMob implements InventoryCarrier, IAnimatabl
                     chatFormatting = ChatFormatting.RED;
 
                 }
-                player.displayClientMessage(Component.translatable("Magus' Barrier absorbs all but " + string + " magic. Barrier Strength: "+ Math.max(0,(95-this.getEntityData().get(modifier))) + "%.").withStyle(chatFormatting), true);
+                player.displayClientMessage(Component.translatable("Magus' Barrier absorbs all but damage from " + string + " sources. Barrier Strength: "+ Math.max(0,(95-this.getEntityData().get(modifier))) + "%.").withStyle(chatFormatting), true);
             });
         }
         if (this.tickCount % 5 == 0 && this.getLevel() instanceof ServerLevel level) {

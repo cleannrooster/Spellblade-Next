@@ -1,29 +1,24 @@
 {
   "school": "PHYSICAL_MELEE",
-  "range": 6,
+  "range": 64,
   "learn": {
-    "tier": 0
+    "tier": 2
   },
   "cast": {
-    "duration": 1,
-    "animation": "spellbladenext:staffslam1"
+    "duration": 8,
+    "animation": "spellbladenext:polejump",
+    "channel_ticks": 4,
+    "sound": {
+      "id": "spell_engine:generic_frost_casting",
+      "randomness": 0
+    }
   },
   "release": {
+    "custom_impact": true,
     "target": {
-      "type": "AREA",
-      "area": {
-        "vertical_range_multiplier": 1
-      }
+      "type": "SELF"
     },
     "particles": [
-      {
-        "particle_id": "smoke",
-        "shape": "CIRCLE",
-        "origin": "CENTER",
-        "count": 130.0,
-        "min_speed": 0.2,
-        "max_speed": 0.6
-      },
       {
         "particle_id": "cloud",
         "shape": "CIRCLE",
@@ -32,28 +27,31 @@
         "min_speed": 0.5,
         "max_speed": 0.9
       }
-    ],
-    "sound": {
-      "id": "minecraft:entity.illusioner.cast_spell"
-    },
-    "animation": "spellbladenext:staffslam2"
+    ]
   },
   "impact": [
     {
       "action": {
-        "type": "STATUS_EFFECT",
-        "status_effect": {
-          "apply_mode": "ADD",
-          "duration": 8,
-          "amplifier": 1,
-          "effect_id": "spellbladenext:slamtarget"
-        },
-        "apply_to_caster": false
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 0.5,
+          "spell_power_coefficient": 1.2
+        }
+      },
+      "particles": [
+        {
+          "particle_id": "sweep_attack",
+          "shape": "SPHERE",
+          "origin": "CENTER",
+          "count": 1
+        }
+      ],
+      "sound": {
+        "id": "minecraft:entity.player.attack.sweep"
       }
     }
   ],
   "cost": {
-    "cooldown_duration": 4,
-    "cooldown_proportional": true
+    "cooldown_duration": 8
   }
 }

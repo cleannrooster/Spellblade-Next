@@ -70,6 +70,7 @@ public class SpellbladeNext {
 
     public static EntityType<FlameWindsEntity> FLAMEWINDS;
     public static EntityType<EndersGazeEntity> GAZE;
+    public static EntityType<LaserArrow> LASERARROW;
 
     public static EntityType<EndersGaze> GAZEHITTER;
 
@@ -124,6 +125,8 @@ public class SpellbladeNext {
 
     public static RegistrySupplier<Item> dummyfrost = ITEMS.register("icicle", () ->
             new Item(new Item.Properties()));
+    public static RegistrySupplier<Item> LASERARROWITEM = ITEMS.register("laser_arrow", () ->
+            new Item(new Item.Properties()));
     public static RegistrySupplier<Item> dummyfrost2 = ITEMS.register("icicle2", () ->
             new Item(new Item.Properties()));
     public static RegistrySupplier<Item> dummyfrost3 = ITEMS.register("frostblade", () ->
@@ -141,6 +144,7 @@ public class SpellbladeNext {
         ITEMS.register();
 
         CustomModels.registerModelIds(List.of(new ResourceLocation(MOD_ID,"projectile/magic_missile")));
+        CustomModels.registerModelIds(List.of(new ResourceLocation(MOD_ID,"projectile/laser_arrow")));
 
         Registry.register(Registry.MOB_EFFECT,new ResourceLocation(MOD_ID,"cleansing_fire"), FLAMEAURA);
         MOBEFFECTS.register();

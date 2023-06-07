@@ -1,0 +1,42 @@
+{
+  "school": "PHYSICAL_MELEE",
+  "range": 3.5,
+  "learn": {
+    "tier": 1
+  },
+  "cast": {
+    "animation": "spellbladenext:spear_ready",
+
+    "duration": 8
+  },
+  "release": {
+    "custom_impact": true,
+    "target": {
+      "type": "AREA",
+      "area": {
+        "angle_degrees": 45,
+        "vertical_range_multiplier": 1
+      }
+    },
+    "sound": {
+      "id": "minecraft:entity.player.attack.knockback"
+    },
+    "animation": "spellbladenext:opportunity_attack"
+
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 4,
+          "spell_power_coefficient": 1.5
+        }
+      }
+    }
+  ],
+  "cost": {
+    "cooldown_duration": 2,
+    "cooldown_proportional": true
+  }
+}

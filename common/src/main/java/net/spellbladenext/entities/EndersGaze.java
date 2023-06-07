@@ -137,7 +137,7 @@ public class EndersGaze extends SpellProjectile implements ItemSupplier {
                 if (this.target == null || !this.target.isAlive() || (this.target instanceof LivingEntity living2 && living2.isDeadOrDying())) {
                     Predicate<Entity> selectionPredicate = (target) -> {
                         return (TargetHelper.actionAllowed(TargetHelper.TargetingMode.AREA, TargetHelper.Intent.HARMFUL, living, target)
-                                && FriendshipBracelet.PlayerFriendshipPredicate(living,target));
+                                );
                     };
                     Spell.Release.Target.Area area = new Spell.Release.Target.Area();
                     area.angle_degrees = 360;

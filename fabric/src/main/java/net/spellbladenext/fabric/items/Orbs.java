@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import dev.architectury.platform.Platform;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
@@ -184,13 +185,16 @@ public class Orbs {
 
     public static final Entry arcaneOrb = orb("orb_arcane",
             Material.matching(Tiers.GOLD, SpellbladeNext.RUNEGLINTPLATING.get()),MagicSchool.ARCANE)
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.ARCANE), 4));
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.ARCANE), 2))
+            .attribute(ItemConfig.SpellAttribute.multiply(SpellAttributes.HASTE, 0.5F));
     public static final Entry fireOrb = orb("orb_fire",
             Material.matching(Tiers.GOLD, SpellbladeNext.RUNEBLAZEPLATING.get()),MagicSchool.FIRE)
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FIRE), 4));
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FIRE), 2))
+            .attribute(ItemConfig.SpellAttribute.multiply(SpellAttributes.HASTE, 0.5F));
     public static final Entry frostOrb = orb("orb_frost",
             Material.matching(Tiers.IRON, SpellbladeNext.RUNEFROSTPLATING.get()),MagicSchool.FROST)
-            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 4));
+            .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 2))
+            .attribute(ItemConfig.SpellAttribute.multiply(SpellAttributes.HASTE, 0.5F));
 
     // MARK: Register
 

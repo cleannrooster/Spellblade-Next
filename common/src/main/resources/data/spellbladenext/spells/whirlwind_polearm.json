@@ -14,6 +14,7 @@
     }
   },
   "release": {
+    "custom_impact": true,
     "target": {
       "type": "AREA",
       "area": {
@@ -27,7 +28,7 @@
         "type": "DAMAGE",
         "damage": {
           "knockback": 0.5,
-          "spell_power_coefficient": 1.5
+          "spell_power_coefficient": 1.2
         }
       },
       "particles": [
@@ -44,7 +45,7 @@
     }
   ],
   "cost": {
-    "cooldown_duration": 1.2,
+    "cooldown_duration": 8,
     "cooldown_proportional": true
   }
 }

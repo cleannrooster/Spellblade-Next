@@ -9,6 +9,7 @@
     "animation": "spellbladenext:two_handed_slam_spellblade"
   },
   "release": {
+    "custom_impact": true,
     "target": {
       "type": "AREA",
       "area": {

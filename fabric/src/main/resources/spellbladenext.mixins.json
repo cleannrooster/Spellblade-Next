@@ -17,7 +17,8 @@
     "AirMixin",
     "EntityMixin",
     "NaturalSpawnerMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "RenderMixin"
 
 
 

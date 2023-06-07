@@ -1,0 +1,41 @@
+{
+  "school": "PHYSICAL_MELEE",
+  "range": 0,
+  "learn": {
+    "tier": 2
+  },
+  "cast": {
+    "duration": 0,
+    "animation": "spell_engine:two_handed_channeling",
+    "sound": {
+      "id": "spell_engine:generic_frost_casting",
+      "randomness": 0
+    }
+  },
+  "release": {
+    "target": {
+      "type": "SELF"
+    },
+    "sound": {
+      "id": "item.goat_horn.sound.0"
+    }
+
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "STATUS_EFFECT",
+        "status_effect": {
+          "apply_mode": "SET",
+          "duration": 4,
+          "amplifier": 2,
+          "effect_id": "minecraft:resistance"
+        },
+        "apply_to_caster": true
+      }
+    }
+  ],
+  "cost": {
+    "cooldown_duration": 10
+  }
+}

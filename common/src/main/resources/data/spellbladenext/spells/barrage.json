@@ -1,0 +1,32 @@
+{
+  "school": "PHYSICAL_MELEE",
+  "range": 64,
+  "learn": {
+    "tier": 0
+  },
+  "cast": {
+    "duration": 4,
+    "animation": "spellbladenext:bow",
+    "channel_ticks": 6
+  },
+  "release": {
+    "custom_impact": true,
+    "target": {
+      "type": "CURSOR"
+    }
+  },
+  "impact": [
+    {
+      "action": {
+        "type": "DAMAGE",
+        "damage": {
+          "knockback": 4,
+          "spell_power_coefficient": 6
+        }
+      }
+    }
+  ],
+  "cost": {
+    "item_id": "runes:frost_stone"
+  }
+}

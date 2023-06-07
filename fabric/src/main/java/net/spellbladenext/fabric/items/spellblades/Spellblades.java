@@ -212,7 +212,7 @@ public class Spellblades {
     }
 
 
-    private static final float wandAttackDamage = 2;
+    private static final float wandAttackDamage = 3;
     private static final float wandAttackSpeed = -2.4F;
 
 
@@ -251,7 +251,7 @@ public class Spellblades {
     private static Entry claymore(String name, Material material) {
         var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
         //var item = new StaffItem(material, settings);
-        return claymore(name, material, new ItemConfig.Weapon(3, -3F));
+        return claymore(name, material, new ItemConfig.Weapon(5, -3F));
     }
     private static Entry mulberry(String name, Material material) {
         var settings = new Item.Properties().tab(SpellbladeNext.EXAMPLE_TAB);
@@ -282,7 +282,7 @@ public class Spellblades {
     public static final Entry frostClaymore = claymore("claymore_frost",
             Material.matching(Tiers.IRON, SpellbladeNext.RUNEFROSTPLATING.get()))
             .attribute(ItemConfig.SpellAttribute.bonus(SpellAttributes.POWER.get(MagicSchool.FROST), 3));
-    public static ItemConfig.Weapon frost = new ItemConfig.Weapon(4,-3);
+    public static ItemConfig.Weapon frost = new ItemConfig.Weapon(6,-2.8F);
     public static ItemConfig.Weapon holy = new ItemConfig.Weapon(0,-2.4F);
 
     static {
@@ -387,7 +387,7 @@ Material.matching(Tiers.IRON, null))
         }
     }
 
-    private static ImmutableMultimap<Attribute, AttributeModifier> attributesFrom(ItemConfig.Weapon config) {
+    public static ImmutableMultimap<Attribute, AttributeModifier> attributesFrom(ItemConfig.Weapon config) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE,
                 new AttributeModifier(

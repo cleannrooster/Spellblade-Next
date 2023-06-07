@@ -26,7 +26,7 @@ public class CleansingFlame extends MobEffect {
 
         Level level = livingEntity.getLevel();
         if(livingEntity instanceof Player player) {
-            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, livingEntity.getBoundingBox().inflate(4D), entity -> entity != livingEntity && FriendshipBracelet.PlayerFriendshipPredicate(player, entity) && entity.isAttackable() && !entity.isInvulnerable());
+            List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, livingEntity.getBoundingBox().inflate(4D), entity -> entity != livingEntity && entity.isAttackable() && !entity.isInvulnerable());
 
 
             entities.removeIf(Entity::isInvulnerable);
